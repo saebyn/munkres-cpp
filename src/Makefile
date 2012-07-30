@@ -3,9 +3,11 @@ INSTALL = install
 # change CXXTESTGEN and CXXTESTINCLUDEDIR to appropriate directories.
 CXXTESTGEN = ../dev/cxxtest/cxxtestgen.pl
 CXXTESTGENFLAGS = --abort-on-fail --have-eh
-CXXTESTINCLUDEDIR = cxxtest
+CXXTESTINCLUDEDIR = ../dev/cxxtest
 
-CXXFLAGS = -Wall -I. -O3 ${CFLAGS} -shared #-pg # -ggdb3 -DDEBUG
+CXXFLAGS = -Wall -I. ${CFLAGS} #-pg # -ggdb3 -DDEBUG
+CXXLIBFLAGS = -fPIC -shared
+
 
 LIBRARY = libmunkres.so
 
@@ -23,7 +25,7 @@ UNITTESTS = ../tests/singlesolution.h ../tests/validsolution.h
 .SUFFIXES:      .o .cpp
 
 .cpp.o : $(HEADERS)
-	$(CXX) $(CXXFLAGS) -c  -o $@ $<
+	$(CXX) $(CXXFLAGS) $(CXXLIBFLAGS) -c  -o $@ $<
 
 all:	$(LIBRARY)
 
@@ -38,7 +40,7 @@ install:  $(LIBRARY)
 
 test:	testsuite
 	@echo "Running test suite."
-	@testsuite
+	@./testsuite
 
 testsuite: testsuite.cpp $(filter-out main.o,$(OBJECTS))
 	$(CXX) -I$(CXXTESTINCLUDEDIR) $(CXXFLAGS) -o $@ $^

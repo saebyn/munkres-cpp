@@ -1,0 +1,5 @@
+testsuite
+src/testsuite.cpp
+*.so
+*.o
+/dev

@@ -22,32 +22,32 @@
 template <class T>
 class Matrix {
 public:
-	Matrix();
-	Matrix(int rows, int columns);
-	Matrix(const Matrix<T> &other);
-	Matrix<T> & operator= (const Matrix<T> &other);
-	~Matrix();
-	// all operations except product modify the matrix in-place.
-	void resize(int rows, int columns);
-	void identity(void);
-	void clear(void);
-	T& operator () (int x, int y);
-	T trace(void);
-	Matrix<T>& transpose(void);
-	Matrix<T> product(Matrix<T> &other);
-	int minsize(void) {
-		return ((m_rows < m_columns) ? m_rows : m_columns);
-	}
-	int columns(void) {
-		return m_columns;
-	}
-	int rows(void) {
-		return m_rows;
-	}
+    Matrix();
+    Matrix(int rows, int columns);
+    Matrix(const Matrix<T> &other);
+    Matrix<T> & operator= (const Matrix<T> &other);
+    ~Matrix();
+    // all operations except product modify the matrix in-place.
+    void resize(int rows, int columns);
+    void identity(void);
+    void clear(void);
+    T& operator () (int x, int y);
+    T trace(void);
+    Matrix<T>& transpose(void);
+    Matrix<T> product(Matrix<T> &other);
+    inline int minsize(void) {
+        return ((m_rows < m_columns) ? m_rows : m_columns);
+    }
+    inline int columns(void) {
+        return m_columns;
+    }
+    inline int rows(void) {
+        return m_rows;
+    }
 private:
-	T **m_matrix;
-	int m_rows;
-	int m_columns;
+    T **m_matrix;
+    int m_rows;
+    int m_columns;
 };
 
 #ifndef USE_EXPORT_KEYWORD

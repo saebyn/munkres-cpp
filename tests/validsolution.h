@@ -1,6 +1,6 @@
 #include <cxxtest/TestSuite.h>
 
-#include "../munkres.h"
+#include "munkres.h"
 
 class ValidSolutionTestSuite : public CxxTest::TestSuite {
 public:
