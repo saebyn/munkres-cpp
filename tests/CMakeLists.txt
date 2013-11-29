@@ -6,14 +6,12 @@ SET (CMAKE_CXX_FLAGS_DEBUG   "${CMAKE_CXX_FLAGS} -O0 -ggdb3 -DDEBUG")
 SET (CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -O3")
 SET (CMAKE_SHARED_LINKER_FLAGS "-fprofile-arcs -ftest-coverage")
 
-INCLUDE_DIRECTORIES (${PROJECT_SOURCE_DIR}/cxxtest)
 SET (
     MunkresCppTest_SOURCES
-    ${PROJECT_SOURCE_DIR}/tests/singlesolution.h
-    ${PROJECT_SOURCE_DIR}/tests/validsolution.h
+    ${PROJECT_SOURCE_DIR}/tests/munkrestest.cpp
 )
-CXXTEST_GENERATE (MunkresCppTest_GENERATED "${MunkresCppTest_SOURCES}")
-ADD_EXECUTABLE (munkrestest ${MunkresCppLib_SOURCES} ${MunkresCppTest_GENERATED})
+ADD_EXECUTABLE (munkrestest ${MunkresCppLib_SOURCES} ${MunkresCppTest_SOURCES})
+TARGET_LINK_LIBRARIES (munkrestest gtest gtest_main gcov pthread)
 ENABLE_TESTING ()
 ADD_TEST (MunkresCppTest muknrestest)
 
