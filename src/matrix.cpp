@@ -134,89 +134,12 @@ Matrix<T>::resize(int rows, int columns) {
 
 /*export*/ template <class T>
 void
-Matrix<T>::identity() {
-    assert( m_matrix != NULL );
-
-    clear();
-
-    int x = std::min<int>(m_rows, m_columns);
-    for ( int i = 0 ; i < x ; i++ )
-        m_matrix[i][i] = 1;
-}
-
-/*export*/ template <class T>
-void
 Matrix<T>::clear() {
     assert( m_matrix != NULL );
 
     for ( int i = 0 ; i < m_rows ; i++ )
         for ( int j = 0 ; j < m_columns ; j++ )
             m_matrix[i][j] = 0;
-}
-
-/*export*/ template <class T>
-T 
-Matrix<T>::trace() {
-    assert( m_matrix != NULL );
-
-    T value = 0;
-
-    int x = std::min<int>(m_rows, m_columns);
-    for ( int i = 0 ; i < x ; i++ )
-        value += m_matrix[i][i];
-
-    return value;
-}
-
-/*export*/ template <class T>
-Matrix<T>& 
-Matrix<T>::transpose() {
-    assert( m_rows > 0 );
-    assert( m_columns > 0 );
-
-    int new_rows = m_columns;
-    int new_columns = m_rows;
-
-    if ( m_rows != m_columns ) {
-        // expand matrix
-        int m = std::max<int>(m_rows, m_columns);
-        resize(m,m);
-    }
-
-    for ( int i = 0 ; i < m_rows ; i++ ) {
-        for ( int j = i+1 ; j < m_columns ; j++ ) {
-            T tmp = m_matrix[i][j];
-            m_matrix[i][j] = m_matrix[j][i];
-            m_matrix[j][i] = tmp;
-        }
-    }
-
-    if ( new_columns != new_rows ) {
-        // trim off excess.
-        resize(new_rows, new_columns);
-    }
-
-    return *this;
-}
-
-/*export*/ template <class T>
-Matrix<T> 
-Matrix<T>::product(Matrix<T> &other) {
-    assert( m_matrix != NULL );
-    assert( other.m_matrix != NULL );
-    assert ( m_columns == other.m_rows );
-
-    Matrix<T> out(m_rows, other.m_columns);
-
-    for ( int i = 0 ; i < out.m_rows ; i++ ) {
-        for ( int j = 0 ; j < out.m_columns ; j++ ) {
-            for ( int x = 0 ; x < m_columns ; x++ ) {
-                out(i,j) += m_matrix[i][x] * other.m_matrix[x][j];
-            }
-        }
-    }
-
-    return out;
 }
 
 /*export*/ template <class T>

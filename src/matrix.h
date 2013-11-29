@@ -27,14 +27,10 @@ public:
     Matrix(const Matrix<T> &other);
     Matrix<T> & operator= (const Matrix<T> &other);
     ~Matrix();
-    // all operations except product modify the matrix in-place.
+    // all operations modify the matrix in-place.
     void resize(int rows, int columns);
-    void identity(void);
     void clear(void);
     T& operator () (int x, int y);
-    T trace(void);
-    Matrix<T>& transpose(void);
-    Matrix<T> product(Matrix<T> &other);
     inline int minsize(void) {
         return ((m_rows < m_columns) ? m_rows : m_columns);
     }
