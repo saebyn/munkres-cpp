@@ -1,9 +1,5 @@
 CXX = g++
 INSTALL = install
-# change CXXTESTGEN and CXXTESTINCLUDEDIR to appropriate directories.
-CXXTESTGEN = ../dev/cxxtest/cxxtestgen.pl
-CXXTESTGENFLAGS = --abort-on-fail --have-eh
-CXXTESTINCLUDEDIR = ../dev/cxxtest
 
 CXXFLAGS = -Wall -I. ${CFLAGS} #-pg # -ggdb3 -DDEBUG
 CXXLIBFLAGS = -fPIC -shared
@@ -18,7 +14,9 @@ INSTALL_LIBDIR = $(INSTALLDIR)/lib/c/
 SOURCES = munkres.cpp
 OBJECTS := $(patsubst %.cpp,%.o,$(SOURCES))
 HEADERS := $(filter-out main.h,$(patsubst %.cpp,%.h,$(SOURCES))) matrix.h matrix.cpp
-UNITTESTS = ../tests/singlesolution.h ../tests/validsolution.h
+UNITTESTS = ../tests/munkrestest.cpp
+LDPATH =
+LDADD = -lgcov -lgtest -lgtest_main -lpthread
 
 # implementation
 
@@ -38,19 +36,15 @@ install:  $(LIBRARY)
 	$(INSTALL) -m 644 $(LIBRARY) $(INSTALL_LIBDIR)
 	$(INSTALL) -m 644 $(HEADERS) $(INSTALL_INCLUDEDIR)
 
-test:	testsuite
+test:	munkrestest
 	@echo "Running test suite."
-	@./testsuite
+	@./munkrestest
 
-testsuite: testsuite.cpp $(filter-out main.o,$(OBJECTS))
-	$(CXX) -I$(CXXTESTINCLUDEDIR) $(CXXFLAGS) -o $@ $^
-
-testsuite.cpp:	$(UNITTESTS)
-	$(CXXTESTGEN) $(CXXTESTGENFLAGS) -o $@ --error-printer $^
+munkrestest: $(UNITTESTS) $(filter-out main.o,$(OBJECTS))
+	$(CXX) $(CXXFLAGS) -o $@ $^ $(LDPATH) $(LDADD)
 
 clean:
 	rm -f $(OBJECTS)
 	rm -f $(LIBRARY)
-	rm -f testsuite
-	rm -f testsuite.cpp
+	rm -f munkrestest
 
