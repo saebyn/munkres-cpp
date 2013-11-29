@@ -13,6 +13,7 @@ class MunkresTest : public ::testing::Test
         Matrix <double> generateRandomMatrix    (const int, const int);
         void            isSingleSolution        (Matrix <double> &);
         void            isValidOutput           (Matrix <double> &);
+        bool            isMatrixEqual           (Matrix <double> &, Matrix <double> &);
 };
 
 
@@ -71,6 +72,22 @@ void MunkresTest::isValidOutput (Matrix <double> & matrix)
 	for ( int row = 0 ; row < matrix.rows() ; row++ )
 		for ( int col = 0 ; col < matrix.columns() ; col++ )
 			EXPECT_TRUE ( matrix(row,col) == 0 || matrix(row,col) == -1 );
+}
+
+
+
+bool MunkresTest::isMatrixEqual (Matrix <double> & a, Matrix <double> & b)
+{
+    if (a.rows () != b.rows () || a.columns () != b.columns () )
+        return false;
+
+    for (int row = 0; row < a.rows (); ++row)
+        for (int col = 0; col < a.columns (); ++col)
+            if (a (row, col) != b (row, col) )
+                return false;
+
+
+    return true;
 }
 
 
@@ -153,22 +170,94 @@ TEST_F (MunkresTest, solve_200x200_IsSingleSolution_Success)
 TEST_F (MunkresTest, solve_10x10_IsValideOutput_Success)
 {
     // Arrange.
-	const int nrows = 10;
-	const int ncols = 10;
-	Matrix<double> matrix(nrows, ncols);
+	Matrix<double> mat = generateRandomMatrix(10, 10);
+    Munkres m;
 
-	srandom(time(NULL)); // Seed random number generator.
+    // Act.
+	m.solve(mat);
 
-	// Initialize matrix with random values.
-	for ( int row = 0 ; row < matrix.rows() ; row++ )
-		for ( int col = 0 ; col < matrix.columns() ; col++ )
-			matrix(row,col) = (double)random();
+    // Assert.
+    isValidOutput (mat);
+}
+
+
+
+TEST_F (MunkresTest, solve_3x3_IsValide_Success)
+{
+    // Arrange.
+    // - + -
+    // + - -
+    // - - +
+    Matrix <double> etalon_matrix (3, 3);
+    etalon_matrix (0, 0) = -1.0;
+    etalon_matrix (0, 1) =  0.0;
+    etalon_matrix (0, 2) = -1.0;
+    etalon_matrix (1, 0) =  0.0;
+    etalon_matrix (1, 1) = -1.0;
+    etalon_matrix (1, 2) = -1.0;
+    etalon_matrix (2, 0) = -1.0;
+    etalon_matrix (2, 1) = -1.0;
+    etalon_matrix (2, 2) =  0.0;
+    // 1 0 1
+    // 0 1 1
+    // 1 1 0
+    Matrix <double> test_matrix (3, 3);
+    test_matrix (0, 0) = 1.0;
+    test_matrix (0, 1) = 0.0;
+    test_matrix (0, 2) = 1.0;
+    test_matrix (1, 0) = 0.0;
+    test_matrix (1, 1) = 1.0;
+    test_matrix (1, 2) = 1.0;
+    test_matrix (2, 0) = 1.0;
+    test_matrix (2, 1) = 1.0;
+    test_matrix (2, 2) = 0.0;
 
     Munkres m;
 
     // Act.
-    m.solve(matrix);
+    m.solve(test_matrix);
 
     // Assert.
-    isValidOutput (matrix);
+    EXPECT_TRUE (isMatrixEqual (test_matrix, etalon_matrix) );
+}
+
+
+
+TEST_F (MunkresTest, solve_3x3_IsValide_Fail)
+{
+    // Arrange.
+    // + - -
+    // + - -
+    // - - +
+    Matrix <double> etalon_matrix (3, 3);
+    etalon_matrix (0, 0) =  0.0;    // Wrong.
+    etalon_matrix (0, 1) = -1.0;    // Wrong.
+    etalon_matrix (0, 2) = -1.0;
+    etalon_matrix (1, 0) =  0.0;
+    etalon_matrix (1, 1) = -1.0;
+    etalon_matrix (1, 2) = -1.0;
+    etalon_matrix (2, 0) = -1.0;
+    etalon_matrix (2, 1) = -1.0;
+    etalon_matrix (2, 2) =  0.0;
+    // 1 0 1
+    // 0 1 1
+    // 1 1 0
+    Matrix <double> test_matrix (3, 3);
+    test_matrix (0, 0) = 1.0;
+    test_matrix (0, 1) = 0.0;
+    test_matrix (0, 2) = 1.0;
+    test_matrix (1, 0) = 0.0;
+    test_matrix (1, 1) = 1.0;
+    test_matrix (1, 2) = 1.0;
+    test_matrix (2, 0) = 1.0;
+    test_matrix (2, 1) = 1.0;
+    test_matrix (2, 2) = 0.0;
+
+    Munkres m;
+
+    // Act.
+    m.solve(test_matrix);
+
+    // Assert.
+    EXPECT_FALSE (isMatrixEqual (test_matrix, etalon_matrix) );
 }
