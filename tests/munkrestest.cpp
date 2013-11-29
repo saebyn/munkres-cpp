@@ -153,22 +153,12 @@ TEST_F (MunkresTest, solve_200x200_IsSingleSolution_Success)
 TEST_F (MunkresTest, solve_10x10_IsValideOutput_Success)
 {
     // Arrange.
-	const int nrows = 10;
-	const int ncols = 10;
-	Matrix<double> matrix(nrows, ncols);
-
-	srandom(time(NULL)); // Seed random number generator.
-
-	// Initialize matrix with random values.
-	for ( int row = 0 ; row < matrix.rows() ; row++ )
-		for ( int col = 0 ; col < matrix.columns() ; col++ )
-			matrix(row,col) = (double)random();
-
+	Matrix<double> mat = generateRandomMatrix(10, 10);
     Munkres m;
 
     // Act.
-    m.solve(matrix);
+	m.solve(mat);
 
     // Assert.
-    isValidOutput (matrix);
+    isValidOutput (mat);
 }
