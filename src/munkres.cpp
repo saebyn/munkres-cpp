@@ -45,6 +45,25 @@ Munkres::pair_in_list(const std::pair<int,int> &needle, const std::list<std::pai
 
 int 
 Munkres::step1(void) {
+  for ( int row = 0 ; row < matrix.rows() ; row++ ) {
+    double min = matrix(row,0);
+    for ( int col = 0 ; col < matrix.columns() && min > 0; col++ )
+      min = std::min<double>(min,matrix(row,col));
+    if ( min > 0 )
+      for ( int col = 0 ; col < matrix.columns() ; col++ )
+        matrix(row,col) -= min;
+  }
+
+  for ( int col = 0 ; col < matrix.columns() ; col++ ) {
+    double min = matrix(0,col);
+    for ( int row = 0 ; row < matrix.rows() && min > 0; row++ )
+      min = std::min<double>(min,matrix(row,col));
+    if ( min > 0 )
+      for ( int row = 0 ; row < matrix.rows() ; row++ )
+        matrix(row,col) -= min;
+  }
+
+
   for ( int row = 0 ; row < matrix.rows() ; row++ )
     for ( int col = 0 ; col < matrix.columns() ; col++ )
       if ( matrix(row,col) == 0 ) {
