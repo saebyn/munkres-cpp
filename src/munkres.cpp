@@ -45,8 +45,8 @@ Munkres::pair_in_list(const std::pair<int,int> &needle, const std::list<std::pai
 
 int 
 Munkres::step1(void) {
-  for ( int row = 0 ; row < matrix.rows() ; row++ )
-    for ( int col = 0 ; col < matrix.columns() ; col++ )
+  for ( int row = 0 ; row < matrix.rows() ; row++ ) {
+    for ( int col = 0 ; col < matrix.columns() ; col++ ) {
       if ( matrix(row,col) == 0 ) {
         bool isstarred = false;
         for ( int nrow = 0 ; nrow < matrix.rows() ; nrow++ )
@@ -67,6 +67,8 @@ Munkres::step1(void) {
           mask_matrix(row,col) = STAR;
         }
       }
+    }
+  }
 
   return 2;
 }
