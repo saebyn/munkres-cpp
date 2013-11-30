@@ -1,5 +1,3 @@
-testsuite
-src/testsuite.cpp
+src/munkrestest
 *.so
 *.o
-/dev

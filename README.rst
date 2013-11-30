@@ -5,31 +5,21 @@ An implementation of the Kuhn–Munkres algorithm
 Usage
 -----
 
-A sample Makefile is supplied.
-Run "make test" to run the testing framework (you must change the path to
-cxxtest [http://cxxtest.sourceforge.net/] in the Makefile in order to use this).
+  $ git clone https://github.com/saebyn/munkres-cpp.git
+  $ cd munkres-cpp/src/
+  $ make test
+
+Requires GNU Make and GCC (tested on 4.6.3). The test suite requires
+the `Google C++ Test Framework <http://code.google.com/p/googletest/>`_.
 
 License
 -------
 
-Copyright (c) 2007 John Weaver
+Copyright (c) 2007-2013 John Weaver and contributors
 Licensed under the GPLv2. See the file COPYING for details.
 
 
-TODOs
------
+Bug reporting and work to be done
+---------------------------------
 
-Here are some things that could be done that might be useful:
-
-
-* Replace cxxtest with http://code.google.com/p/googletest/
-
-* Code cleanup and add more comments
-
-  - Extract methods / functions out of the longer steps
-
-* Enforce class invariants when DEBUG def'd?
-
-* Support other matrix data type classes from other libs (boost)?
-
-  - Might make it easier for others to integrate this code into their projects.
+Check the `issues list at GitHub <https://github.com/saebyn/munkres-cpp/issues?state=open>`_.
