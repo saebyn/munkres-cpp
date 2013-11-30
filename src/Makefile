@@ -1,15 +1,15 @@
 CXX = g++
 INSTALL = install
 
-CXXFLAGS = -Wall -I. ${CFLAGS} #-pg # -ggdb3 -DDEBUG
+CXXFLAGS = -Wall -I. ${CFLAGS} -std=c++0x #-pg # -ggdb3 -DDEBUG
 CXXLIBFLAGS = -fPIC -shared
 
 
 LIBRARY = libmunkres.so
 
 INSTALLDIR = ../build
-INSTALL_INCLUDEDIR = $(INSTALLDIR)/include/
-INSTALL_LIBDIR = $(INSTALLDIR)/lib/c/
+DIST_INCLUDEDIR = $(INSTALLDIR)/include/
+DIST_LIBDIR = $(INSTALLDIR)/lib/
 
 SOURCES = munkres.cpp
 OBJECTS := $(patsubst %.cpp,%.o,$(SOURCES))
@@ -30,11 +30,11 @@ all:	$(LIBRARY)
 $(LIBRARY): $(OBJECTS) $(HEADERS)
 	$(CXX) -shared -o $(LIBRARY) $(OBJECTS)
 
-install:  $(LIBRARY)
-	mkdir -p $(INSTALL_LIBDIR)
-	mkdir -p $(INSTALL_INCLUDEDIR)
-	$(INSTALL) -m 644 $(LIBRARY) $(INSTALL_LIBDIR)
-	$(INSTALL) -m 644 $(HEADERS) $(INSTALL_INCLUDEDIR)
+dist:  $(LIBRARY)
+	mkdir -p $(DIST_LIBDIR)
+	mkdir -p $(DIST_INCLUDEDIR)
+	$(INSTALL) -m 644 $(LIBRARY) $(DIST_LIBDIR)
+	$(INSTALL) -m 644 $(HEADERS) $(DIST_INCLUDEDIR)
 
 test:	munkrestest
 	@echo "Running test suite."

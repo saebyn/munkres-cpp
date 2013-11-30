@@ -29,20 +29,46 @@ Matrix<T>::Matrix() {
     m_matrix = NULL;
 }
 
+
+/*export*/ template <class T>
+Matrix<T>::Matrix(std::initializer_list<std::initializer_list<T>> init) {
+    m_matrix = NULL;
+    m_rows = init.size();
+    if ( m_rows == 0 ) {
+      m_columns = 0;
+    } else {
+      m_columns = init.begin()->size();
+      if ( m_columns > 0 ) {
+        resize(m_rows, m_columns);
+      }
+    }
+
+    int i = 0, j;
+    for ( auto row = init.begin() ; row != init.end() ; ++row, ++i ) {
+      assert ( row->size() == m_columns && "All rows must have the same number of columns." );
+      j = 0;
+      for ( auto value = row->begin() ; value != row->end() ; ++value, ++j ) {
+        m_matrix[i][j] = *value;
+      }
+    }
+}
+
 /*export*/ template <class T>
 Matrix<T>::Matrix(const Matrix<T> &other) {
-    if ( other.m_matrix != NULL ) {
-        // copy arrays
-        m_matrix = NULL;
-        resize(other.m_rows, other.m_columns);
-        for ( int i = 0 ; i < m_rows ; i++ )
-            for ( int j = 0 ; j < m_columns ; j++ )
-                m_matrix[i][j] = other.m_matrix[i][j];
-    } else {
-        m_matrix = NULL;
-        m_rows = 0;
-        m_columns = 0;
+  if ( other.m_matrix != NULL ) {
+    // copy arrays
+    m_matrix = NULL;
+    resize(other.m_rows, other.m_columns);
+    for ( unsigned int i = 0 ; i < m_rows ; i++ ) {
+      for ( unsigned int j = 0 ; j < m_columns ; j++ ) {
+        m_matrix[i][j] = other.m_matrix[i][j];
+      }
     }
+  } else {
+    m_matrix = NULL;
+    m_rows = 0;
+    m_columns = 0;
+  }
 }
 
 /*export*/ template <class T>
@@ -57,12 +83,12 @@ Matrix<T>::operator= (const Matrix<T> &other) {
     if ( other.m_matrix != NULL ) {
         // copy arrays
         resize(other.m_rows, other.m_columns);
-        for ( int i = 0 ; i < m_rows ; i++ )
-            for ( int j = 0 ; j < m_columns ; j++ )
+        for ( unsigned int i = 0 ; i < m_rows ; i++ )
+            for ( unsigned int j = 0 ; j < m_columns ; j++ )
                 m_matrix[i][j] = other.m_matrix[i][j];
     } else {
         // free arrays
-        for ( int i = 0 ; i < m_columns ; i++ )
+        for ( unsigned int i = 0 ; i < m_columns ; i++ )
             delete [] m_matrix[i];
 
         delete [] m_matrix;
@@ -79,7 +105,7 @@ Matrix<T>::operator= (const Matrix<T> &other) {
 Matrix<T>::~Matrix() {
     if ( m_matrix != NULL ) {
         // free arrays
-        for ( int i = 0 ; i < m_rows ; i++ )
+        for ( unsigned int i = 0 ; i < m_rows ; i++ )
             delete [] m_matrix[i];
 
         delete [] m_matrix;
@@ -89,11 +115,13 @@ Matrix<T>::~Matrix() {
 
 /*export*/ template <class T>
 void
-Matrix<T>::resize(int rows, int columns) {
+Matrix<T>::resize(unsigned int rows, unsigned int columns) {
+    assert ( rows > 0 && columns > 0 && "Columns and rows must exist." );
+
     if ( m_matrix == NULL ) {
         // alloc arrays
         m_matrix = new T*[rows]; // rows
-        for ( int i = 0 ; i < rows ; i++ )
+        for ( unsigned int i = 0 ; i < rows ; i++ )
             m_matrix[i] = new T[columns]; // columns
 
         m_rows = rows;
@@ -104,22 +132,22 @@ Matrix<T>::resize(int rows, int columns) {
         T **new_matrix;
         // alloc new arrays
         new_matrix = new T*[rows]; // rows
-        for ( int i = 0 ; i < rows ; i++ ) {
+        for ( unsigned int i = 0 ; i < rows ; i++ ) {
             new_matrix[i] = new T[columns]; // columns
-            for ( int j = 0 ; j < columns ; j++ )
+            for ( unsigned int j = 0 ; j < columns ; j++ )
                 new_matrix[i][j] = 0;
         }
 
         // copy data from saved pointer to new arrays
-        int minrows = std::min<int>(rows, m_rows);
-        int mincols = std::min<int>(columns, m_columns);
-        for ( int x = 0 ; x < minrows ; x++ )
-            for ( int y = 0 ; y < mincols ; y++ )
+        unsigned int minrows = std::min<unsigned int>(rows, m_rows);
+        unsigned int mincols = std::min<unsigned int>(columns, m_columns);
+        for ( unsigned int x = 0 ; x < minrows ; x++ )
+            for ( unsigned int y = 0 ; y < mincols ; y++ )
                 new_matrix[x][y] = m_matrix[x][y];
 
         // delete old arrays
         if ( m_matrix != NULL ) {
-            for ( int i = 0 ; i < m_rows ; i++ )
+            for ( unsigned int i = 0 ; i < m_rows ; i++ )
                 delete [] m_matrix[i];
 
             delete [] m_matrix;
@@ -137,16 +165,14 @@ void
 Matrix<T>::clear() {
     assert( m_matrix != NULL );
 
-    for ( int i = 0 ; i < m_rows ; i++ )
-        for ( int j = 0 ; j < m_columns ; j++ )
+    for ( unsigned int i = 0 ; i < m_rows ; i++ )
+        for ( unsigned int j = 0 ; j < m_columns ; j++ )
             m_matrix[i][j] = 0;
 }
 
 /*export*/ template <class T>
 inline T&
-Matrix<T>::operator ()(int x, int y) {
-    assert ( x >= 0 );
-    assert ( y >= 0 );
+Matrix<T>::operator ()(unsigned int x, unsigned int y) {
     assert ( x < m_rows );
     assert ( y < m_columns );
     assert ( m_matrix != NULL );
