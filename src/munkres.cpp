@@ -152,12 +152,13 @@ Munkres::step3(void) {
     return 5;
   }
 
-  for ( int ncol = 0 ; ncol < matrix.columns() ; ncol++ )
+  for ( int ncol = 0 ; ncol < matrix.columns() ; ncol++ ) {
     if ( mask_matrix(saverow,ncol) == STAR ) {
       row_mask[saverow] = true; //cover this row and
       col_mask[ncol] = false; // uncover the column containing the starred zero
       return 3; // repeat
     }
+  }
 
   return 4; // no starred zero in the row containing this primed zero
 }
@@ -206,7 +207,7 @@ Munkres::step4(void) {
 
     madepair = false;
 
-    for ( col = 0 ; col < cols ; col++ )
+    for ( col = 0 ; col < cols ; col++ ) {
       if ( mask_matrix(row,col) == PRIME ) {
         z2n.first = row;
         z2n.second = col;
@@ -216,6 +217,7 @@ Munkres::step4(void) {
         seq.insert(seq.end(), z2n);
         break;
       }
+    }
   } while ( madepair );
 
   for ( std::list<std::pair<int,int> >::iterator i = seq.begin() ;
@@ -232,10 +234,13 @@ Munkres::step4(void) {
   }
 
   // 4. Erase all primes, uncover all columns and rows, 
-  for ( int row = 0 ; row < mask_matrix.rows() ; row++ )
-    for ( int col = 0 ; col < mask_matrix.columns() ; col++ )
-      if ( mask_matrix(row,col) == PRIME )
+  for ( int row = 0 ; row < mask_matrix.rows() ; row++ ) {
+    for ( int col = 0 ; col < mask_matrix.columns() ; col++ ) {
+      if ( mask_matrix(row,col) == PRIME ) {
         mask_matrix(row,col) = NORMAL;
+      }
+    }
+  }
   
   for ( int i = 0 ; i < rows ; i++ ) {
     row_mask[i] = false;
@@ -274,15 +279,21 @@ Munkres::step5(void) {
     }
   }
 
-  for ( int row = 0 ; row < rows ; row++ )
-    if ( row_mask[row] )
-      for ( int col = 0 ; col < cols ; col++ )
+  for ( int row = 0 ; row < rows ; row++ ) {
+    if ( row_mask[row] ) {
+      for ( int col = 0 ; col < cols ; col++ ) {
         matrix(row,col) += h;
+      }
+    }
+  }
   
-  for ( int col = 0 ; col < cols ; col++ )
-    if ( !col_mask[col] )
-      for ( int row = 0 ; row < rows ; row++ )
+  for ( int col = 0 ; col < cols ; col++ ) {
+    if ( !col_mask[col] ) {
+      for ( int row = 0 ; row < rows ; row++ ) {
         matrix(row,col) -= h;
+      }
+    }
+  }
 
   return 3;
 }
@@ -310,16 +321,20 @@ Munkres::solve(Matrix<double> &m) {
   double highValue = 0;
   for ( int row = 0 ; row < m.rows() ; row++ ) {
     for ( int col = 0 ; col < m.columns() ; col++ ) {
-      if ( m(row,col) != INFINITY && m(row,col) > highValue )
+      if ( m(row,col) != INFINITY && m(row,col) > highValue ) {
         highValue = m(row,col);
+      }
     }
   }
   highValue++;
   
-  for ( int row = 0 ; row < m.rows() ; row++ )
-    for ( int col = 0 ; col < m.columns() ; col++ )
-      if ( m(row,col) == INFINITY )
+  for ( int row = 0 ; row < m.rows() ; row++ ) {
+    for ( int col = 0 ; col < m.columns() ; col++ ) {
+      if ( m(row,col) == INFINITY ) {
         m(row,col) = highValue;
+      }
+    }
+  }
 
   bool notdone = true;
   int step = 1;
@@ -362,12 +377,15 @@ Munkres::solve(Matrix<double> &m) {
   }
 
   // Store results
-  for ( int row = 0 ; row < matrix.rows() ; row++ )
-    for ( int col = 0 ; col < matrix.columns() ; col++ )
-      if ( mask_matrix(row,col) == STAR )
+  for ( int row = 0 ; row < matrix.rows() ; row++ ) {
+    for ( int col = 0 ; col < matrix.columns() ; col++ ) {
+      if ( mask_matrix(row,col) == STAR ) {
         matrix(row,col) = 0;
-      else
+      } else {
         matrix(row,col) = -1;
+      }
+    }
+  }
 
 #ifdef DEBUG
   std::cout << "Munkres output matrix:" << std::endl;
