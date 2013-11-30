@@ -37,8 +37,8 @@ Matrix<double> MunkresTest::generateRandomMatrix(const int nrows, const int ncol
   srandom(time(NULL)); // Seed random number generator.
 
   // Initialize matrix with random values.
-  for ( int row = 0 ; row < matrix.rows() ; row++ )
-    for ( int col = 0 ; col < matrix.columns() ; col++ )
+  for ( unsigned int row = 0 ; row < matrix.rows() ; row++ )
+    for ( unsigned int col = 0 ; col < matrix.columns() ; col++ )
       matrix(row,col) = (double)random();
 
   return matrix;
@@ -48,17 +48,17 @@ Matrix<double> MunkresTest::generateRandomMatrix(const int nrows, const int ncol
 
 void MunkresTest::isSingleSolution (Matrix <double> & matrix)
 {
-  for ( int row = 0 ; row < matrix.rows() ; row++ ) {
+  for ( unsigned int row = 0 ; row < matrix.rows() ; row++ ) {
     int columnsolutioncount = 0;
-    for ( int col = 0 ; col < matrix.columns() ; col++ )
+    for ( unsigned int col = 0 ; col < matrix.columns() ; col++ )
       if ( matrix(row,col) == 0 )
         columnsolutioncount++;
     EXPECT_EQ ( columnsolutioncount, 1 );
   }
 
-  for ( int col = 0 ; col < matrix.columns() ; col++ ) {
+  for ( unsigned int col = 0 ; col < matrix.columns() ; col++ ) {
     int rowsolutioncount = 0;
-    for ( int row = 0 ; row < matrix.rows() ; row++ )
+    for ( unsigned int row = 0 ; row < matrix.rows() ; row++ )
       if ( matrix(row,col) == 0 )
         rowsolutioncount++;
     EXPECT_EQ ( rowsolutioncount, 1 );
@@ -69,8 +69,8 @@ void MunkresTest::isSingleSolution (Matrix <double> & matrix)
 
 void MunkresTest::isValidOutput (Matrix <double> & matrix)
 {
-  for ( int row = 0 ; row < matrix.rows() ; row++ )
-    for ( int col = 0 ; col < matrix.columns() ; col++ )
+  for ( unsigned int row = 0 ; row < matrix.rows() ; row++ )
+    for ( unsigned int col = 0 ; col < matrix.columns() ; col++ )
       EXPECT_TRUE ( matrix(row,col) == 0 || matrix(row,col) == -1 );
 }
 
@@ -81,8 +81,8 @@ bool MunkresTest::isMatrixEqual (Matrix <double> & a, Matrix <double> & b)
     if (a.rows () != b.rows () || a.columns () != b.columns () )
         return false;
 
-    for (int row = 0; row < a.rows (); ++row)
-        for (int col = 0; col < a.columns (); ++col)
+    for (unsigned int row = 0; row < a.rows (); ++row)
+        for (unsigned int col = 0; col < a.columns (); ++col)
             if (a (row, col) != b (row, col) )
                 return false;
 
