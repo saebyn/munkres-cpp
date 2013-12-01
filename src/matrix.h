@@ -25,7 +25,7 @@ template <class T>
 class Matrix {
 public:
   Matrix();
-  Matrix(int rows, int columns);
+  Matrix(unsigned int rows, unsigned int columns);
   Matrix(std::initializer_list<std::initializer_list<T>> init);
   Matrix(const Matrix<T> &other);
   Matrix<T> & operator= (const Matrix<T> &other);
@@ -34,13 +34,14 @@ public:
   void resize(unsigned int rows, unsigned int columns);
   void clear(void);
   T& operator () (unsigned int x, unsigned int y);
-  inline int minsize(void) {
+  const T& operator () (unsigned int x, unsigned int y) const;
+  inline unsigned int minsize(void) {
     return ((m_rows < m_columns) ? m_rows : m_columns);
   }
-  inline int columns(void) {
+  inline unsigned int columns(void) const {
     return m_columns;
   }
-  inline int rows(void) {
+  inline unsigned int rows(void) const {
     return m_rows;
   }
 private:

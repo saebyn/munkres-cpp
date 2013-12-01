@@ -72,7 +72,7 @@ Matrix<T>::Matrix(const Matrix<T> &other) {
 }
 
 /*export*/ template <class T>
-Matrix<T>::Matrix(int rows, int columns) {
+Matrix<T>::Matrix(unsigned int rows, unsigned int columns) {
   m_matrix = NULL;
   resize(rows, columns);
 }
@@ -184,6 +184,16 @@ Matrix<T>::clear() {
 /*export*/ template <class T>
 inline T&
 Matrix<T>::operator ()(unsigned int x, unsigned int y) {
+  assert ( x < m_rows );
+  assert ( y < m_columns );
+  assert ( m_matrix != NULL );
+  return m_matrix[x][y];
+}
+
+
+/*export*/ template <class T>
+inline const T&
+Matrix<T>::operator ()(unsigned int x, unsigned int y) const {
   assert ( x < m_rows );
   assert ( y < m_columns );
   assert ( m_matrix != NULL );
