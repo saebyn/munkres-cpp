@@ -24,6 +24,7 @@
 #include <list>
 #include <utility>
 
+
 class Munkres {
 public:
   void solve(Matrix<double> &m);
@@ -39,10 +40,6 @@ private:
   int step4(void);
   int step5(void);
   int step6(void);
-
-  void replace_infinites();
-  void minimize_rows();
-  void minimize_columns();
 
   Matrix<int> mask_matrix;
   Matrix<double> matrix;
