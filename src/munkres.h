@@ -40,9 +40,9 @@ private:
   int step5(void);
   int step6(void);
 
-  void replace_infinites(unsigned int rows, unsigned int columns);
-  void minimize_rows(unsigned int rows, unsigned int columns);
-  void minimize_columns(unsigned int rows, unsigned int columns);
+  void replace_infinites();
+  void minimize_rows();
+  void minimize_columns();
 
   Matrix<int> mask_matrix;
   Matrix<double> matrix;

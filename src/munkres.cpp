@@ -328,10 +328,10 @@ Munkres::solve(Matrix<double> &m) {
 
   // If there were any infinities, replace them with a value greater
   // than the maximum value in the matrix.
-  replace_infinites(rows, columns);
+  replace_infinites();
 
-  minimize_rows(rows, columns);
-  minimize_columns(rows, columns);
+  minimize_rows();
+  minimize_columns();
 
   // Follow the steps
   while ( notdone ) {
@@ -394,7 +394,9 @@ Munkres::solve(Matrix<double> &m) {
 
 
 void
-Munkres::replace_infinites(unsigned int rows, unsigned int columns) {
+Munkres::replace_infinites() {
+  const unsigned int rows = matrix.rows(),
+                     columns = matrix.columns();
   assert( rows > 0 && columns > 0 );
   double max = matrix(0, 0);
 
@@ -421,7 +423,9 @@ Munkres::replace_infinites(unsigned int rows, unsigned int columns) {
 }
 
 void 
-Munkres::minimize_rows(unsigned int rows, unsigned int columns) {
+Munkres::minimize_rows() {
+  const unsigned int rows = matrix.rows(),
+                     columns = matrix.columns();
   // Look for a per-row minimum to subtract from all values in
   // that row.
   for ( unsigned int row = 0 ; row < rows ; row++ ) {
@@ -443,7 +447,9 @@ Munkres::minimize_rows(unsigned int rows, unsigned int columns) {
 
 
 void 
-Munkres::minimize_columns(unsigned int rows, unsigned int columns) {
+Munkres::minimize_columns() {
+  const unsigned int rows = matrix.rows(),
+                     columns = matrix.columns();
   // Look for a per-column minimum to subtract from all values in
   // that column.
   for ( unsigned int col = 0 ; col < columns ; col++ ) {
