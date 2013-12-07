@@ -274,6 +274,7 @@ TEST_F (MunkresTest, minimize_along_direction_5x5_OverRowsAndColumns_Success)
   };
 
   // Act.
+  minimize_along_direction(test_matrix, false);
   minimize_along_direction(test_matrix, true);
 
   // Assert.
