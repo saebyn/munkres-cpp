@@ -23,6 +23,66 @@
 #include <limits>
 
 
+void
+replace_infinites(Matrix<double> &matrix) {
+  const unsigned int rows = matrix.rows(),
+                     columns = matrix.columns();
+  assert( rows > 0 && columns > 0 );
+  double max = matrix(0, 0);
+
+  // Find the greatest value in the matrix that isn't infinity.
+  for ( unsigned int row = 0 ; row < rows ; row++ ) {
+    max = matrix(row, 0);
+
+    for ( unsigned int col = 0 ; col < columns ; col++ ) {
+      max = std::max<double>(max, matrix(row, col));
+    }
+  }
+
+  // a value higher than the maximum value present in the matrix.
+  max++;
+  
+  for ( unsigned int row = 0 ; row < rows ; row++ ) {
+    for ( unsigned int col = 0 ; col < columns ; col++ ) {
+      if ( matrix(row, col) == std::numeric_limits<double>::infinity() ) {
+        matrix(row, col) = max;
+      }
+    }
+  }
+
+}
+
+void 
+minimize_along_direction(Matrix<double> &matrix, bool over_columns) {
+  const unsigned int outer_size = over_columns ? matrix.columns() : matrix.rows(),
+                     inner_size = over_columns ? matrix.rows() : matrix.columns();
+
+  // Look for a minimum value to subtract from all values along
+  // the "outer" direction.
+  for ( unsigned int i = 0 ; i < outer_size ; i++ ) {
+    double min = over_columns ? matrix(0, i) : matrix(i, 0);
+
+    // As long as the current minimum is greater than zero,
+    // keep looking for the minimum.
+    for ( unsigned int j = 0 ; j < inner_size && min > 0 ; j++ ) {
+      min = std::min<double>(
+        min,
+        over_columns ? matrix(j, i) : matrix(i, j));
+    }
+
+    if ( min > 0 ) {
+      for ( unsigned int j = 0 ; j < inner_size ; j++ ) {
+        if ( over_columns ) {
+          matrix(j, i) -= min;
+        } else {
+          matrix(i, j) -= min;
+        }
+      }
+    }
+  }
+}
+
+
 bool 
 Munkres::find_uncovered_in_matrix(double item, unsigned int &row, unsigned int &col) const {
   unsigned int rows = matrix.rows(),
@@ -328,10 +388,10 @@ Munkres::solve(Matrix<double> &m) {
 
   // If there were any infinities, replace them with a value greater
   // than the maximum value in the matrix.
-  replace_infinites(rows, columns);
+  replace_infinites(matrix);
 
-  minimize_rows(rows, columns);
-  minimize_columns(rows, columns);
+  minimize_along_direction(matrix, false);
+  minimize_along_direction(matrix, true);
 
   // Follow the steps
   while ( notdone ) {
@@ -390,72 +450,4 @@ Munkres::solve(Matrix<double> &m) {
 
   delete [] row_mask;
   delete [] col_mask;
-}
-
-
-void
-Munkres::replace_infinites(unsigned int rows, unsigned int columns) {
-  assert( rows > 0 && columns > 0 );
-  double max = matrix(0, 0);
-
-  // Find the greatest value in the matrix that isn't infinity.
-  for ( unsigned int row = 0 ; row < rows ; row++ ) {
-    max = matrix(row, 0);
-
-    for ( unsigned int col = 0 ; col < columns ; col++ ) {
-      max = std::max<double>(max, matrix(row, col));
-    }
-  }
-
-  // a value higher than the maximum value present in the matrix.
-  max++;
-  
-  for ( unsigned int row = 0 ; row < rows ; row++ ) {
-    for ( unsigned int col = 0 ; col < columns ; col++ ) {
-      if ( matrix(row, col) == std::numeric_limits<double>::infinity() ) {
-        matrix(row, col) = max;
-      }
-    }
-  }
-
-}
-
-void 
-Munkres::minimize_rows(unsigned int rows, unsigned int columns) {
-  // Look for a per-row minimum to subtract from all values in
-  // that row.
-  for ( unsigned int row = 0 ; row < rows ; row++ ) {
-    double min = matrix(row, 0);
-
-    // As long as the current minimum is greater than zero,
-    // keep looking for the minimum.
-    for ( unsigned int col = 0 ; col < columns && min > 0 ; col++ ) {
-      min = std::min<double>(min, matrix(row, col));
-    }
-
-    if ( min > 0 ) {
-      for ( unsigned int col = 0 ; col < columns ; col++ ) {
-        matrix(row,col) -= min;
-      }
-    }
-  }
-}
-
-
-void 
-Munkres::minimize_columns(unsigned int rows, unsigned int columns) {
-  // Look for a per-column minimum to subtract from all values in
-  // that column.
-  for ( unsigned int col = 0 ; col < columns ; col++ ) {
-    double min = matrix(0, col);
-    for ( unsigned int row = 0 ; row < rows && min > 0 ; row++ ) {
-      min = std::min<double>(min, matrix(row, col));
-    }
-
-    if ( min > 0 ) {
-      for ( unsigned int row = 0 ; row < rows ; row++ ) {
-        matrix(row,col) -= min;
-      }
-    }
-  }
 }
