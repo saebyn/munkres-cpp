@@ -95,14 +95,14 @@ bool MunkresTest::isMatrixEqual (Matrix <double> & a, Matrix <double> & b)
 TEST_F (MunkresTest, solve_5x5_IsSingleSolution_Success)
 {
     // Arrange.
-    Matrix<double> mat = generateRandomMatrix(5, 5);
-    Munkres m;
+    Matrix<double> matrix = generateRandomMatrix(5, 5);
+    Munkres munkres;
 
     // Act.
-    m.solve(mat);
+    munkres.solve(matrix);
 
     // Assert.
-    isSingleSolution(mat);
+    isSingleSolution(matrix);
 }
 
 
@@ -110,14 +110,14 @@ TEST_F (MunkresTest, solve_5x5_IsSingleSolution_Success)
 TEST_F (MunkresTest, solve_10x10_IsSingleSolution_Success)
 {
     // Arrange.
-  Matrix<double> mat = generateRandomMatrix(10, 10);
-  Munkres m;
+  Matrix<double> matrix = generateRandomMatrix(10, 10);
+  Munkres munkres;
 
     // Act.
-  m.solve(mat);
+  munkres.solve(matrix);
 
     // Assert.
-  isSingleSolution(mat);
+  isSingleSolution(matrix);
 }
 
 
@@ -125,14 +125,14 @@ TEST_F (MunkresTest, solve_10x10_IsSingleSolution_Success)
 TEST_F (MunkresTest, solve_50x50_IsSingleSolution_Success)
 {
     // Arrange.
-  Matrix<double> mat = generateRandomMatrix(50, 50);
-  Munkres m;
+  Matrix<double> matrix = generateRandomMatrix(50, 50);
+  Munkres munkres;
 
     // Act.
-  m.solve(mat);
+  munkres.solve(matrix);
 
     // Assert.
-  isSingleSolution(mat);
+  isSingleSolution(matrix);
 }
 
 
@@ -140,14 +140,14 @@ TEST_F (MunkresTest, solve_50x50_IsSingleSolution_Success)
 TEST_F (MunkresTest, solve_100x100_IsSingleSolution_Success)
 {
     // Arrange.
-  Matrix<double> mat = generateRandomMatrix(100, 100);
-  Munkres m;
+  Matrix<double> matrix = generateRandomMatrix(100, 100);
+  Munkres munkres;
 
     // Act.
-  m.solve(mat);
+  munkres.solve(matrix);
 
     // Assert.
-  isSingleSolution(mat);
+  isSingleSolution(matrix);
 }
 
 
@@ -155,14 +155,14 @@ TEST_F (MunkresTest, solve_100x100_IsSingleSolution_Success)
 TEST_F (MunkresTest, solve_200x200_IsSingleSolution_Success)
 {
     // Arrange.
-  Matrix<double> mat = generateRandomMatrix(200, 200);
-  Munkres m;
+  Matrix<double> matrix = generateRandomMatrix(200, 200);
+  Munkres munkres;
 
     // Act.
-  m.solve(mat);
+  munkres.solve(matrix);
 
     // Assert.
-  isSingleSolution(mat);
+  isSingleSolution(matrix);
 }
 
 
@@ -170,42 +170,105 @@ TEST_F (MunkresTest, solve_200x200_IsSingleSolution_Success)
 TEST_F (MunkresTest, solve_10x10_IsValideOutput_Success)
 {
   // Arrange.
-  Matrix<double> mat = generateRandomMatrix(10, 10);
-  Munkres m;
+  Matrix<double> matrix = generateRandomMatrix(10, 10);
+  Munkres munkres;
 
   // Act.
-  m.solve(mat);
+  munkres.solve(matrix);
 
   // Assert.
-  isValidOutput (mat);
+  isValidOutput (matrix);
 }
 
 
 
-TEST_F (MunkresTest, solve_3x3_IsValide_Success)
+TEST_F (MunkresTest, solve_1x1_ObviousSolution_Success)
 {
   // Arrange.
-  // - + -
-  // + - -
-  // - - +
+  Matrix<double> etalon_matrix{
+    {0.0}
+  };
+  Matrix<double> test_matrix{
+    {0.0}
+  };
+
+  Munkres munkres;
+
+  // Act.
+  munkres.solve(test_matrix);
+
+  // Assert.
+  EXPECT_TRUE (isMatrixEqual (test_matrix, etalon_matrix) );
+}
+
+
+
+TEST_F (MunkresTest, solve_2x2_ObviousSolution_Success)
+{
+  // Arrange.
+  Matrix<double> etalon_matrix{
+    {-1.0,  0.0},
+    { 0.0, -1.0}
+  };
+  Matrix<double> test_matrix{
+    {1.0,  0.0},
+    {0.0,  1.0}
+  };
+
+  Munkres munkres;
+
+  // Act.
+  munkres.solve(test_matrix);
+
+  // Assert.
+  EXPECT_TRUE (isMatrixEqual (test_matrix, etalon_matrix) );
+}
+
+
+
+TEST_F (MunkresTest, solve_3x3_ObviousSolution_Success)
+{
+  // Arrange.
   Matrix<double> etalon_matrix{
     {-1.0,  0.0, -1.0},
     { 0.0, -1.0, -1.0},
     {-1.0, -1.0,  0.0}
   };
-  // 1 0 1
-  // 0 1 1
-  // 1 1 0
   Matrix<double> test_matrix{
     {1.0,  0.0,  1.0},
     {0.0,  1.0,  1.0},
     {1.0,  1.0,  0.0}
   };
 
-  Munkres m;
+  Munkres munkres;
 
   // Act.
-  m.solve(test_matrix);
+  munkres.solve(test_matrix);
+
+  // Assert.
+  EXPECT_TRUE (isMatrixEqual (test_matrix, etalon_matrix) );
+}
+
+
+
+TEST_F (MunkresTest, solve_3x3_NonObviousSolution_Success)
+{
+  // Arrange.
+  Matrix<double> etalon_matrix{
+    {-1.0,  0.0, -1.0},
+    { 0.0, -1.0, -1.0},
+    {-1.0, -1.0,  0.0}
+  };
+  Matrix<double> test_matrix{
+    {1.0,  2.0,  1.0},
+    {0.0,  9.0,  9.0},
+    {9.0,  9.0,  0.0}
+  };
+
+  Munkres munkres;
+
+  // Act.
+  munkres.solve(test_matrix);
 
   // Assert.
   EXPECT_TRUE (isMatrixEqual (test_matrix, etalon_matrix) );
@@ -216,37 +279,24 @@ TEST_F (MunkresTest, solve_3x3_IsValide_Success)
 TEST_F (MunkresTest, solve_3x3_IsValide_Fail)
 {
   // Arrange.
-  // + - -
-  // + - -
-  // - - +
-  Matrix <double> etalon_matrix (3, 3);
-  etalon_matrix (0, 0) =  0.0;    // Wrong.
-  etalon_matrix (0, 1) = -1.0;    // Wrong.
-  etalon_matrix (0, 2) = -1.0;
-  etalon_matrix (1, 0) =  0.0;
-  etalon_matrix (1, 1) = -1.0;
-  etalon_matrix (1, 2) = -1.0;
-  etalon_matrix (2, 0) = -1.0;
-  etalon_matrix (2, 1) = -1.0;
-  etalon_matrix (2, 2) =  0.0;
-  // 1 0 1
-  // 0 1 1
-  // 1 1 0
-  Matrix <double> test_matrix (3, 3);
-  test_matrix (0, 0) = 1.0;
-  test_matrix (0, 1) = 0.0;
-  test_matrix (0, 2) = 1.0;
-  test_matrix (1, 0) = 0.0;
-  test_matrix (1, 1) = 1.0;
-  test_matrix (1, 2) = 1.0;
-  test_matrix (2, 0) = 1.0;
-  test_matrix (2, 1) = 1.0;
-  test_matrix (2, 2) = 0.0;
+  Matrix<double> etalon_matrix{
+    { 0.0, -1.0, -1.0},
+    //  ^     ^
+    //  |     |
+    // Wrong Wrong
+    { 0.0, -1.0, -1.0},
+    {-1.0, -1.0,  0.0}
+  };
+  Matrix<double> test_matrix{
+    {1.0,  0.0,  1.0},
+    {0.0,  1.0,  1.0},
+    {1.0,  1.0,  0.0}
+  };
 
-  Munkres m;
+  Munkres munkres;
 
   // Act.
-  m.solve(test_matrix);
+  munkres.solve(test_matrix);
 
   // Assert.
   EXPECT_FALSE (isMatrixEqual (test_matrix, etalon_matrix) );
