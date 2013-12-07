@@ -1,6 +1,14 @@
 #include <gtest/gtest.h>
 #include "munkres.h"
 #include "matrix.h"
+#include <iostream>
+#include <iomanip>
+
+
+
+// Forward declaration.
+void replace_infinites(Matrix<double> &matrix);
+void minimize_along_direction(Matrix<double> &matrix, bool over_columns);
 
 
 
@@ -13,7 +21,8 @@ class MunkresTest : public ::testing::Test
         Matrix <double> generateRandomMatrix    (const int, const int);
         void            isSingleSolution        (Matrix <double> &);
         void            isValidOutput           (Matrix <double> &);
-        bool            isMatrixEqual           (Matrix <double> &, Matrix <double> &);
+        bool            isMatrixEqual           (Matrix <double> &, Matrix <double> &, bool);
+        void            displayMatrix           (Matrix <double> &);
 };
 
 
@@ -76,18 +85,199 @@ void MunkresTest::isValidOutput (Matrix <double> & matrix)
 
 
 
-bool MunkresTest::isMatrixEqual (Matrix <double> & a, Matrix <double> & b)
+bool MunkresTest::isMatrixEqual (Matrix <double> & a, Matrix <double> & b, bool isOutputIfNotEqual = true)
 {
-    if (a.rows () != b.rows () || a.columns () != b.columns () )
+    if (a.rows () != b.rows () || a.columns () != b.columns () ) {
         return false;
+    }
 
-    for (unsigned int row = 0; row < a.rows (); ++row)
-        for (unsigned int col = 0; col < a.columns (); ++col)
-            if (a (row, col) != b (row, col) )
+    for (unsigned int row = 0; row < a.rows (); ++row) {
+        for (unsigned int col = 0; col < a.columns (); ++col) {
+            if (a (row, col) != b (row, col) ) {
+                if (isOutputIfNotEqual) {
+                    displayMatrix (a);
+                    displayMatrix (b);
+                }
                 return false;
-
+            }
+        }
+    }
 
     return true;
+}
+
+
+
+void MunkresTest::displayMatrix (Matrix <double> & matrix)
+{
+    const std::string indent ("           ");
+    for (unsigned int row = 0; row < matrix.rows (); ++row) {
+        std::cout << indent;
+        for (unsigned int col = 0; col < matrix.columns (); ++col) {
+            std::cout << std::setw (4) << std::setfill (' ') <<  matrix (row, col) << " ";
+        }
+        std::cout << std::endl;
+    }
+    std::cout << std::endl;
+}
+
+
+
+TEST_F (MunkresTest, replace_infinites_4x4Case001_Success)
+{
+  // Arrange.
+  const auto infinity = std::numeric_limits<double>::infinity();
+  Matrix<double> etalon_matrix{
+    { 1.0,      0.0,      3.0,      2.0},
+    { 3.0,     -2.0,     -1.0,      0.0},
+    {-1.0,      3.0,      2.0,      0.0},
+    {-1.0,      0.0,      2.0,      3.0}
+  };
+  Matrix<double> test_matrix{
+    { 1.0,      0.0,     infinity,  2.0},
+    {infinity, -2.0,     -1.0,      0.0},
+    {-1.0,     infinity,  2.0,      0.0},
+    {-1.0,      0.0,      2.0, infinity}
+  };
+
+  // Act.
+  replace_infinites (test_matrix);
+
+  // Assert.
+  EXPECT_TRUE (isMatrixEqual (test_matrix, etalon_matrix) );
+}
+
+
+
+TEST_F (MunkresTest, replace_infinites_4x4Case002_Success)
+{
+  // Arrange.
+  const auto infinity = std::numeric_limits<double>::infinity();
+  Matrix<double> etalon_matrix{
+    { 3.0,      0.0,      3.0,      2.0},
+    { 3.0,     -2.0,     -1.0,      3.0},
+    {-1.0,      3.0,      2.0,      3.0},
+    {-1.0,      3.0,      2.0,      3.0}
+  };
+  Matrix<double> test_matrix{
+    {infinity,  0.0,     infinity,  2.0},
+    {infinity, -2.0,     -1.0, infinity},
+    {-1.0,     infinity,  2.0, infinity},
+    {-1.0,     infinity,  2.0, infinity}
+  };
+
+  // Act.
+  replace_infinites (test_matrix);
+
+  // Assert.
+  EXPECT_TRUE (isMatrixEqual (test_matrix, etalon_matrix) );
+}
+
+
+
+TEST_F (MunkresTest, replace_infinites_4x4Case003_Success)
+{
+  // Arrange.
+  const auto infinity = std::numeric_limits<double>::infinity();
+  Matrix<double> etalon_matrix{
+    {-5.0,     -4.0,     -1.0,     -2.0},
+    {-1.0,     -2.0,     -5.0,     -4.0},
+    {-5.0,     -1.0,     -2.0,     -4.0},
+    {-5.0,     -4.0,     -2.0,     -1.0}
+  };
+  Matrix<double> test_matrix{
+    {-5.0,     -4.0,     infinity, -2.0},
+    {infinity, -2.0,     -5.0,     -4.0},
+    {-5.0,     infinity, -2.0,     -4.0},
+    {-5.0,     -4.0,     -2.0, infinity}
+  };
+
+  // Act.
+  replace_infinites (test_matrix);
+
+  // Assert.
+  EXPECT_TRUE (isMatrixEqual (test_matrix, etalon_matrix) );
+}
+
+
+
+TEST_F (MunkresTest, replace_infinites_4x4Case004_Success)
+{
+  // Arrange.
+  const auto infinity = std::numeric_limits<double>::infinity();
+  Matrix<double> etalon_matrix{
+    { 1.0,      0.0,      3.0,      2.0},
+    { 3.0,     -2.0,     -1.0,      0.0},
+    {-1.0,      3.0,      0.0,      0.0},
+    {-1.0,      0.0,      0.0,      3.0}
+  };
+  Matrix<double> test_matrix{
+    { 1.0,      0.0,     infinity,  2.0},
+    {infinity, -2.0,     -1.0,      0.0},
+    {-1.0,     infinity,  0.0,      0.0},
+    {-1.0,      0.0,      0.0, infinity}
+  };
+
+  // Act.
+  replace_infinites (test_matrix);
+
+  // Assert.
+  EXPECT_TRUE (isMatrixEqual (test_matrix, etalon_matrix) );
+}
+
+
+
+
+TEST_F (MunkresTest, minimize_along_direction_5x5_OverRowsOnly_Success)
+{
+  // Arrange.
+  Matrix<double> etalon_matrix{
+    { 1.0,  0.0,  3.0,  2.0,  4.0},
+    { 3.0, -2.0, -1.0,  0.0,  4.0},
+    {-1.0,  3.0,  2.0,  1.0,  2.0},
+    { 0.0,  2.0,  1.0,  0.0,  3.0},
+    { 0.0,  1.0,  1.0,  0.0,  2.0}
+  };
+  Matrix<double> test_matrix{
+    { 1.0,  0.0,  3.0,  2.0,  4.0},
+    { 3.0, -2.0, -1.0,  0.0,  4.0},
+    {-1.0,  3.0,  2.0,  1.0,  2.0},
+    { 1.0,  3.0,  2.0,  1.0,  4.0},
+    { 2.0,  3.0,  3.0,  2.0,  4.0}
+  };
+
+  // Act.
+  minimize_along_direction(test_matrix, false);
+
+  // Assert.
+  EXPECT_TRUE (isMatrixEqual (test_matrix, etalon_matrix) );
+}
+
+
+
+TEST_F (MunkresTest, minimize_along_direction_5x5_OverRowsAndColumns_Success)
+{
+  // Arrange.
+  Matrix<double> etalon_matrix{
+    { 1.0,  0.0,  3.0,  2.0,  2.0},
+    { 3.0, -2.0, -1.0,  0.0,  2.0},
+    {-1.0,  3.0,  2.0,  1.0,  0.0},
+    { 0.0,  2.0,  1.0,  0.0,  1.0},
+    { 0.0,  1.0,  1.0,  0.0,  0.0}
+  };
+  Matrix<double> test_matrix{
+    { 1.0,  0.0,  3.0,  2.0,  4.0},
+    { 3.0, -2.0, -1.0,  0.0,  4.0},
+    {-1.0,  3.0,  2.0,  1.0,  2.0},
+    { 1.0,  3.0,  2.0,  1.0,  4.0},
+    { 2.0,  3.0,  3.0,  2.0,  4.0}
+  };
+
+  // Act.
+  minimize_along_direction(test_matrix, true);
+
+  // Assert.
+  EXPECT_TRUE (isMatrixEqual (test_matrix, etalon_matrix) );
 }
 
 
@@ -251,7 +441,32 @@ TEST_F (MunkresTest, solve_3x3_ObviousSolution_Success)
 
 
 
-TEST_F (MunkresTest, solve_3x3_NonObviousSolution_Success)
+TEST_F (MunkresTest, solve_3x2_NonObviousSolutionCase001_Success)
+{
+  // Arrange.
+  Matrix<double> etalon_matrix{
+    {-1.0,  0.0},
+    { 0.0, -1.0},
+    {-1.0, -1.0}
+  };
+  Matrix<double> test_matrix{
+    {1.0,  2.0},
+    {0.0,  9.0},
+    {9.0,  9.0}
+  };
+
+  Munkres munkres;
+
+  // Act.
+  munkres.solve(test_matrix);
+
+  // Assert.
+  EXPECT_TRUE (isMatrixEqual (test_matrix, etalon_matrix) );
+}
+
+
+
+TEST_F (MunkresTest, solve_3x3_NonObviousSolutionCase001_Success)
 {
   // Arrange.
   Matrix<double> etalon_matrix{
@@ -263,6 +478,31 @@ TEST_F (MunkresTest, solve_3x3_NonObviousSolution_Success)
     {1.0,  2.0,  1.0},
     {0.0,  9.0,  9.0},
     {9.0,  9.0,  0.0}
+  };
+
+  Munkres munkres;
+
+  // Act.
+  munkres.solve(test_matrix);
+
+  // Assert.
+  EXPECT_TRUE (isMatrixEqual (test_matrix, etalon_matrix) );
+}
+
+
+
+TEST_F (MunkresTest, solve_3x3_NonObviousSolutionCase002_Success)
+{
+  // Arrange.
+  Matrix<double> etalon_matrix{
+    {-1.0, -1.0,  0.0},
+    {-1.0,  0.0, -1.0},
+    { 0.0, -1.0, -1.0}
+  };
+  Matrix<double> test_matrix{
+    {0.0,  0.0,  4.0},
+    {4.0,  3.0,  9.0},
+    {3.0,  4.0,  9.0}
   };
 
   Munkres munkres;
@@ -299,5 +539,5 @@ TEST_F (MunkresTest, solve_3x3_IsValide_Fail)
   munkres.solve(test_matrix);
 
   // Assert.
-  EXPECT_FALSE (isMatrixEqual (test_matrix, etalon_matrix) );
+  EXPECT_FALSE (isMatrixEqual (test_matrix, etalon_matrix, false) );
 }
