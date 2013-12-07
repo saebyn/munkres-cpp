@@ -29,22 +29,32 @@ replace_infinites(Matrix<double> &matrix) {
                      columns = matrix.columns();
   assert( rows > 0 && columns > 0 );
   double max = matrix(0, 0);
+  const auto infinity = std::numeric_limits<double>::infinity();
 
   // Find the greatest value in the matrix that isn't infinity.
   for ( unsigned int row = 0 ; row < rows ; row++ ) {
-    max = matrix(row, 0);
-
     for ( unsigned int col = 0 ; col < columns ; col++ ) {
-      max = std::max<double>(max, matrix(row, col));
+      if ( matrix(row, col) != infinity ) {
+        if ( max == infinity ) {
+          max = matrix(row, col);
+        } else {
+          max = std::max<double>(max, matrix(row, col));
+        }
+      }
     }
   }
 
   // a value higher than the maximum value present in the matrix.
-  max++;
+  if ( max == infinity ) {
+    // This case only occurs when all values are infinite.
+    max = 0;
+  } else {
+    max++;
+  }
   
   for ( unsigned int row = 0 ; row < rows ; row++ ) {
     for ( unsigned int col = 0 ; col < columns ; col++ ) {
-      if ( matrix(row, col) == std::numeric_limits<double>::infinity() ) {
+      if ( matrix(row, col) == infinity ) {
         matrix(row, col) = max;
       }
     }
@@ -64,7 +74,8 @@ minimize_along_direction(Matrix<double> &matrix, bool over_columns) {
 
     // As long as the current minimum is greater than zero,
     // keep looking for the minimum.
-    for ( unsigned int j = 0 ; j < inner_size && min > 0 ; j++ ) {
+    // Start at one because we already have the 0th value in min.
+    for ( unsigned int j = 1 ; j < inner_size && min > 0 ; j++ ) {
       min = std::min<double>(
         min,
         over_columns ? matrix(j, i) : matrix(i, j));
@@ -344,16 +355,21 @@ Munkres::step5(void) {
   return 3;
 }
 
+/*
+ *
+ * Linear assignment problem solution
+ * [modifies matrix in-place.]
+ * matrix(row,col): row major format assumed.
+ *
+ * Assignments are remaining 0 values
+ * (extra 0 values are replaced with -1)
+ *
+ */
 void 
 Munkres::solve(Matrix<double> &m) {
-  // Linear assignment problem solution
-  // [modifies matrix in-place.]
-  // matrix(row,col): row major format assumed.
-
-  // Assignments are remaining 0 values
-  // (extra 0 values are replaced with -1)
   const unsigned int rows = m.rows(),
-                     columns = m.columns();
+                     columns = m.columns(),
+                     size = std::max<unsigned int>(rows, columns);
 
 #ifdef DEBUG
   std::cout << "Munkres input matrix:" << std::endl;
@@ -370,17 +386,27 @@ Munkres::solve(Matrix<double> &m) {
   bool notdone = true;
   int step = 1;
 
+  // Copy input matrix
   this->matrix = m;
-  // STAR == 1 == starred, PRIME == 2 == primed
-  mask_matrix.resize(rows, columns);
 
-  row_mask = new bool[rows];
+  if ( rows != columns ) {
+    // If the input matrix isn't square, make it square
+    // and fill the empty values with the largest value present
+    // in the matrix.
+    matrix.resize(size, size, matrix.max());
+  }
+
+
+  // STAR == 1 == starred, PRIME == 2 == primed
+  mask_matrix.resize(size, size);
+
+  row_mask = new bool[size];
   col_mask = new bool[columns];
-  for ( unsigned int i = 0 ; i < rows ; i++ ) {
+  for ( unsigned int i = 0 ; i < size ; i++ ) {
     row_mask[i] = false;
   }
 
-  for ( unsigned int i = 0 ; i < columns ; i++ ) {
+  for ( unsigned int i = 0 ; i < size ; i++ ) {
     col_mask[i] = false;
   }
 
@@ -424,8 +450,8 @@ Munkres::solve(Matrix<double> &m) {
   }
 
   // Store results
-  for ( unsigned int row = 0 ; row < rows ; row++ ) {
-    for ( unsigned int col = 0 ; col < columns ; col++ ) {
+  for ( unsigned int row = 0 ; row < size ; row++ ) {
+    for ( unsigned int col = 0 ; col < size ; col++ ) {
       if ( mask_matrix(row, col) == STAR ) {
         matrix(row, col) = 0;
       } else {
@@ -445,6 +471,11 @@ Munkres::solve(Matrix<double> &m) {
   }
   std::cout << std::endl;
 #endif
+
+
+  // Remove the excess rows or columns that we added to fit the
+  // input to a square matrix.
+  matrix.resize(rows, columns);
 
   m = matrix;
 

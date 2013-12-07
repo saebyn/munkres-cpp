@@ -119,7 +119,7 @@ Matrix<T>::~Matrix() {
 
 /*export*/ template <class T>
 void
-Matrix<T>::resize(unsigned int rows, unsigned int columns) {
+Matrix<T>::resize(unsigned int rows, unsigned int columns, T default_value) {
   assert ( rows > 0 && columns > 0 && "Columns and rows must exist." );
 
   if ( m_matrix == NULL ) {
@@ -140,7 +140,7 @@ Matrix<T>::resize(unsigned int rows, unsigned int columns) {
     for ( unsigned int i = 0 ; i < rows ; i++ ) {
       new_matrix[i] = new T[columns]; // columns
       for ( unsigned int j = 0 ; j < columns ; j++ ) {
-        new_matrix[i][j] = 0;
+        new_matrix[i][j] = default_value;
       }
     }
 
@@ -198,4 +198,40 @@ Matrix<T>::operator ()(unsigned int x, unsigned int y) const {
   assert ( y < m_columns );
   assert ( m_matrix != NULL );
   return m_matrix[x][y];
+}
+
+
+/*export*/ template <class T>
+const T
+Matrix<T>::min() const {
+  assert( m_matrix != NULL );
+  assert ( m_rows > 0 );
+  assert ( m_columns > 0 );
+  T min = m_matrix[0][0];
+
+  for ( unsigned int i = 0 ; i < m_rows ; i++ ) {
+    for ( unsigned int j = 0 ; j < m_columns ; j++ ) {
+      min = std::min<T>(min, m_matrix[i][j]);
+    }
+  }
+
+  return min;
+}
+
+
+/*export*/ template <class T>
+const T
+Matrix<T>::max() const {
+  assert( m_matrix != NULL );
+  assert ( m_rows > 0 );
+  assert ( m_columns > 0 );
+  T max = m_matrix[0][0];
+
+  for ( unsigned int i = 0 ; i < m_rows ; i++ ) {
+    for ( unsigned int j = 0 ; j < m_columns ; j++ ) {
+      max = std::max<T>(max, m_matrix[i][j]);
+    }
+  }
+
+  return max;
 }
