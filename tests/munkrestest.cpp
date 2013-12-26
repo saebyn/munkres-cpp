@@ -255,6 +255,33 @@ TEST_F (MunkresTest, minimize_along_direction_5x5_OverRowsOnly_Success)
 
 
 
+TEST_F (MunkresTest, minimize_along_direction_5x5_OverColumnsOnly_Success)
+{
+  // Arrange.
+  Matrix<double> etalon_matrix{
+    { 1.0,  0.0,  3.0,  2.0,  2.0},
+    { 3.0, -2.0, -1.0,  0.0,  2.0},
+    {-1.0,  3.0,  2.0,  1.0,  0.0},
+    { 1.0,  3.0,  2.0,  1.0,  2.0},
+    { 2.0,  3.0,  3.0,  2.0,  2.0}
+  };
+  Matrix<double> test_matrix{
+    { 1.0,  0.0,  3.0,  2.0,  4.0},
+    { 3.0, -2.0, -1.0,  0.0,  4.0},
+    {-1.0,  3.0,  2.0,  1.0,  2.0},
+    { 1.0,  3.0,  2.0,  1.0,  4.0},
+    { 2.0,  3.0,  3.0,  2.0,  4.0}
+  };
+
+  // Act.
+  minimize_along_direction(test_matrix, true);
+
+  // Assert.
+  EXPECT_TRUE (isMatrixEqual (test_matrix, etalon_matrix) );
+}
+
+
+
 TEST_F (MunkresTest, minimize_along_direction_5x5_OverRowsAndColumns_Success)
 {
   // Arrange.
