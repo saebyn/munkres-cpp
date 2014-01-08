@@ -1,3 +1,0 @@
-[submodule "cxxtest"]
-	path = cxxtest
-	url = git://github.com/CxxTest/cxxtest
