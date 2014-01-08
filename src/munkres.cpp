@@ -117,8 +117,9 @@ Munkres::find_uncovered_in_matrix(double item, unsigned int &row, unsigned int &
 bool 
 Munkres::pair_in_list(const std::pair<int,int> &needle, const std::list<std::pair<int,int> > &haystack) {
   for ( std::list<std::pair<int,int> >::const_iterator i = haystack.begin() ; i != haystack.end() ; i++ ) {
-    if ( needle == *i )
+    if ( needle == *i ) {
       return true;
+    }
   }
   
   return false;
@@ -224,12 +225,17 @@ Munkres::step4(void) {
   const unsigned int rows = matrix.rows(),
                      columns = matrix.columns();
 
+  // seq contains pairs of row/column values where we have found
+  // either a star or a prime that is part of the ``alternating sequence``.
   std::list<std::pair<int,int> > seq;
   // use saverow, savecol from step 3.
   std::pair<int,int> z0(saverow, savecol);
-  std::pair<int,int> z1(-1,-1);
-  std::pair<int,int> z2n(-1,-1);
   seq.insert(seq.end(), z0);
+
+  // We have to find these two pairs:
+  std::pair<int,int> z1(-1, -1);
+  std::pair<int,int> z2n(-1, -1);
+
   unsigned int row, col = savecol;
   /*
   Increment Set of Starred Zeros
@@ -246,17 +252,19 @@ Munkres::step4(void) {
   bool madepair;
   do {
     madepair = false;
-    for ( row = 0 ; row < rows ; row++ )
+    for ( row = 0 ; row < rows ; row++ ) {
       if ( mask_matrix(row,col) == STAR ) {
         z1.first = row;
         z1.second = col;
-        if ( pair_in_list(z1, seq) )
+        if ( pair_in_list(z1, seq) ) {
           continue;
+        }
         
         madepair = true;
         seq.insert(seq.end(), z1);
         break;
       }
+    }
 
     if ( !madepair )
       break;
