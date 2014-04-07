@@ -9,6 +9,8 @@ SET (CMAKE_SHARED_LINKER_FLAGS "-fprofile-arcs -ftest-coverage")
 SET (
     MunkresCppTest_SOURCES
     ${PROJECT_SOURCE_DIR}/tests/munkrestest.cpp
+    ${PROJECT_SOURCE_DIR}/tests/matrixtest.cpp
+    ${PROJECT_SOURCE_DIR}/tests/adapterstest.cpp
 )
 ADD_EXECUTABLE (munkrestest ${MunkresCppLib_SOURCES} ${MunkresCppTest_SOURCES})
 TARGET_LINK_LIBRARIES (munkrestest gtest gtest_main gcov pthread)
