@@ -1,4 +1,6 @@
-# Test suite generating and building.
+FIND_PACKAGE (Boost     COMPONENTS      system      REQUIRED)
+
+# Test suites.
 SET (CMAKE_CXX_FLAGS "-std=c++11")
 SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage")
 SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra")
@@ -10,7 +12,9 @@ SET (
     MunkresCppTest_SOURCES
     ${PROJECT_SOURCE_DIR}/tests/munkrestest.cpp
     ${PROJECT_SOURCE_DIR}/tests/matrixtest.cpp
-    ${PROJECT_SOURCE_DIR}/tests/adapterstest.cpp
+    ${PROJECT_SOURCE_DIR}/tests/adapters/raw_2d_arraytest.cpp
+    ${PROJECT_SOURCE_DIR}/tests/adapters/std_2d_arraytest.cpp
+    ${PROJECT_SOURCE_DIR}/tests/adapters/boost_matrixtest.cpp
 )
 ADD_EXECUTABLE (munkrestest ${MunkresCppLib_SOURCES} ${MunkresCppTest_SOURCES})
 TARGET_LINK_LIBRARIES (munkrestest gtest gtest_main gcov pthread)
