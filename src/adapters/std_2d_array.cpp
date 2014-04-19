@@ -16,7 +16,7 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
  */
 
-#include "adapters.h"
+#include "std_2d_array.h"
 #include "munkres.h"
 
 template <typename T, const unsigned int dimention>
@@ -49,38 +49,4 @@ void solve(std::array <std::array <double, dimension>, dimension> &m)
   Munkres munkres;
   munkres.solve (matrix);
   fill_std_2d_array_from_munkres_matrix<double, dimension>(m, matrix);
-};
-
-
-
-template <typename T, const unsigned int dimention>
-Matrix <T> convert_raw_2d_array_to_munkres_matrix (const T array [dimention][dimention])
-{
-  Matrix <T> matrix (dimention, dimention);
-  for (int i = 0; i < dimention; ++i) {
-    for (int j = 0; j < dimention; ++j) {
-      matrix (i, j) = array [i][j];
-    }
-  }
-
-  return matrix;
-};
-
-template <typename T, const unsigned int dimention>
-void fill_raw_2d_array_from_munkres_matrix (T array [dimention][dimention], const Matrix <T> & matrix)
-{
-  for (int i = 0; i < dimention; ++i) {
-    for (int j = 0; j < dimention; ++j) {
-      array [i][j] = matrix (i, j);
-    }
-  }
-};
-
-template <const unsigned int dimension>
-void solve(double m [dimension][dimension])
-{
-  auto matrix = convert_raw_2d_array_to_munkres_matrix<double, dimension>(m);
-  Munkres munkres;
-  munkres.solve (matrix);
-  fill_raw_2d_array_from_munkres_matrix<double, dimension>(m, matrix);
 };
