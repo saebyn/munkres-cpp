@@ -16,8 +16,8 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
  */
 
-#if !defined(_MUNKRES_ADAPTERS_H_)
-#define _MUNKRES_ADAPTERS_H_
+#if !defined(_MUNKRES_ADAPTERS_STD_2D_ARRAY_H_)
+#define _MUNKRES_ADAPTERS_STD_2D_ARRAY_H_
 
 #include "matrix.h"
 #include <array>
@@ -33,21 +33,9 @@ void fill_std_2d_array_from_munkres_matrix (std::array <std::array <T, dimention
 template <const unsigned int dimension>
 void solve(std::array <std::array <double, dimension>, dimension> &m);
 
-
-
-// Set of functions for two-dimensional raw (C-style) array.
-template <typename T, const unsigned int dimention>
-Matrix <T> convert_raw_2d_array_to_munkres_matrix (const T array [dimention][dimention]);
-
-template <typename T, const unsigned int dimention>
-void fill_raw_2d_array_from_munkres_matrix (T array [dimention][dimention], const Matrix <T> & matrix);
-
-template <const unsigned int dimension>
-void solve(double m [dimension][dimension]);
-
 #ifndef USE_EXPORT_KEYWORD
-#include "adapters.cpp"
+#include "std_2d_array.cpp"
 //#define export /*export*/
 #endif
 
-#endif /* !defined(_MUNKRES_ADAPTERS_H_) */
+#endif /* !defined(_MUNKRES_ADAPTERS_STD_2D_ARRAY_H_) */
