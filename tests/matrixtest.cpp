@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "matrix.h"
+#include "matrixtest.h"
 #include <iostream>
 #include <iomanip>
 
@@ -10,9 +10,6 @@ class MatrixTest : public ::testing::Test
     protected:
         virtual void SetUp    ();
         virtual void TearDown ();
-
-        bool            isMatrixEqual           (Matrix <double> &, Matrix <double> &, bool);
-        void            displayMatrix           (Matrix <double> &);
 };
 
 
@@ -25,44 +22,6 @@ void MatrixTest::SetUp ()
 
 void MatrixTest::TearDown ()
 {
-}
-
-
-
-bool MatrixTest::isMatrixEqual (Matrix <double> & a, Matrix <double> & b, bool isOutputIfNotEqual = true)
-{
-    if (a.rows () != b.rows () || a.columns () != b.columns () ) {
-        return false;
-    }
-
-    for (unsigned int row = 0; row < a.rows (); ++row) {
-        for (unsigned int col = 0; col < a.columns (); ++col) {
-            if (a (row, col) != b (row, col) ) {
-                if (isOutputIfNotEqual) {
-                    displayMatrix (a);
-                    displayMatrix (b);
-                }
-                return false;
-            }
-        }
-    }
-
-    return true;
-}
-
-
-
-void MatrixTest::displayMatrix (Matrix <double> & matrix)
-{
-    const std::string indent ("           ");
-    for (unsigned int row = 0; row < matrix.rows (); ++row) {
-        std::cout << indent;
-        for (unsigned int col = 0; col < matrix.columns (); ++col) {
-            std::cout << std::setw (4) << std::setfill (' ') <<  matrix (row, col) << " ";
-        }
-        std::cout << std::endl;
-    }
-    std::cout << std::endl;
 }
 
 
@@ -82,7 +41,7 @@ TEST_F (MatrixTest, resize_From1x1To2x2WithDefaultValueDefaulted_Success)
   test_matrix.resize (2, 2);
 
   // Assert.
-  EXPECT_TRUE (isMatrixEqual (test_matrix, etalon_matrix) );
+  EXPECT_EQ (etalon_matrix, test_matrix);
 }
 
 
@@ -105,7 +64,7 @@ TEST_F (MatrixTest, resize_From1x1To5x5WithDefaultValueDefaulted_Success)
   test_matrix.resize (5, 5);
 
   // Assert.
-  EXPECT_TRUE (isMatrixEqual (test_matrix, etalon_matrix) );
+  EXPECT_EQ (etalon_matrix, test_matrix);
 }
 
 
@@ -130,7 +89,7 @@ TEST_F (MatrixTest, resize_From5x5To3x3WithDefaultValueDefaulted_Success)
   test_matrix.resize (3, 3);
 
   // Assert.
-  EXPECT_TRUE (isMatrixEqual (test_matrix, etalon_matrix) );
+  EXPECT_EQ (etalon_matrix, test_matrix);
 }
 
 
@@ -153,7 +112,7 @@ TEST_F (MatrixTest, resize_From2x2To4x4WithDefaultValueExplicit_Success)
   test_matrix.resize (4, 4, 9.9);
 
   // Assert.
-  EXPECT_TRUE (isMatrixEqual (test_matrix, etalon_matrix) );
+  EXPECT_EQ (etalon_matrix, test_matrix);
 }
 
 
@@ -172,7 +131,7 @@ TEST_F (MatrixTest, clear_1x1_Success)
   test_matrix.clear ();
 
   // Assert.
-  EXPECT_TRUE (isMatrixEqual (test_matrix, etalon_matrix) );
+  EXPECT_EQ (etalon_matrix, test_matrix);
 }
 
 
@@ -197,7 +156,7 @@ TEST_F (MatrixTest, clear_4x4_Success)
   test_matrix.clear ();
 
   // Assert.
-  EXPECT_TRUE (isMatrixEqual (test_matrix, etalon_matrix) );
+  EXPECT_EQ (etalon_matrix, test_matrix);
 }
 
 

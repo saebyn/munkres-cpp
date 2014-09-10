@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 #include "munkres.h"
-#include "matrix.h"
+#include "matrixtest.h"
 #include <iostream>
 #include <iomanip>
 
@@ -21,8 +21,6 @@ class MunkresTest : public ::testing::Test
         Matrix <double> generateRandomMatrix    (const int, const int);
         void            isSingleSolution        (Matrix <double> &);
         void            isValidOutput           (Matrix <double> &);
-        bool            isMatrixEqual           (Matrix <double> &, Matrix <double> &, bool);
-        void            displayMatrix           (Matrix <double> &);
 };
 
 
@@ -85,44 +83,6 @@ void MunkresTest::isValidOutput (Matrix <double> & matrix)
 
 
 
-bool MunkresTest::isMatrixEqual (Matrix <double> & a, Matrix <double> & b, bool isOutputIfNotEqual = true)
-{
-    if (a.rows () != b.rows () || a.columns () != b.columns () ) {
-        return false;
-    }
-
-    for (unsigned int row = 0; row < a.rows (); ++row) {
-        for (unsigned int col = 0; col < a.columns (); ++col) {
-            if (a (row, col) != b (row, col) ) {
-                if (isOutputIfNotEqual) {
-                    displayMatrix (a);
-                    displayMatrix (b);
-                }
-                return false;
-            }
-        }
-    }
-
-    return true;
-}
-
-
-
-void MunkresTest::displayMatrix (Matrix <double> & matrix)
-{
-    const std::string indent ("           ");
-    for (unsigned int row = 0; row < matrix.rows (); ++row) {
-        std::cout << indent;
-        for (unsigned int col = 0; col < matrix.columns (); ++col) {
-            std::cout << std::setw (4) << std::setfill (' ') <<  matrix (row, col) << " ";
-        }
-        std::cout << std::endl;
-    }
-    std::cout << std::endl;
-}
-
-
-
 TEST_F (MunkresTest, replace_infinites_4x4Case001_Success)
 {
   // Arrange.
@@ -144,7 +104,7 @@ TEST_F (MunkresTest, replace_infinites_4x4Case001_Success)
   replace_infinites (test_matrix);
 
   // Assert.
-  EXPECT_TRUE (isMatrixEqual (test_matrix, etalon_matrix) );
+  EXPECT_EQ (etalon_matrix, test_matrix);
 }
 
 
@@ -170,7 +130,7 @@ TEST_F (MunkresTest, replace_infinites_4x4Case002_Success)
   replace_infinites (test_matrix);
 
   // Assert.
-  EXPECT_TRUE (isMatrixEqual (test_matrix, etalon_matrix) );
+  EXPECT_EQ (etalon_matrix, test_matrix);
 }
 
 
@@ -196,7 +156,7 @@ TEST_F (MunkresTest, replace_infinites_4x4Case003_Success)
   replace_infinites (test_matrix);
 
   // Assert.
-  EXPECT_TRUE (isMatrixEqual (test_matrix, etalon_matrix) );
+  EXPECT_EQ (etalon_matrix, test_matrix);
 }
 
 
@@ -222,7 +182,7 @@ TEST_F (MunkresTest, replace_infinites_4x4Case004_Success)
   replace_infinites (test_matrix);
 
   // Assert.
-  EXPECT_TRUE (isMatrixEqual (test_matrix, etalon_matrix) );
+  EXPECT_EQ (etalon_matrix, test_matrix);
 }
 
 
@@ -250,7 +210,7 @@ TEST_F (MunkresTest, minimize_along_direction_5x5_OverRowsOnly_Success)
   minimize_along_direction(test_matrix, false);
 
   // Assert.
-  EXPECT_TRUE (isMatrixEqual (test_matrix, etalon_matrix) );
+  EXPECT_EQ (etalon_matrix, test_matrix);
 }
 
 
@@ -277,7 +237,7 @@ TEST_F (MunkresTest, minimize_along_direction_5x5_OverColumnsOnly_Success)
   minimize_along_direction(test_matrix, true);
 
   // Assert.
-  EXPECT_TRUE (isMatrixEqual (test_matrix, etalon_matrix) );
+  EXPECT_EQ (etalon_matrix, test_matrix);
 }
 
 
@@ -305,7 +265,7 @@ TEST_F (MunkresTest, minimize_along_direction_5x5_OverRowsAndColumns_Success)
   minimize_along_direction(test_matrix, true);
 
   // Assert.
-  EXPECT_TRUE (isMatrixEqual (test_matrix, etalon_matrix) );
+  EXPECT_EQ (etalon_matrix, test_matrix);
 }
 
 
@@ -416,7 +376,7 @@ TEST_F (MunkresTest, solve_1x1_ObviousSolution_Success)
   munkres.solve(test_matrix);
 
   // Assert.
-  EXPECT_TRUE (isMatrixEqual (test_matrix, etalon_matrix) );
+  EXPECT_EQ (etalon_matrix, test_matrix);
 }
 
 
@@ -439,7 +399,7 @@ TEST_F (MunkresTest, solve_2x2_ObviousSolution_Success)
   munkres.solve(test_matrix);
 
   // Assert.
-  EXPECT_TRUE (isMatrixEqual (test_matrix, etalon_matrix) );
+  EXPECT_EQ (etalon_matrix, test_matrix);
 }
 
 
@@ -464,7 +424,7 @@ TEST_F (MunkresTest, solve_3x3_ObviousSolution_Success)
   munkres.solve(test_matrix);
 
   // Assert.
-  EXPECT_TRUE (isMatrixEqual (test_matrix, etalon_matrix) );
+  EXPECT_EQ (etalon_matrix, test_matrix);
 }
 
 
@@ -489,7 +449,7 @@ TEST_F (MunkresTest, solve_3x2_NonObviousSolutionCase001_Success)
   munkres.solve(test_matrix);
 
   // Assert.
-  EXPECT_TRUE (isMatrixEqual (test_matrix, etalon_matrix) );
+  EXPECT_EQ (etalon_matrix, test_matrix);
 }
 
 
@@ -514,7 +474,7 @@ TEST_F (MunkresTest, solve_3x3_NonObviousSolutionCase001_Success)
   munkres.solve(test_matrix);
 
   // Assert.
-  EXPECT_TRUE (isMatrixEqual (test_matrix, etalon_matrix) );
+  EXPECT_EQ (etalon_matrix, test_matrix);
 }
 
 
@@ -539,7 +499,7 @@ TEST_F (MunkresTest, solve_3x3_NonObviousSolutionCase002_Success)
   munkres.solve(test_matrix);
 
   // Assert.
-  EXPECT_TRUE (isMatrixEqual (test_matrix, etalon_matrix) );
+  EXPECT_EQ (etalon_matrix, test_matrix);
 }
 
 
@@ -567,5 +527,5 @@ TEST_F (MunkresTest, solve_3x3_IsValide_Fail)
   munkres.solve(test_matrix);
 
   // Assert.
-  EXPECT_FALSE (isMatrixEqual (test_matrix, etalon_matrix, false) );
+  EXPECT_NE (etalon_matrix, test_matrix);
 }
