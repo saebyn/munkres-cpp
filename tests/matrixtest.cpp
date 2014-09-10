@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "matrix.h"
+#include "matrixtest.h"
 #include <iostream>
 #include <iomanip>
 
@@ -10,9 +10,6 @@ class MatrixTest : public ::testing::Test
     protected:
         virtual void SetUp    ();
         virtual void TearDown ();
-
-        bool            isMatrixEqual           (Matrix <double> &, Matrix <double> &, bool);
-        void            displayMatrix           (Matrix <double> &);
 };
 
 
@@ -25,44 +22,6 @@ void MatrixTest::SetUp ()
 
 void MatrixTest::TearDown ()
 {
-}
-
-
-
-bool MatrixTest::isMatrixEqual (Matrix <double> & a, Matrix <double> & b, bool isOutputIfNotEqual = true)
-{
-    if (a.rows () != b.rows () || a.columns () != b.columns () ) {
-        return false;
-    }
-
-    for (unsigned int row = 0; row < a.rows (); ++row) {
-        for (unsigned int col = 0; col < a.columns (); ++col) {
-            if (a (row, col) != b (row, col) ) {
-                if (isOutputIfNotEqual) {
-                    displayMatrix (a);
-                    displayMatrix (b);
-                }
-                return false;
-            }
-        }
-    }
-
-    return true;
-}
-
-
-
-void MatrixTest::displayMatrix (Matrix <double> & matrix)
-{
-    const std::string indent ("           ");
-    for (unsigned int row = 0; row < matrix.rows (); ++row) {
-        std::cout << indent;
-        for (unsigned int col = 0; col < matrix.columns (); ++col) {
-            std::cout << std::setw (4) << std::setfill (' ') <<  matrix (row, col) << " ";
-        }
-        std::cout << std::endl;
-    }
-    std::cout << std::endl;
 }
 
 
@@ -82,7 +41,7 @@ TEST_F (MatrixTest, resize_From1x1To2x2WithDefaultValueDefaulted_Success)
   test_matrix.resize (2, 2);
 
   // Assert.
-  EXPECT_TRUE (isMatrixEqual (test_matrix, etalon_matrix) );
+  EXPECT_EQ (etalon_matrix, test_matrix);
 }
 
 
@@ -105,7 +64,7 @@ TEST_F (MatrixTest, resize_From1x1To5x5WithDefaultValueDefaulted_Success)
   test_matrix.resize (5, 5);
 
   // Assert.
-  EXPECT_TRUE (isMatrixEqual (test_matrix, etalon_matrix) );
+  EXPECT_EQ (etalon_matrix, test_matrix);
 }
 
 
@@ -130,7 +89,7 @@ TEST_F (MatrixTest, resize_From5x5To3x3WithDefaultValueDefaulted_Success)
   test_matrix.resize (3, 3);
 
   // Assert.
-  EXPECT_TRUE (isMatrixEqual (test_matrix, etalon_matrix) );
+  EXPECT_EQ (etalon_matrix, test_matrix);
 }
 
 
@@ -153,7 +112,7 @@ TEST_F (MatrixTest, resize_From2x2To4x4WithDefaultValueExplicit_Success)
   test_matrix.resize (4, 4, 9.9);
 
   // Assert.
-  EXPECT_TRUE (isMatrixEqual (test_matrix, etalon_matrix) );
+  EXPECT_EQ (etalon_matrix, test_matrix);
 }
 
 
@@ -172,7 +131,7 @@ TEST_F (MatrixTest, clear_1x1_Success)
   test_matrix.clear ();
 
   // Assert.
-  EXPECT_TRUE (isMatrixEqual (test_matrix, etalon_matrix) );
+  EXPECT_EQ (etalon_matrix, test_matrix);
 }
 
 
@@ -197,7 +156,7 @@ TEST_F (MatrixTest, clear_4x4_Success)
   test_matrix.clear ();
 
   // Assert.
-  EXPECT_TRUE (isMatrixEqual (test_matrix, etalon_matrix) );
+  EXPECT_EQ (etalon_matrix, test_matrix);
 }
 
 
@@ -212,15 +171,15 @@ TEST_F (MatrixTest, operatorSubscript_Success)
   };
 
   // Act, Assert.
-  EXPECT_FLOAT_EQ (test_matrix (0, 0), 0.0);
-  EXPECT_FLOAT_EQ (test_matrix (0, 1), 0.1);
-  EXPECT_FLOAT_EQ (test_matrix (0, 2), 0.2);
-  EXPECT_FLOAT_EQ (test_matrix (1, 0), 1.0);
-  EXPECT_FLOAT_EQ (test_matrix (1, 1), 1.1);
-  EXPECT_FLOAT_EQ (test_matrix (1, 2), 1.2);
-  EXPECT_FLOAT_EQ (test_matrix (2, 0), 2.0);
-  EXPECT_FLOAT_EQ (test_matrix (2, 1), 2.1);
-  EXPECT_FLOAT_EQ (test_matrix (2, 2), 2.2);
+  EXPECT_FLOAT_EQ (0.0, test_matrix (0, 0) );
+  EXPECT_FLOAT_EQ (0.1, test_matrix (0, 1) );
+  EXPECT_FLOAT_EQ (0.2, test_matrix (0, 2) );
+  EXPECT_FLOAT_EQ (1.0, test_matrix (1, 0) );
+  EXPECT_FLOAT_EQ (1.1, test_matrix (1, 1) );
+  EXPECT_FLOAT_EQ (1.2, test_matrix (1, 2) );
+  EXPECT_FLOAT_EQ (2.0, test_matrix (2, 0) );
+  EXPECT_FLOAT_EQ (2.1, test_matrix (2, 1) );
+  EXPECT_FLOAT_EQ (2.2, test_matrix (2, 2) );
 }
 
 
@@ -237,7 +196,7 @@ TEST_F (MatrixTest, max_1x1_Success)
   const double test_result = test_matrix.max ();
 
   // Assert.
-  EXPECT_FLOAT_EQ (test_result, etalon_result);
+  EXPECT_FLOAT_EQ (etalon_result, test_result);
 }
 
 
@@ -256,7 +215,7 @@ TEST_F (MatrixTest, max_2x2MinusInfinity_Success)
   const double test_result = test_matrix.max ();
 
   // Assert.
-  EXPECT_FLOAT_EQ (test_result, etalon_result);
+  EXPECT_FLOAT_EQ (etalon_result, test_result);
 }
 
 
@@ -276,7 +235,7 @@ TEST_F (MatrixTest, max_2x2Negative_Success)
   const double test_result = test_matrix.max ();
 
   // Assert.
-  EXPECT_FLOAT_EQ (test_result, etalon_result);
+  EXPECT_FLOAT_EQ (etalon_result, test_result);
 }
 
 
@@ -296,7 +255,7 @@ TEST_F (MatrixTest, max_2x2Zero_Success)
   const double test_result = test_matrix.max ();
 
   // Assert.
-  EXPECT_FLOAT_EQ (test_result, etalon_result);
+  EXPECT_FLOAT_EQ (etalon_result, test_result);
 }
 
 
@@ -317,7 +276,7 @@ TEST_F (MatrixTest, max_2x2Positive_Success)
   const double test_result = test_matrix.max ();
 
   // Assert.
-  EXPECT_FLOAT_EQ (test_result, etalon_result);
+  EXPECT_FLOAT_EQ (etalon_result, test_result);
 }
 
 
@@ -339,7 +298,7 @@ TEST_F (MatrixTest, max_2x2PlusInfinity_Success)
   const double test_result = test_matrix.max ();
 
   // Assert.
-  EXPECT_FLOAT_EQ (test_result, etalon_result);
+  EXPECT_FLOAT_EQ (etalon_result, test_result);
 }
 
 
@@ -354,7 +313,7 @@ TEST_F (MatrixTest, minsize_RowsCountIsMin_Success)
   const unsigned int test_result = test_matrix.minsize ();
 
   // Assert.
-  EXPECT_FLOAT_EQ (test_result, etalon_result);
+  EXPECT_EQ (etalon_result, test_result);
 }
 
 
@@ -369,7 +328,7 @@ TEST_F (MatrixTest, minsize_ColumnsCountIsMin_Success)
   const unsigned int test_result = test_matrix.minsize ();
 
   // Assert.
-  EXPECT_FLOAT_EQ (test_result, etalon_result);
+  EXPECT_EQ (etalon_result, test_result);
 }
 
 
@@ -384,7 +343,7 @@ TEST_F (MatrixTest, minsize_RowsCountAndColumnsCountAreEqual_Success)
   const unsigned int test_result = test_matrix.minsize ();
 
   // Assert.
-  EXPECT_FLOAT_EQ (test_result, etalon_result);
+  EXPECT_EQ (etalon_result, test_result);
 }
 
 
@@ -403,7 +362,7 @@ TEST_F (MatrixTest, columns_Success)
   const unsigned int test_result = test_matrix.columns ();
 
   // Assert.
-  EXPECT_FLOAT_EQ (test_result, etalon_result);
+  EXPECT_EQ (etalon_result, test_result);
 }
 
 
@@ -422,5 +381,5 @@ TEST_F (MatrixTest, rows_Success)
   const unsigned int test_result = test_matrix.rows ();
 
   // Assert.
-  EXPECT_FLOAT_EQ (test_result, etalon_result);
+  EXPECT_EQ (etalon_result, test_result);
 }
