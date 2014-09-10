@@ -313,7 +313,7 @@ TEST_F (MatrixTest, minsize_RowsCountIsMin_Success)
   const unsigned int test_result = test_matrix.minsize ();
 
   // Assert.
-  EXPECT_FLOAT_EQ (test_result, etalon_result);
+  EXPECT_EQ (test_result, etalon_result);
 }
 
 
@@ -328,7 +328,7 @@ TEST_F (MatrixTest, minsize_ColumnsCountIsMin_Success)
   const unsigned int test_result = test_matrix.minsize ();
 
   // Assert.
-  EXPECT_FLOAT_EQ (test_result, etalon_result);
+  EXPECT_EQ (test_result, etalon_result);
 }
 
 
@@ -343,7 +343,7 @@ TEST_F (MatrixTest, minsize_RowsCountAndColumnsCountAreEqual_Success)
   const unsigned int test_result = test_matrix.minsize ();
 
   // Assert.
-  EXPECT_FLOAT_EQ (test_result, etalon_result);
+  EXPECT_EQ (test_result, etalon_result);
 }
 
 
@@ -362,7 +362,7 @@ TEST_F (MatrixTest, columns_Success)
   const unsigned int test_result = test_matrix.columns ();
 
   // Assert.
-  EXPECT_FLOAT_EQ (test_result, etalon_result);
+  EXPECT_EQ (test_result, etalon_result);
 }
 
 
@@ -381,5 +381,5 @@ TEST_F (MatrixTest, rows_Success)
   const unsigned int test_result = test_matrix.rows ();
 
   // Assert.
-  EXPECT_FLOAT_EQ (test_result, etalon_result);
+  EXPECT_EQ (test_result, etalon_result);
 }
