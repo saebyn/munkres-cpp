@@ -14,7 +14,12 @@ DIST_LIBDIR = $(INSTALLDIR)/lib/
 SOURCES = munkres.cpp
 OBJECTS := $(patsubst %.cpp,%.o,$(SOURCES))
 HEADERS := $(filter-out main.h,$(patsubst %.cpp,%.h,$(SOURCES))) matrix.h matrix.cpp
-UNITTESTS = ../tests/munkrestest.cpp ../tests/matrixtest.cpp ../tests/adapters/raw_2d_arraytest.cpp ../tests/adapters/std_2d_arraytest.cpp ../tests/adapters/boost_matrixtest.cpp
+UNITTESTS = ../tests/munkrestest.cpp \
+			../tests/matrixtest.cpp \
+			../tests/adapters/raw_2d_arraytest.cpp \
+			../tests/adapters/std_2d_arraytest.cpp \
+			../tests/adapters/boost_matrixtest.cpp \
+			../tests/adapters/std_2d_vectortest.cpp
 LDPATH =
 LDADD = -lgcov -lgtest -lgtest_main -lpthread
 
