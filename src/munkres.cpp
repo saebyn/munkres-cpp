@@ -133,26 +133,16 @@ Munkres::step1(void) {
   for ( unsigned int row = 0 ; row < rows ; row++ ) {
     for ( unsigned int col = 0 ; col < columns ; col++ ) {
       if ( 0 == matrix(row, col) ) {
-        bool isstarred = false;
-        for ( unsigned int nrow = 0 ; nrow < rows ; nrow++ )
-          if ( STAR == mask_matrix(nrow,col) ) {
-            isstarred = true;
-            break;
-          }
+        for ( unsigned int nrow = 0 ; nrow < row ; nrow++ )
+          if ( STAR == mask_matrix(nrow,col) )
+            goto next_column;
 
-        if ( !isstarred ) {
-          for ( unsigned int ncol = 0 ; ncol < columns ; ncol++ )
-            if ( STAR == mask_matrix(row, ncol) ) {
-              isstarred = true;
-              break;
-            }
-        }
-              
-        if ( !isstarred ) {
-          mask_matrix(row,col) = STAR;
-        }
+        mask_matrix(row,col) = STAR;
+        goto next_row;
       }
+      next_column:;
     }
+    next_row:;
   }
 
   return 2;
@@ -409,7 +399,7 @@ Munkres::solve(Matrix<double> &m) {
   mask_matrix.resize(size, size);
 
   row_mask = new bool[size];
-  col_mask = new bool[columns];
+  col_mask = new bool[size];
   for ( unsigned int i = 0 ; i < size ; i++ ) {
     row_mask[i] = false;
   }
