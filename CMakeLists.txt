@@ -6,6 +6,11 @@ SET (MunkresCpp_VERSION_MINOR 1)
 SET (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/CMakeModules")
 
 
+IF (${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
+    MESSAGE (FATAL_ERROR "Prevented in-tree build. This is bad practice.")
+ENDIF (${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
+
+
 SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wmissing-include-dirs -Wundef -Wfloat-equal -Wshadow -Wunsafe-loop-optimizations")
 SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wdouble-promotion -Winit-self -Wvector-operation-performance -Wnoexcept -Weffc++ -Wstrict-null-sentinel")
