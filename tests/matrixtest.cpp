@@ -161,6 +161,44 @@ TEST_F (MatrixTest, clear_4x4_Success)
 
 
 
+TEST_F (MatrixTest, operatorAssignment_0x0_Success)
+{
+  // Arrange.
+  Matrix<double> etalon_matrix {std::initializer_list <std::initializer_list <double> > () };
+  Matrix<double> test_matrix{
+    {0.0, 0.1, 0.2},
+    {3.0, 3.1, 3.2},
+    {4.0, 4.1, 4.2}
+  };
+
+  // Act.
+  test_matrix = etalon_matrix;
+
+  // Assert.
+  EXPECT_EQ (etalon_matrix, test_matrix);
+}
+
+
+
+TEST_F (MatrixTest, operatorAssignment_3x3_Success)
+{
+  // Arrange.
+  Matrix<double> etalon_matrix{
+    {0.0, 0.1, 0.2},
+    {1.0, 1.1, 1.2},
+    {2.0, 2.1, 2.2}
+  };
+  Matrix<double> test_matrix;
+
+  // Act.
+  test_matrix = etalon_matrix;
+
+  // Assert.
+  EXPECT_EQ (etalon_matrix, test_matrix);
+}
+
+
+
 TEST_F (MatrixTest, operatorSubscript_Success)
 {
   // Arrange.

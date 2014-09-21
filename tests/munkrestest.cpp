@@ -187,6 +187,31 @@ TEST_F (MunkresTest, replace_infinites_4x4Case004_Success)
 
 
 
+TEST_F (MunkresTest, replace_infinites_4x4Case005_Success)
+{
+  // Arrange.
+  const auto infinity = std::numeric_limits<double>::infinity();
+  Matrix<double> etalon_matrix{
+    {     0.0,      0.0,      0.0,      0.0},
+    {     0.0,      0.0,      0.0,      0.0},
+    {     0.0,      0.0,      0.0,      0.0},
+    {     0.0,      0.0,      0.0,      0.0}
+  };
+  Matrix<double> test_matrix{
+    {infinity, infinity, infinity, infinity},
+    {infinity, infinity, infinity, infinity},
+    {infinity, infinity, infinity, infinity},
+    {infinity, infinity, infinity, infinity}
+  };
+
+  // Act.
+  replace_infinites (test_matrix);
+
+  // Assert.
+  EXPECT_EQ (etalon_matrix, test_matrix);
+}
+
+
 
 TEST_F (MunkresTest, minimize_along_direction_5x5_OverRowsOnly_Success)
 {
