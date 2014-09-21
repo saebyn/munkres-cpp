@@ -14,6 +14,7 @@ SET (
     ${PROJECT_SOURCE_DIR}/tests/matrixtest.cpp
     ${PROJECT_SOURCE_DIR}/tests/adapters/raw_2d_arraytest.cpp
     ${PROJECT_SOURCE_DIR}/tests/adapters/std_2d_arraytest.cpp
+    ${PROJECT_SOURCE_DIR}/tests/adapters/std_2d_vectortest.cpp
     ${PROJECT_SOURCE_DIR}/tests/adapters/boost_matrixtest.cpp
 )
 ADD_EXECUTABLE (munkrestest ${MunkresCppLib_SOURCES} ${MunkresCppTest_SOURCES})
