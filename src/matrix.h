@@ -32,18 +32,18 @@ public:
   ~Matrix();
   // all operations modify the matrix in-place.
   void resize(unsigned int rows, unsigned int columns, T default_value = 0);
-  void clear(void);
+  void clear();
   T& operator () (unsigned int x, unsigned int y);
   const T& operator () (unsigned int x, unsigned int y) const;
   const T min() const;
   const T max() const;
-  inline unsigned int minsize(void) {
+  inline unsigned int minsize() {
     return ((m_rows < m_columns) ? m_rows : m_columns);
   }
-  inline unsigned int columns(void) const {
+  inline unsigned int columns() const {
     return m_columns;
   }
-  inline unsigned int rows(void) const {
+  inline unsigned int rows() const {
     return m_rows;
   }
 private:

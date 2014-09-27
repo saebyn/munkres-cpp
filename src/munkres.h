@@ -34,12 +34,12 @@ private:
   static const int PRIME = 2; 
   inline bool find_uncovered_in_matrix(double, unsigned int&, unsigned int&) const;
   inline bool pair_in_list(const std::pair<int,int> &, const std::list<std::pair<int,int> > &);
-  int step1(void);
-  int step2(void);
-  int step3(void);
-  int step4(void);
-  int step5(void);
-  int step6(void);
+  int step1();
+  int step2();
+  int step3();
+  int step4();
+  int step5();
+  int step6();
 
   Matrix<int> mask_matrix;
   Matrix<double> matrix;

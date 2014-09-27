@@ -126,7 +126,7 @@ Munkres::pair_in_list(const std::pair<int,int> &needle, const std::list<std::pai
 }
 
 int 
-Munkres::step1(void) {
+Munkres::step1() {
   const unsigned int rows = matrix.rows(),
                      columns = matrix.columns();
 
@@ -149,7 +149,7 @@ Munkres::step1(void) {
 }
 
 int 
-Munkres::step2(void) {
+Munkres::step2() {
   const unsigned int rows = matrix.rows(),
                      columns = matrix.columns();
   unsigned int covercount = 0;
@@ -185,7 +185,7 @@ Munkres::step2(void) {
 }
 
 int 
-Munkres::step3(void) {
+Munkres::step3() {
   /*
   Main Zero Search
 
@@ -211,7 +211,7 @@ Munkres::step3(void) {
 }
 
 int 
-Munkres::step4(void) {
+Munkres::step4() {
   const unsigned int rows = matrix.rows(),
                      columns = matrix.columns();
 
@@ -310,7 +310,7 @@ Munkres::step4(void) {
 }
 
 int 
-Munkres::step5(void) {
+Munkres::step5() {
   const unsigned int rows = matrix.rows(),
                      columns = matrix.columns();
   /*
