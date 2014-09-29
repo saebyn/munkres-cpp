@@ -39,7 +39,7 @@ main(int argc, char *argv[]) {
 	
 	Matrix<double> matrix(nrows, ncols);
 	
-	srandom(time(NULL)); // Seed random number generator.
+	srandom(time(nullptr)); // Seed random number generator.
 
 	// Initialize matrix with random values.
 	for ( int row = 0 ; row < nrows ; row++ ) {

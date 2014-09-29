@@ -41,7 +41,7 @@ Matrix<double> MunkresTest::generateRandomMatrix(const int nrows, const int ncol
 {
   Matrix<double> matrix(nrows, ncols);
 
-  srandom(time(NULL)); // Seed random number generator.
+  srandom(time(nullptr)); // Seed random number generator.
 
   // Initialize matrix with random values.
   for ( unsigned int row = 0 ; row < matrix.rows() ; row++ )
