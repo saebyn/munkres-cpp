@@ -9,20 +9,24 @@
 
 std::vector <Matrix <double> *> matrices;
 
+constexpr int maxReasonableDataSetCount {100};
+
 
 
 static void BM_solve (benchmark::State & state)
 {
-    Munkres munkres;
     state.PauseTiming ();
-    while (state.KeepRunning () ) {
-        auto matrix = * matrices [state.range_x ()];
-        state.ResumeTiming ();
-        munkres.solve (matrix);
-        state.PauseTiming ();
+    if (state.range_x () < matrices.size () ) {
+        Munkres munkres;
+        while (state.KeepRunning () ) {
+            auto matrix = * matrices [state.range_x ()];
+            state.ResumeTiming ();
+            munkres.solve (matrix);
+            state.PauseTiming ();
+        }
     }
 }
-BENCHMARK (BM_solve)->DenseRange (0, matrices.size () );
+BENCHMARK (BM_solve)->DenseRange (0, maxReasonableDataSetCount);
 
 
 
