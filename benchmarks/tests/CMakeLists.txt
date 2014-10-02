@@ -36,3 +36,17 @@ endif (CELERO_FOUND)
 SET (MunkresCppBenchmarkRdtsc_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/main_rdtsc.cpp)
 ADD_EXECUTABLE (munkresbenchmark_rdtsc.bin ${MunkresCppBenchmarkRdtsc_SOURCES})
 TARGET_LINK_LIBRARIES (munkresbenchmark_rdtsc.bin munkres)
+
+
+# Prevent launch tests before will be generated test data set.
+set (BenchmarkDataSet ${PROJECT_BINARY_DIR}/matrices.txt)
+add_custom_command (
+    OUTPUT ${BenchmarkDataSet}
+    COMMAND cd ${PROJECT_BINARY_DIR} && ./benchmarks/tools/generator/matrixgenerator.bin 20
+)
+add_custom_target (generate_benchmark_dataset DEPENDS ${BenchmarkDataSet})
+
+add_dependencies (munkresbenchmark_google.bin generate_benchmark_dataset)
+add_dependencies (munkresbenchmark_hayai.bin  generate_benchmark_dataset)
+add_dependencies (munkresbenchmark_celero.bin generate_benchmark_dataset)
+add_dependencies (munkresbenchmark_rdtsc.bin  generate_benchmark_dataset)
