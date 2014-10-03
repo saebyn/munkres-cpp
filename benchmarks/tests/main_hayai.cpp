@@ -9,12 +9,14 @@
 
 std::vector <Matrix <double> *> matrices;
 
+size_t i {0};
 
 
-BENCHMARK (Muknres, Solve, 5, 10)
+
+BENCHMARK (Munkres, Solve, 5, 1000)
 {
     Munkres munkres;
-    auto matrix = * matrices [0];
+    auto matrix = * matrices [i];
     munkres.solve (matrix);
 }
 
@@ -27,5 +29,8 @@ int main (int argc, char * argv [])
 
     hayai::ConsoleOutputter consoleOutputter;
     hayai::Benchmarker::AddOutputter (consoleOutputter);
-    hayai::Benchmarker::RunAllTests ();
+    for (const auto x : matrices) {
+        hayai::Benchmarker::RunAllTests ();
+        ++i;
+    }
 }
