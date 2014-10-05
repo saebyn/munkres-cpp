@@ -25,16 +25,16 @@ template <class T>
 class Matrix {
 public:
   Matrix();
-  Matrix(unsigned int rows, unsigned int columns);
-  Matrix(std::initializer_list<std::initializer_list<T>> init);
+  Matrix(const unsigned int rows, const unsigned int columns);
+  Matrix(const std::initializer_list<std::initializer_list<T>> init);
   Matrix(const Matrix<T> &other);
   Matrix<T> & operator= (const Matrix<T> &other);
   ~Matrix();
   // all operations modify the matrix in-place.
-  void resize(unsigned int rows, unsigned int columns, T default_value = 0);
+  void resize(const unsigned int rows, const unsigned int columns, const T default_value = 0);
   void clear();
-  T& operator () (unsigned int x, unsigned int y);
-  const T& operator () (unsigned int x, unsigned int y) const;
+  T& operator () (const unsigned int x, const unsigned int y);
+  const T& operator () (const unsigned int x, const unsigned int y) const;
   const T min() const;
   const T max() const;
   inline unsigned int minsize() {

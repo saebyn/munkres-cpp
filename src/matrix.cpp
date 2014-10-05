@@ -31,7 +31,7 @@ Matrix<T>::Matrix() {
 
 
 /*export*/ template <class T>
-Matrix<T>::Matrix(std::initializer_list<std::initializer_list<T>> init) {
+Matrix<T>::Matrix(const std::initializer_list<std::initializer_list<T>> init) {
   m_matrix = nullptr;
   m_rows = init.size();
   if ( m_rows == 0 ) {
@@ -72,7 +72,7 @@ Matrix<T>::Matrix(const Matrix<T> &other) {
 }
 
 /*export*/ template <class T>
-Matrix<T>::Matrix(unsigned int rows, unsigned int columns) {
+Matrix<T>::Matrix(const unsigned int rows, const unsigned int columns) {
   m_matrix = nullptr;
   resize(rows, columns);
 }
@@ -119,7 +119,7 @@ Matrix<T>::~Matrix() {
 
 /*export*/ template <class T>
 void
-Matrix<T>::resize(unsigned int rows, unsigned int columns, T default_value) {
+Matrix<T>::resize(const unsigned int rows, const unsigned int columns, const T default_value) {
   assert ( rows > 0 && columns > 0 && "Columns and rows must exist." );
 
   if ( m_matrix == nullptr ) {
@@ -183,7 +183,7 @@ Matrix<T>::clear() {
 
 /*export*/ template <class T>
 inline T&
-Matrix<T>::operator ()(unsigned int x, unsigned int y) {
+Matrix<T>::operator ()(const unsigned int x, const unsigned int y) {
   assert ( x < m_rows );
   assert ( y < m_columns );
   assert ( m_matrix != nullptr );
@@ -193,7 +193,7 @@ Matrix<T>::operator ()(unsigned int x, unsigned int y) {
 
 /*export*/ template <class T>
 inline const T&
-Matrix<T>::operator ()(unsigned int x, unsigned int y) const {
+Matrix<T>::operator ()(const unsigned int x, const unsigned int y) const {
   assert ( x < m_rows );
   assert ( y < m_columns );
   assert ( m_matrix != nullptr );

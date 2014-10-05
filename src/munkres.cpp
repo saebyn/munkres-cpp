@@ -29,7 +29,7 @@ replace_infinites(Matrix<double> &matrix) {
                      columns = matrix.columns();
   assert( rows > 0 && columns > 0 );
   double max = matrix(0, 0);
-  const auto infinity = std::numeric_limits<double>::infinity();
+  constexpr auto infinity = std::numeric_limits<double>::infinity();
 
   // Find the greatest value in the matrix that isn't infinity.
   for ( unsigned int row = 0 ; row < rows ; row++ ) {
@@ -51,7 +51,7 @@ replace_infinites(Matrix<double> &matrix) {
   } else {
     max++;
   }
-  
+
   for ( unsigned int row = 0 ; row < rows ; row++ ) {
     for ( unsigned int col = 0 ; col < columns ; col++ ) {
       if ( matrix(row, col) == infinity ) {
@@ -63,7 +63,7 @@ replace_infinites(Matrix<double> &matrix) {
 }
 
 void 
-minimize_along_direction(Matrix<double> &matrix, bool over_columns) {
+minimize_along_direction(Matrix<double> &matrix, const bool over_columns) {
   const unsigned int outer_size = over_columns ? matrix.columns() : matrix.rows(),
                      inner_size = over_columns ? matrix.rows() : matrix.columns();
 
@@ -95,7 +95,7 @@ minimize_along_direction(Matrix<double> &matrix, bool over_columns) {
 
 
 bool 
-Munkres::find_uncovered_in_matrix(double item, unsigned int &row, unsigned int &col) const {
+Munkres::find_uncovered_in_matrix(const double item, unsigned int &row, unsigned int &col) const {
   unsigned int rows = matrix.rows(),
                columns = matrix.columns();
 
