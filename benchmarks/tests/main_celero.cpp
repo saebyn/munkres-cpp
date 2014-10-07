@@ -8,50 +8,34 @@
 
 std::vector <Matrix <double> *> matrices;
 
+size_t i {0};
+
 
 
 class MunkresFixture : public celero::TestFixture
 {
     public:
-        MunkresFixture  () = default;
-        ~MunkresFixture () = default;
-        virtual std::vector <int64_t> getExperimentValues () const override
+        void setUp (int64_t) override
         {
-            std::vector <int64_t> problemSpace;
-            for (int64_t i = 0; i < matrices.size (); ++i) {
-                problemSpace.push_back (i);
-            }
-            return problemSpace;
+            matrix = * matrices [i];
         }
 
-        void setUp (int64_t experimentValue) override
-        {
-            matrix = * matrices [experimentValue];
-        }
-
-        void tearDown () override
-        {
-        }
-
+        Munkres munkres;
         Matrix <double> matrix;
 };
 
 
 
-BASELINE_F (Munkres, Solve, MunkresFixture, 10, 500)
+BASELINE_F (Munkres, Solve, MunkresFixture, 5000, 1)
 {
-    Munkres munkres;
-    auto m = this->matrix;
-    munkres.solve (m);
+    munkres.solve (matrix);
 }
 
 
 
-BENCHMARK_F (Munkres, Solve, MunkresFixture, 10, 500)
+BENCHMARK_F (Munkres, Solve, MunkresFixture, 5000, 1)
 {
-    Munkres munkres;
-    auto m = this->matrix;
-    munkres.solve (m);
+    munkres.solve (matrix);
 }
 
 
@@ -61,5 +45,8 @@ int main (int argc, char * argv [])
 {
     read <double> (matrices);
 
-    celero::Run (argc, argv);
+    for (const auto x : matrices) {
+        celero::Run (argc, argv);
+        ++i;
+    }
 }
