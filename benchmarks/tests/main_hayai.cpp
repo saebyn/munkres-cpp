@@ -1,5 +1,4 @@
 #include <hayai.hpp>
-//#include <gtest/gtest.h>
 #include <vector>
 
 #include "matrixutils.h"
@@ -13,10 +12,22 @@ size_t i {0};
 
 
 
-BENCHMARK (Munkres, Solve, 5, 1000)
+class MunkresFixture : public ::hayai::Fixture
 {
-    Munkres munkres;
-    auto matrix = * matrices [i];
+    public:
+        void SetUp () override
+        {
+            matrix = * matrices [i];
+        }
+
+        Munkres munkres;
+        Matrix <double> matrix;
+};
+
+
+
+BENCHMARK_F (MunkresFixture, Solve, 5000, 1)
+{
     munkres.solve (matrix);
 }
 
