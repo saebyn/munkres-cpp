@@ -20,36 +20,37 @@
 #define _MATRIX_H_
 
 #include <initializer_list>
+#include <cstdlib>
 
 template <class T>
 class Matrix {
 public:
   Matrix();
-  Matrix(const unsigned int rows, const unsigned int columns);
+  Matrix(const size_t rows, const size_t columns);
   Matrix(const std::initializer_list<std::initializer_list<T>> init);
   Matrix(const Matrix<T> &other);
   Matrix<T> & operator= (const Matrix<T> &other);
   ~Matrix();
   // all operations modify the matrix in-place.
-  void resize(const unsigned int rows, const unsigned int columns, const T default_value = 0);
+  void resize(const size_t rows, const size_t columns, const T default_value = 0);
   void clear();
-  T& operator () (const unsigned int x, const unsigned int y);
-  const T& operator () (const unsigned int x, const unsigned int y) const;
+  T& operator () (const size_t x, const size_t y);
+  const T& operator () (const size_t x, const size_t y) const;
   const T min() const;
   const T max() const;
-  inline unsigned int minsize() {
+  inline size_t minsize() {
     return ((m_rows < m_columns) ? m_rows : m_columns);
   }
-  inline unsigned int columns() const {
+  inline size_t columns() const {
     return m_columns;
   }
-  inline unsigned int rows() const {
+  inline size_t rows() const {
     return m_rows;
   }
 private:
   T **m_matrix;
-  unsigned int m_rows;
-  unsigned int m_columns;
+  size_t m_rows;
+  size_t m_columns;
 };
 
 #ifndef USE_EXPORT_KEYWORD
