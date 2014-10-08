@@ -321,12 +321,12 @@ Munkres::step5() {
    3. Subtract h from all uncovered columns
    4. Return to Step 3, without altering stars, primes, or covers. 
   */
-  double h = 0;
+  double h = std::numeric_limits<double>::max();
   for ( size_t row = 0 ; row < rows ; row++ ) {
     if ( !row_mask[row] ) {
       for ( size_t col = 0 ; col < columns ; col++ ) {
         if ( !col_mask[col] ) {
-          if ( (h > matrix(row, col) && matrix(row, col) != 0) || h == 0 ) {
+          if ( h > matrix(row, col) && matrix(row, col) != 0 ) {
             h = matrix(row, col);
           }
         }
