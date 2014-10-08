@@ -381,9 +381,6 @@ Munkres::solve(Matrix<double> &m) {
   std::cout << std::endl;
 #endif
 
-  bool notdone = true;
-  int step = 1;
-
   // Copy input matrix
   this->matrix = m;
 
@@ -418,12 +415,9 @@ Munkres::solve(Matrix<double> &m) {
   minimize_along_direction(matrix, true);
 
   // Follow the steps
-  while ( notdone ) {
+  int step = 1;
+  while ( step ) {
     switch ( step ) {
-      case 0:
-        notdone = false;
-        // end the step flow
-        break;
       case 1:
         step = step1();
         // step is always 2
