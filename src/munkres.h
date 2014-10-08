@@ -29,11 +29,11 @@ class Munkres {
 public:
   void solve(Matrix<double> &m);
 private:
-  static const int NORMAL = 0;
-  static const int STAR = 1;
-  static const int PRIME = 2; 
-  inline bool find_uncovered_in_matrix(double, unsigned int&, unsigned int&) const;
-  inline bool pair_in_list(const std::pair<int,int> &, const std::list<std::pair<int,int> > &);
+  static constexpr int NORMAL = 0;
+  static constexpr int STAR   = 1;
+  static constexpr int PRIME  = 2;
+  inline bool find_uncovered_in_matrix(const double, size_t&, size_t&) const;
+  inline bool pair_in_list(const std::pair<size_t,size_t> &, const std::list<std::pair<size_t,size_t> > &);
   int step1();
   int step2();
   int step3();
@@ -45,7 +45,7 @@ private:
   Matrix<double> matrix;
   bool *row_mask;
   bool *col_mask;
-  unsigned int saverow, savecol;
+  size_t saverow, savecol;
 };
 
 #endif /* !defined(_MUNKRES_H_) */
