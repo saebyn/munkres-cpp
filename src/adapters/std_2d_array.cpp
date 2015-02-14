@@ -19,12 +19,12 @@
 #include "std_2d_array.h"
 #include "munkres.h"
 
-template <typename T, const unsigned int dimention>
-Matrix <T> convert_std_2d_array_to_munkres_matrix (const std::array <std::array <T, dimention>, dimention> & array)
+template <typename T, const unsigned int dimention1, const unsigned int dimention2>
+Matrix <T> convert_std_2d_array_to_munkres_matrix (const std::array <std::array <T, dimention2>, dimention1> & array)
 {
-  Matrix <T> matrix (dimention, dimention);
-  for (int i = 0; i < dimention; ++i) {
-    for (int j = 0; j < dimention; ++j) {
+  Matrix <T> matrix (dimention1, dimention2);
+  for (int i = 0; i < dimention1; ++i) {
+    for (int j = 0; j < dimention2; ++j) {
       matrix (i, j) = array [i][j];
     }
   }
@@ -32,21 +32,21 @@ Matrix <T> convert_std_2d_array_to_munkres_matrix (const std::array <std::array 
   return matrix;
 };
 
-template <typename T, const unsigned int dimention>
-void fill_std_2d_array_from_munkres_matrix (std::array <std::array <T, dimention>, dimention> & array, const Matrix <T> & matrix)
+template <typename T, const unsigned int dimention1, const unsigned int dimention2>
+void fill_std_2d_array_from_munkres_matrix (std::array <std::array <T, dimention2>, dimention1> & array, const Matrix <T> & matrix)
 {
-  for (int i = 0; i < dimention; ++i) {
-    for (int j = 0; j < dimention; ++j) {
+  for (int i = 0; i < dimention1; ++i) {
+    for (int j = 0; j < dimention2; ++j) {
       array [i][j] = matrix (i, j);
     }
   }
 };
 
-template <const unsigned int dimension>
-void solve(std::array <std::array <double, dimension>, dimension> &m)
+template <const unsigned int dimention1, const unsigned int dimention2>
+void solve(std::array <std::array <double, dimention2>, dimention1> &m)
 {
-  auto matrix = convert_std_2d_array_to_munkres_matrix<double, dimension>(m);
+  auto matrix = convert_std_2d_array_to_munkres_matrix<double, dimention1, dimention2>(m);
   Munkres munkres;
   munkres.solve (matrix);
-  fill_std_2d_array_from_munkres_matrix<double, dimension>(m, matrix);
+  fill_std_2d_array_from_munkres_matrix<double, dimention1, dimention2>(m, matrix);
 };

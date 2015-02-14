@@ -19,12 +19,12 @@
 #include "raw_2d_array.h"
 #include "munkres.h"
 
-template <typename T, const unsigned int dimention>
-Matrix <T> convert_raw_2d_array_to_munkres_matrix (const T array [dimention][dimention])
+template <typename T, const unsigned int dimention1, const unsigned int dimention2>
+Matrix <T> convert_raw_2d_array_to_munkres_matrix (const T array [dimention1][dimention2])
 {
-  Matrix <T> matrix (dimention, dimention);
-  for (int i = 0; i < dimention; ++i) {
-    for (int j = 0; j < dimention; ++j) {
+  Matrix <T> matrix (dimention1, dimention2);
+  for (int i = 0; i < dimention1; ++i) {
+    for (int j = 0; j < dimention2; ++j) {
       matrix (i, j) = array [i][j];
     }
   }
@@ -32,21 +32,21 @@ Matrix <T> convert_raw_2d_array_to_munkres_matrix (const T array [dimention][dim
   return matrix;
 };
 
-template <typename T, const unsigned int dimention>
-void fill_raw_2d_array_from_munkres_matrix (T array [dimention][dimention], const Matrix <T> & matrix)
+template <typename T, const unsigned int dimention1, const unsigned int dimention2>
+void fill_raw_2d_array_from_munkres_matrix (T array [dimention1][dimention2], const Matrix <T> & matrix)
 {
-  for (int i = 0; i < dimention; ++i) {
-    for (int j = 0; j < dimention; ++j) {
+  for (int i = 0; i < dimention1; ++i) {
+    for (int j = 0; j < dimention2; ++j) {
       array [i][j] = matrix (i, j);
     }
   }
 };
 
-template <const unsigned int dimension>
-void solve(double m [dimension][dimension])
+template <const unsigned int dimention1, const unsigned int dimention2>
+void solve(double m [dimention1][dimention2])
 {
-  auto matrix = convert_raw_2d_array_to_munkres_matrix<double, dimension>(m);
+  auto matrix = convert_raw_2d_array_to_munkres_matrix<double, dimention1, dimention2>(m);
   Munkres munkres;
   munkres.solve (matrix);
-  fill_raw_2d_array_from_munkres_matrix<double, dimension>(m, matrix);
+  fill_raw_2d_array_from_munkres_matrix<double, dimention1, dimention2>(m, matrix);
 };

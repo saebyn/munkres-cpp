@@ -22,10 +22,11 @@
 template <typename T>
 Matrix <T> convert_boost_matrix_to_munkres_matrix (const boost::numeric::ublas::matrix <T> & boost_matrix)
 {
-  const auto dimention = std::min (boost_matrix.size1 (), boost_matrix.size2 () );
-  Matrix <T> matrix (dimention, dimention);
-  for (int i = 0; i < dimention; ++i) {
-    for (int j = 0; j < dimention; ++j) {
+  const auto dimention1 = boost_matrix.size1 ();
+  const auto dimention2 = boost_matrix.size2 ();
+  Matrix <T> matrix (dimention1, dimention2);
+  for (int i = 0; i < dimention1; ++i) {
+    for (int j = 0; j < dimention2; ++j) {
       matrix (i, j) = boost_matrix (i, j);
     }
   }
@@ -36,9 +37,10 @@ Matrix <T> convert_boost_matrix_to_munkres_matrix (const boost::numeric::ublas::
 template <typename T>
 void fill_boost_matrix_from_munkres_matrix (boost::numeric::ublas::matrix <T> & boost_matrix, const Matrix <T> & matrix)
 {
-  const auto dimention = std::min (boost_matrix.size1 (), boost_matrix.size2 () );
-  for (int i = 0; i < dimention; ++i) {
-    for (int j = 0; j < dimention; ++j) {
+  const auto dimention1 = boost_matrix.size1 ();
+  const auto dimention2 = boost_matrix.size2 ();
+  for (int i = 0; i < dimention1; ++i) {
+    for (int j = 0; j < dimention2; ++j) {
       boost_matrix (i, j) = matrix (i, j);
     }
   }

@@ -22,10 +22,11 @@
 template <typename T>
 Matrix <T> convert_std_2d_vector_to_munkres_matrix (const std::vector <std::vector <T> > & vector)
 {
-  const int dimention = vector.size ();
-  Matrix <T> matrix (dimention, dimention);
-  for (int i = 0; i < dimention; ++i) {
-    for (int j = 0; j < dimention; ++j) {
+  const int dimention1 = vector.size();
+  const int dimention2 = vector[0].size();
+  Matrix <T> matrix (dimention1, dimention2);
+  for (int i = 0; i < dimention1; ++i) {
+    for (int j = 0; j < dimention2; ++j) {
       matrix (i, j) = vector [i][j];
     }
   }
@@ -36,12 +37,13 @@ Matrix <T> convert_std_2d_vector_to_munkres_matrix (const std::vector <std::vect
 template <typename T>
 void fill_std_2d_vector_from_munkres_matrix (std::vector <std::vector <T> > & vector, const Matrix <T> & matrix)
 {
-  const int dimention = vector.size ();
-  for (int i = 0; i < dimention; ++i) {
-    for (int j = 0; j < dimention; ++j) {
-      vector [i][j] = matrix (i, j);
+  const int dimention1 = vector.size();
+    const int dimention2 = vector[0].size();
+    for (int i = 0; i < dimention1; ++i) {
+      for (int j = 0; j < dimention2; ++j) {
+        vector[i][j]= matrix(i,j);
+      }
     }
-  }
 };
 
 void solve(std::vector <std::vector <double> > &m)
