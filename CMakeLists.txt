@@ -1,8 +1,8 @@
 # Common variables.
 cmake_minimum_required  (VERSION 2.8)
-project                 (MunkresCpp)
-set (MunkresCpp_VERSION_MAJOR 0)
-set (MunkresCpp_VERSION_MINOR 1)
+project                 (munkres-cpp)
+set (munkres-cpp_VERSION_MAJOR 0)
+set (munkres-cpp_VERSION_MINOR 1)
 set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake")
 
 
