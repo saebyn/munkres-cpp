@@ -1,3 +1,3 @@
 # Common variables.
-ADD_SUBDIRECTORY (tools/generator)
-ADD_SUBDIRECTORY (tests)
+add_subdirectory (tools/generator)
+add_subdirectory (tests)
