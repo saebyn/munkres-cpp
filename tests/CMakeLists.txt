@@ -1,5 +1,7 @@
 find_package (Boost     COMPONENTS      system      REQUIRED)
 
+enable_testing ()
+
 # Test suites.
 set (CMAKE_CXX_FLAGS "-std=c++11")
 set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage")
@@ -7,6 +9,8 @@ set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra")
 set (CMAKE_CXX_FLAGS_DEBUG   "${CMAKE_CXX_FLAGS} -O0 -ggdb3 -DDEBUG")
 set (CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -O3")
 set (CMAKE_SHARED_LINKER_FLAGS "-fprofile-arcs -ftest-coverage")
+
+include_directories (${GTEST_INCLUDE_DIRS})
 
 set (
     MunkresCppTest_SOURCES
@@ -18,8 +22,7 @@ set (
     ${PROJECT_SOURCE_DIR}/tests/adapters/boost_matrixtest.cpp
 )
 add_executable (munkrestest ${MunkresCppLib_SOURCES} ${MunkresCppTest_SOURCES})
-target_link_libraries (munkrestest gtest gtest_main gcov pthread)
-enable_testing ()
+target_link_libraries (munkrestest ${GTEST_BOTH_LIBRARIES} gcov pthread)
 add_test (MunkresCppTest muknrestest)
 
 

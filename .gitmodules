@@ -1,9 +1,0 @@
-[submodule "benchmarks/tools/Celero"]
-	path = benchmarks/tools/Celero
-	url = https://github.com/DigitalInBlue/Celero
-[submodule "benchmarks/tools/hayai"]
-	path = benchmarks/tools/hayai
-	url = https://github.com/nickbruun/hayai
-[submodule "benchmarks/tools/benchmark"]
-	path = benchmarks/tools/benchmark
-	url = https://github.com/google/benchmark

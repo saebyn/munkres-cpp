@@ -3,7 +3,6 @@ include_directories (${PROJECT_SOURCE_DIR}/benchmarks/tools/generator)
 
 
 # Benchmark based on the Google benchmark Framework.
-find_package (GoogleBenchmark)
 if    (GBENCHMARK_FOUND)
     set (MunkresCppBenchmarkGoogle_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/main_google.cpp)
     add_executable (munkresbenchmark_google.bin ${MunkresCppBenchmarkGoogle_SOURCES})
@@ -13,7 +12,6 @@ endif (GBENCHMARK_FOUND)
 
 
 # Benchmark based on the hayai Framework.
-find_package (HayaiBenchmark REQUIRED)
 if    (HAYAI_FOUND)
     set (MunkresCppBenchmarkHayai_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/main_hayai.cpp)
     add_executable (munkresbenchmark_hayai.bin ${MunkresCppBenchmarkHayai_SOURCES})
@@ -23,7 +21,6 @@ endif (HAYAI_FOUND)
 
 
 # Benchmark based on the Celero Framework.
-find_package (CeleroBenchmark REQUIRED)
 if    (CELERO_FOUND)
     set (MunkresCppBenchmarkCelero_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/main_celero.cpp)
     add_executable (munkresbenchmark_celero.bin ${MunkresCppBenchmarkCelero_SOURCES})
