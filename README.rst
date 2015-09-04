@@ -1,3 +1,5 @@
+[![build](https://travis-ci.org/Gluttton/munkres-cpp.svg?branch=master)](https://travis-ci.org/Gluttton/munkres-cpp)
+[![codecov.io](http://codecov.io/github/Gluttton/munkres-cpp/coverage.svg?branch=master)](http://codecov.io/github/Gluttton/munkres-cpp?branch=master)
 
 munkres-cpp
 ===========
