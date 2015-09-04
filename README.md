@@ -10,9 +10,9 @@ An implementation of the Kuhn–Munkres algorithm
 Usage
 -----
 
-```$ git clone https://github.com/saebyn/munkres-cpp.git```
-```$ cd munkres-cpp/src/```
-```$ make test```
+```$ git clone https://github.com/saebyn/munkres-cpp.git```  
+```$ cd munkres-cpp/src/```  
+```$ make test```  
 
 Requires GNU Make and GCC (tested on 4.6.3). The test suite requires
 the [Google C++ Test Framework](http://code.google.com/p/googletest/).
