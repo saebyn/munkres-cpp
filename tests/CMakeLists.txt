@@ -2,16 +2,47 @@ find_package (Boost     COMPONENTS      system      REQUIRED)
 
 enable_testing ()
 
-# Test suites.
-set (CMAKE_CXX_FLAGS "-std=c++11")
-set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage")
-set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra")
-set (CMAKE_CXX_FLAGS_DEBUG   "${CMAKE_CXX_FLAGS} -O0 -ggdb3 -DDEBUG")
-set (CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -O3")
-set (CMAKE_SHARED_LINKER_FLAGS "-fprofile-arcs -ftest-coverage")
+# Framework for writing tests.
+ExternalProject_Add (
+    googletest
+    GIT_REPOSITORY "https://github.com/google/googletest.git"
+    UPDATE_COMMAND cd ${PROJECT_BINARY_DIR}/googletest && mv googletest gtest && mv gtest/googletest .
+    CMAKE_ARGS "-DCMAKE_BUILD_TYPE=Release"
+    SOURCE_DIR "${PROJECT_BINARY_DIR}/googletest/googletest"
+    BINARY_DIR "${PROJECT_BINARY_DIR}/googletest/googletest"
+    INSTALL_COMMAND ""
+    TEST_COMMAND ""
+)
+set_target_properties (googletest PROPERTIES EXCLUDE_FROM_ALL TRUE)
+set (GTEST_ROOT "${PROJECT_BINARY_DIR}/googletest/googletest")
+set (GTEST_FOUND true)
+set (GTEST_INCLUDE_DIRS "${PROJECT_BINARY_DIR}/googletest/googletest/include")
+set (GTEST_LIBRARIES "${PROJECT_BINARY_DIR}/googletest/googletest/libgtest.a")
+set (GTEST_MAIN_LIBRARIES "${PROJECT_BINARY_DIR}/googletest/googletest/libgtest_main.a")
+set (GTEST_BOTH_LIBRARIES ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARIES})
 
 include_directories (${GTEST_INCLUDE_DIRS})
 
+# Special flags fo generating code coverage.
+set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage")
+set (CMAKE_SHARED_LINKER_FLAGS "-fprofile-arcs -ftest-coverage")
+
+# Special warning options for more attentive checking.
+set (SPECIAL_CXX_WARNING_FLAGS "${SPECIAL_CXX_WARNING_FLAGS} -Wmissing-include-dirs -Wundef -Wfloat-equal -Wunsafe-loop-optimizations")
+set (SPECIAL_CXX_WARNING_FLAGS "${SPECIAL_CXX_WARNING_FLAGS} -Wdouble-promotion -Winit-self -Wvector-operation-performance -Wnoexcept -Weffc++ -Wstrict-null-sentinel")
+set (SPECIAL_CXX_WARNING_FLAGS "${SPECIAL_CXX_WARNING_FLAGS} -Woverloaded-virtual -Wsign-promo")
+set (SPECIAL_CXX_WARNING_FLAGS "${SPECIAL_CXX_WARNING_FLAGS} -Wvla -Winvalid-pch -Winline -Wredundant-decls")
+set (SPECIAL_CXX_WARNING_FLAGS "${SPECIAL_CXX_WARNING_FLAGS} -Wlogical-op -Wcast-align")
+set (SPECIAL_CXX_WARNING_FLAGS "${SPECIAL_CXX_WARNING_FLAGS} -Wcast-qual -Wpointer-arith -Wtrampolines")
+set (SPECIAL_CXX_WARNING_FLAGS "${SPECIAL_CXX_WARNING_FLAGS} -Wold-style-cast")
+
+set_source_files_properties (
+    ${MunkresCppLib_SOURCES}
+    PROPERTIES COMPILE_FLAGS ${SPECIAL_CXX_WARNING_FLAGS}
+)
+
+
+# Test suites.
 set (
     MunkresCppTest_SOURCES
     ${PROJECT_SOURCE_DIR}/tests/munkrestest.cpp
@@ -21,10 +52,12 @@ set (
     ${PROJECT_SOURCE_DIR}/tests/adapters/std_2d_vectortest.cpp
     ${PROJECT_SOURCE_DIR}/tests/adapters/boost_matrixtest.cpp
 )
-add_executable (munkrestest ${MunkresCppLib_SOURCES} ${MunkresCppTest_SOURCES})
+add_executable (munkrestest EXCLUDE_FROM_ALL ${MunkresCppLib_SOURCES} ${MunkresCppTest_SOURCES})
 target_link_libraries (munkrestest ${GTEST_BOTH_LIBRARIES} gcov pthread)
+add_custom_target (tests)
+add_dependencies  (tests munkrestest)
+add_dependencies  (munkrestest googletest)
 add_test (MunkresCppTest muknrestest)
-
 
 
 # Test coverage report.
@@ -38,7 +71,6 @@ add_custom_command (
     DEPENDS munkrestest
 )
 add_custom_target (coverage DEPENDS ${Coverage_REPORT})
-
 
 
 # Adding test coverage artifacts to the "make clean" rule.

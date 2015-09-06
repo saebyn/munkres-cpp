@@ -21,7 +21,7 @@ before_script:
     - cmake -DCMAKE_BUILD_TYPE=Debug ${BUILD_DIR}/..
 script:
     - cd ${BUILD_DIR}
-    - make
+    - make && make tests
     - cd ${BUILD_DIR}/tests && ./munkrestest > /dev/null
 after_success:
     - cd ${BUILD_DIR}

@@ -17,29 +17,14 @@ Licensed under the GPLv2. See the file COPYING for details.
 
 
 
-Usage
------
+Requires
+--------
 
-```$ git clone https://github.com/saebyn/munkres-cpp.git```  
-
-Requires:  
+For using:  
  - C++ compiler with C++11 support.  
 
-To usage code it's just required add ```src/munrkes.cpp``` file into your project.  
 
-
-
-Example
--------
-
-TBD.
-
-
-
-Development
------------
-
-Requires:  
+For development:  
  - [GCC](https://gcc.gnu.org/) (tested on 4.6.3, 4.8);  
  - [GNU Make](https://www.gnu.org/software/make/);  
  - [CMake](http://www.cmake.org/) (2.8.12);  
@@ -48,67 +33,108 @@ Requires:
  - code coverage requires [gcov](https://gcc.gnu.org/onlinedocs/gcc/Gcov.html) and lcov;  
  - static code analyzis required [cppcheck](https://github.com/danmar/cppcheck).  
 
-```
-$ git clone https://github.com/saebyn/munkres-cpp.git  
-$ cd munkres-cpp  
-$ mkdir build && cd build
-$ cmake -DCMAKE_BUILD_TYPE={Debug, Release, etc}
-$ make
-```
-etc...  
 
-Lunch unit tests:  
+
+Portability
+-----------
+
+The project is developing under GNU/Linux OS with gcc compiler and usualy not tested under other OS and compilers.
+But in the project not used OS or compiler specific features (types, attributes, etc) so it's expected that the project will be normally work under other platforms.
+
+
+
+Usage
+-----
+
+To use the project the following steps are required:  
+  - download: ```$ git clone https://github.com/saebyn/munkres-cpp.git && cd munkres-cpp```  
+  - build: ```$ mkdir build && cd build $$ cmake .. && make```  
+  - install: ``` $ make install```  
+
+
+
+Example
+-------
+
+TBD
+
+
+
+Development
+-----------
+
+For development purpose in the project implemented a variety of build targets.
+All of them help to continuously check correctness of algorithm implementation, performance, memory management, etc.
+
+Launch of unit tests.
+The project contains unit tests to build and launch it performs the following steps:
 ```
+$ git clone https://github.com/saebyn/munkres-cpp.git
+$ cd munkres-cpp
 $ mkdir build && cd build
 $ cmake -DCMAKE_BUILD_TYPE=Debug ..
-$ make
+$ make tests
 $ tests/munkrestest
 ```
 
-Lunck code coverage analyze:  
+
+Lunch code coverage analyze.
+To get correct report unit tests must be compiled in debug mode.
 ```
-$ <build and lunch unit tests>  
+$ <build and lunch unit tests>
 $ make coverage
 $ firefox coverage/index.html &
 ```
 
-Lunch memory profiler:  
+
+Lunch memory profiler.
+As far unit tests call all functions which implement algorithm this is appropriate way to check memory management by using valgrind during performing unit tests.
 ```
-$ mkdir build && cd build
-$ cmake -DCMAKE_BUILD_TYPE=Debug ..
-$ make
+$ <build unit tests>
 $ valgrind tests/munkrestest
 ```
 
-Lunch microbenchmark tests:  
+
+Lunch microbenchmarks.
+Buildning microbenchmarks:
 ```
+$ git clone https://github.com/saebyn/munkres-cpp.git
+$ cd munkres-cpp
 $ mkdir build && cd build
 $ cmake -DCMAKE_BUILD_TYPE=Release ..
-$ make
+$ make benchmarks
+```
+To get comparable results it's required to generate data set wich will be used for all benchmarks:
+```
 $ benchmarks/tools/generator/matrixgenerator.bin {dim_1 dim_2 ... dim_n}
+```
+Where every ```dim_x``` parameter generate square matrix dith ```dim_x``` dimension.
+To launch microbenchmark performs any following command:
+```
 $ benchmarks/tests/munkresbenchmark_celero.bin
 $ benchmarks/tests/munkresbenchmark_google.bin
 $ benchmarks/tests/munkresbenchmark_hayai.bin
 $ benchmarks/tests/munkresbenchmark_rdtsc.bin
 ```
 
-Lunch static code analyze tests:  
+
+Lunch performance analyze.
+```
+$ <build microbenchmarks and generate data set>
+$ benchmarks/tests/munkresbenchmark_gprof.bin
+$ gprof benchmarks/tests/munkresbenchmark_gprof.bin gmon.out -p -b
+```
+
+
+Lunch static code analyze.
 ```
 $ make cppcheck
 ```
 
-Lunch performance analyze:  
-```
-$ mkdir build && cd build
-$ cmake -DCMAKE_BUILD_TYPE=Release ..
-$ make
-$ benchmarks/tools/generator/matrixgenerator.bin {dim_1 dim_2 ... dim_n}
-$ benchmarks/tests/munkresbenchmark_gprof.bin
-$ gprof benchmarks/tests/munkresbenchmark_gprof.bin gmon.out -p -b
-```  
 
-Lunch code formatter:  
-TBD  
+Lunch code formatter:
+TBD
+
 
 
 Bug reporting and work to be done
