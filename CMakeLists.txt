@@ -43,35 +43,38 @@ add_custom_target (example)
 add_dependencies  (example munkres.bin)
 
 
-# Enable the ExternalProject_Add directive.
-# Which used for getting external tools for the Project.
-include (ExternalProject)
+option (MUNKRESCPP_DEVEL_MODE "Configure project in development mode." OFF)
+if (MUNKRESCPP_DEVEL_MODE)
+    # Enable the ExternalProject_Add directive.
+    # Which used for getting external tools for the Project.
+    include (ExternalProject)
 
 
-# Testing
-add_subdirectory (tests)
+    # Testing
+    add_subdirectory (tests)
 
 
-# Benchmarking
-add_subdirectory (benchmarks)
+    # Benchmarking
+    add_subdirectory (benchmarks)
 
 
-# Custom target to build everything.
-add_custom_target  (full)
-add_dependencies (
-    full
-    munkres
-    example
-    tests
-    benchmarks
-)
+    # Custom target to build everything.
+    add_custom_target  (full)
+    add_dependencies (
+        full
+        munkres
+        example
+        tests
+        benchmarks
+    )
 
 
-# Static code analyse.
-set (CppCheck_REPORT ${PROJECT_BINARY_DIR}/cppcheck.report)
-add_custom_command (
-    OUTPUT  ${CppCheck_REPORT}
-    COMMAND cppcheck ${MunkresCppLib_SOURCES} ${MunkresCppBin_SOURCES} -I${PROJECT_SOURCE_DIR}/src -I${PROJECT_SOURCE_DIR} --enable=all --force --inconclusive > cppcheck.report 2>&1
-)
-add_custom_target  (cppcheck DEPENDS ${CppCheck_REPORT})
-set_directory_properties (PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES ${CppCheck_REPORT})
+    # Static code analyse.
+    set (CppCheck_REPORT ${PROJECT_BINARY_DIR}/cppcheck.report)
+    add_custom_command (
+        OUTPUT  ${CppCheck_REPORT}
+        COMMAND cppcheck ${MunkresCppLib_SOURCES} ${MunkresCppBin_SOURCES} -I${PROJECT_SOURCE_DIR}/src -I${PROJECT_SOURCE_DIR} --enable=all --force --inconclusive > cppcheck.report 2>&1
+    )
+    add_custom_target  (cppcheck DEPENDS ${CppCheck_REPORT})
+    set_directory_properties (PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES ${CppCheck_REPORT})
+endif ()

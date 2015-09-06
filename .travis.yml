@@ -18,7 +18,7 @@ before_script:
     - BUILD_DIR=`pwd`/build
     - mkdir -p ${BUILD_DIR}
     - cd ${BUILD_DIR}
-    - cmake -DCMAKE_BUILD_TYPE=Debug ${BUILD_DIR}/..
+    - cmake -DCMAKE_BUILD_TYPE=Debug -DMUNKRESCPP_DEVEL_MODE=ON ${BUILD_DIR}/..
 script:
     - cd ${BUILD_DIR}
     - make && make tests
