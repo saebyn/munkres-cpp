@@ -38,7 +38,7 @@ For development:
 Portability
 -----------
 
-The project is developed under the GNU/Linux OS with the gcc compiler and usualy not tested under other OSs and compilers.
+The project is developed under the GNU/Linux OS with the gcc compiler and usually not tested under other OSs and compilers.
 But the project does not use OS or compiler specific features (types, attributes, etc) so it's expected that the project will be normally work under other platforms.
 
 
@@ -110,8 +110,8 @@ $ cmake -DCMAKE_BUILD_TYPE=Release -DMUNKRESCPP_DEVEL_MODE=ON ..
 $ make benchmarks
 ```
 
-To get comparable results it's required to generate data set wich will be used for all benchmarks:
-```
+To get comparable results it's required to generate the data set wich will be used for all benchmarks:
+```
 $ benchmarks/tools/generator/matrixgenerator.bin {dim_1 dim_2 ... dim_n}
 ```
 Where every ```dim_x``` parameter generates a square matrix with ```dim_x``` dimension.
