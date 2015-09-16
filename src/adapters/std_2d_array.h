@@ -24,14 +24,14 @@
 
 
 // Set of functions for two-dimensional std::array.
-template <typename T, const unsigned int dimention>
-Matrix <T> convert_std_2d_array_to_munkres_matrix (const std::array <std::array <T, dimention>, dimention> & array);
+template <typename T, const unsigned int dimention1, const unsigned int dimention2>
+Matrix <T> convert_std_2d_array_to_munkres_matrix (const std::array <std::array <T, dimention2>, dimention1> & array);
 
-template <typename T, const unsigned int dimention>
-void fill_std_2d_array_from_munkres_matrix (std::array <std::array <T, dimention>, dimention> & array, const Matrix <T> & matrix);
+template <typename T, const unsigned int dimention1, const unsigned int dimention2>
+void fill_std_2d_array_from_munkres_matrix (std::array <std::array <T, dimention2>, dimention1> & array, const Matrix <T> & matrix);
 
-template <const unsigned int dimension>
-void solve(std::array <std::array <double, dimension>, dimension> &m);
+template <const unsigned int dimention1, const unsigned int dimention2>
+void solve(std::array <std::array <double, dimention2>, dimention1> &m);
 
 #ifndef USE_EXPORT_KEYWORD
 #include "std_2d_array.cpp"

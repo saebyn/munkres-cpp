@@ -27,7 +27,7 @@ TEST_F (Adapters_std_2d_array_Test, convert_std_2d_array_to_munkres_matrix_Succe
   };
 
   // Act.
-  const auto test_matrix = convert_std_2d_array_to_munkres_matrix <double, test_array.size ()> (test_array);
+  const auto test_matrix = convert_std_2d_array_to_munkres_matrix <double, test_array.size(), test_array.size()> (test_array);
 
   // Assert.
   for (unsigned int row = 0; row < dimension; ++row) {
@@ -37,7 +37,30 @@ TEST_F (Adapters_std_2d_array_Test, convert_std_2d_array_to_munkres_matrix_Succe
   }
 }
 
+TEST_F (Adapters_std_2d_array_Test, convert_non_square_std_2d_array_to_munkres_matrix_Success)
+{
+  // Arrange.
+  constexpr unsigned int dimension1 {2};
+  constexpr unsigned int dimension2 {3};
+  const std::array <std::array <double, dimension2>, dimension1> test_array {{
+    {1, 2, 3},
+    {4, 5, 6}
+  }};
+  const Matrix <double> etalon_matrix {
+    {1, 2, 3},
+    {4, 5, 6}
+  };
 
+  // Act.
+  const auto test_matrix = convert_std_2d_array_to_munkres_matrix <double, test_array.size(), test_array[0].size()> (test_array);
+
+  // Assert.
+  for (unsigned int row = 0; row < dimension1; ++row) {
+    for (unsigned int col = 0; col < dimension2; ++col) {
+      EXPECT_EQ (etalon_matrix (row, col), test_matrix (row, col) );
+    }
+  }
+}
 
 TEST_F (Adapters_std_2d_array_Test, fill_std_2d_array_from_munkres_matrix_Success)
 {
@@ -60,7 +83,7 @@ TEST_F (Adapters_std_2d_array_Test, fill_std_2d_array_from_munkres_matrix_Succes
   };
 
   // Act.
-  fill_std_2d_array_from_munkres_matrix <double, dimension> (test_array, etalon_matrix);
+  fill_std_2d_array_from_munkres_matrix <double, dimension, dimension> (test_array, etalon_matrix);
 
   // Assert.
   for (unsigned int row = 0; row < dimension; ++row) {
@@ -70,7 +93,34 @@ TEST_F (Adapters_std_2d_array_Test, fill_std_2d_array_from_munkres_matrix_Succes
   }
 }
 
+TEST_F (Adapters_std_2d_array_Test, fill_non_square_std_2d_array_from_munkres_matrix_Success)
+{
+  // Arrange.
+    constexpr unsigned int dimension1 {2};
+    constexpr unsigned int dimension2 {3};
+  std::array <std::array <double, dimension2>, dimension1> test_array {{
+    {0, 0, 0},
+    {0, 0, 0}
+  }};
+  const std::array <std::array <double, dimension2>, dimension1> etalon_array {{
+    {1, 2, 3},
+    {4, 5, 6}
+  }};
+  const Matrix <double> etalon_matrix {
+    {1, 2, 3},
+    {4, 5, 6}
+  };
 
+  // Act.
+  fill_std_2d_array_from_munkres_matrix <double, dimension1, dimension2> (test_array, etalon_matrix);
+
+  // Assert.
+  for (unsigned int row = 0; row < dimension1; ++row) {
+    for (unsigned int col = 0; col < dimension2; ++col) {
+      EXPECT_EQ (etalon_array [row][col], test_array [row][col]);
+    }
+  }
+}
 
 TEST_F (Adapters_std_2d_array_Test, solve_std_2d_array_Success)
 {
@@ -88,7 +138,7 @@ TEST_F (Adapters_std_2d_array_Test, solve_std_2d_array_Success)
   }};
 
   // Act.
-  solve <dimension> (test_array);
+  solve <dimension, dimension> (test_array);
 
   // Assert.
   for (unsigned int row = 0; row < dimension; ++row) {
