@@ -1,0 +1,34 @@
+language: cpp
+sudo: false
+compiler: gcc
+install:
+    - if [ "$CXX" = "g++" ]; then export CXX="g++-4.8"; fi
+addons:
+    apt:
+        sources:
+            - ubuntu-toolchain-r-test
+            - boost-latest
+            - kalakris-cmake
+        packages:
+            - g++-4.8
+            - gcov-4.8
+            - cmake
+            - libboost1.55-all-dev
+before_script:
+    - BUILD_DIR=`pwd`/build
+    - mkdir -p ${BUILD_DIR}
+    - cd ${BUILD_DIR}
+    - cmake -DCMAKE_BUILD_TYPE=Debug -DMUNKRESCPP_DEVEL_MODE=ON ${BUILD_DIR}/..
+script:
+    - cd ${BUILD_DIR}
+    - make && make tests
+    - cd ${BUILD_DIR}/tests && ./munkrestest > /dev/null
+after_success:
+    - cd ${BUILD_DIR}
+    - mkdir coverage
+    - cp -v ../src/*.cpp coverage
+    - mv tests/CMakeFiles/munkrestest.dir/__/src/*.gcda coverage
+    - mv tests/CMakeFiles/munkrestest.dir/__/src/*.gcno coverage
+    - cd coverage
+    - find . -type f -name '*.gcda' -exec gcov-4.8 {} +
+    - bash <(curl -s https://codecov.io/bash)

@@ -1,59 +1,80 @@
 # Common variables.
-CMAKE_MINIMUM_REQUIRED  (VERSION 2.8)
-PROJECT                 (MunkresCpp)
-SET (MunkresCpp_VERSION_MAJOR 0)
-SET (MunkresCpp_VERSION_MINOR 1)
-SET (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake")
+cmake_minimum_required  (VERSION 2.8)
+project                 (munkres-cpp)
+set (munkres-cpp_VERSION_MAJOR 2)
+set (munkres-cpp_VERSION_MINOR 0)
 
+set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra")
+set (CMAKE_CXX_FLAGS_DEBUG   "${CMAKE_CXX_FLAGS} -O0 -ggdb3 -DDEBUG")
+set (CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -O3")
 
-IF (${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
-    MESSAGE (FATAL_ERROR "Prevented in-tree build. This is bad practice.")
-ENDIF (${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
+include_directories (${PROJECT_SOURCE_DIR}/src)
 
+# Sources.
+set (
+    MunkresCppLib_SOURCES
+    ${PROJECT_SOURCE_DIR}/src/munkres.cpp
+)
 
-SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
-SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wmissing-include-dirs -Wundef -Wfloat-equal -Wshadow -Wunsafe-loop-optimizations")
-SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wdouble-promotion -Winit-self -Wvector-operation-performance -Wnoexcept -Weffc++ -Wstrict-null-sentinel")
-SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Woverloaded-virtual -Wsign-promo")
-SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wvla -Winvalid-pch -Winline -Wredundant-decls")
-SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wlogical-op -Wcast-align")
-SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wcast-qual -Wpointer-arith -Wtrampolines")
-SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wold-style-cast")
-SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wzero-as-null-pointer-constant")
-SET (CMAKE_CXX_FLAGS_DEBUG   "${CMAKE_CXX_FLAGS} -O0 -ggdb3 -DDEBUG")
-SET (CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -O3")
-
-
-INCLUDE_DIRECTORIES (${PROJECT_SOURCE_DIR}/src)
-
+# Headers.
+set (
+    MunkresCppLib_HEADERS
+    ${PROJECT_SOURCE_DIR}/src/matrix.h
+    ${PROJECT_SOURCE_DIR}/src/matrix.cpp
+    ${PROJECT_SOURCE_DIR}/src/munkres.h
+)
 
 # Library.
-SET (MunkresCppLib_SOURCES ${PROJECT_SOURCE_DIR}/src/munkres.cpp)
-ADD_LIBRARY (munkres SHARED STATIC ${MunkresCppLib_SOURCES})
+add_library (
+    munkres STATIC
+    ${MunkresCppLib_SOURCES}
+)
+
+install (TARGETS munkres                DESTINATION lib     PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ)
+install (FILES ${MunkresCppLib_HEADERS} DESTINATION include PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ)
 
 
 # Binary example
-SET (MunkresCppBin_SOURCES ${PROJECT_SOURCE_DIR}/examples/main.cpp)
-ADD_EXECUTABLE (munkres.bin ${MunkresCppBin_SOURCES})
-TARGET_LINK_LIBRARIES (munkres.bin munkres)
+set (MunkresCppBin_SOURCES ${PROJECT_SOURCE_DIR}/examples/main.cpp)
+add_executable (munkres.bin EXCLUDE_FROM_ALL ${MunkresCppBin_SOURCES})
+target_link_libraries (munkres.bin munkres)
+add_custom_target (example)
+add_dependencies  (example munkres.bin)
 
 
-# Static code analyse.
-SET (CppCheck_REPORT ${PROJECT_BINARY_DIR}/cppcheck.report)
-ADD_CUSTOM_COMMAND (
-    OUTPUT  ${CppCheck_REPORT}
-    COMMAND cppcheck ${MunkresCppLib_SOURCES} ${MunkresCppBin_SOURCES} -I${PROJECT_SOURCE_DIR}/src -I${PROJECT_SOURCE_DIR} --enable=all --force --inconclusive &>cppcheck.report
-)
-ADD_CUSTOM_TARGET  (cppcheck DEPENDS ${CppCheck_REPORT})
-SET_DIRECTORY_PROPERTIES (PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES ${CppCheck_REPORT})
+option (MUNKRESCPP_DEVEL_MODE "Configure project in development mode." OFF)
+if (MUNKRESCPP_DEVEL_MODE)
+    # Enable the ExternalProject_Add directive.
+    # Which used for getting external tools for the Project.
+    include (ExternalProject)
 
 
-# Testing
-FIND_PACKAGE (GTest)
-IF (GTEST_FOUND)
-    ADD_SUBDIRECTORY (tests)
-ENDIF ()
+    # Testing
+    add_subdirectory (tests)
 
 
-# Benchmarking
-ADD_SUBDIRECTORY (benchmarks)
+    # Benchmarking
+    add_subdirectory (benchmarks)
+
+
+    # Custom target to build everything.
+    add_custom_target  (full)
+    add_dependencies (
+        full
+        munkres
+        example
+        tests
+        benchmarks
+    )
+
+
+    # Static code analyse.
+    set (CppCheck_REPORT ${PROJECT_BINARY_DIR}/cppcheck.report)
+    add_custom_command (
+        OUTPUT  ${CppCheck_REPORT}
+        COMMAND cppcheck ${MunkresCppLib_SOURCES} ${MunkresCppBin_SOURCES} -I${PROJECT_SOURCE_DIR}/src -I${PROJECT_SOURCE_DIR} --enable=all --force --inconclusive > cppcheck.report 2>&1
+    )
+    add_custom_target  (cppcheck DEPENDS ${CppCheck_REPORT})
+    set_directory_properties (PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES ${CppCheck_REPORT})
+endif ()
