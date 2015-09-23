@@ -1,5 +1,4 @@
 /*
- *   Copyright (c) 2007 John Weaver
  *   Copyright (c) 2015 Miroslav Krajicek
  *
  *   This program is free software; you can redistribute it and/or modify
@@ -17,9 +16,25 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
  */
 
+#ifndef _ADAPTER_H_
+#define _ADAPTER_H_
+
+#include "matrix.h"
 #include "munkres.h"
 
-template class Munkres<double>;
-template class Munkres<float>;
-template class Munkres<int>;
+template<typename Data, class Container > class Adapter
+{
+public:
+    virtual Matrix<Data> convertToMatrix(const Container &con) const = 0;
+    virtual void convertFromMatrix(Container &con, const Matrix<Data> &matrix) const = 0;
+    virtual void solve(Container &con)
+    {
+        auto matrix = convertToMatrix(con);
+        m_munkres.solve(matrix);
+        convertFromMatrix(con, matrix);
+    }
+protected:
+    Munkres<Data> m_munkres;
+};
 
+#endif /* _ADAPTER_H_ */

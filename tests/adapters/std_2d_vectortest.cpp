@@ -1,13 +1,11 @@
 #include <gtest/gtest.h>
-#include "adapters/std_2d_vector.h"
+#include "adapters/std2dvectordapter.h"
 
 
 
 class Adapters_std_2d_vector_Test : public ::testing::Test
 {
 };
-
-
 
 TEST_F (Adapters_std_2d_vector_Test, convert_std_2d_vector_to_munkres_matrix_Success)
 {
@@ -24,8 +22,10 @@ TEST_F (Adapters_std_2d_vector_Test, convert_std_2d_vector_to_munkres_matrix_Suc
     {7, 8, 9}
   };
 
+  Std2dVectorAdapter<double> adapter;
+
   // Act.
-  const auto test_matrix = convert_std_2d_vector_to_munkres_matrix <double> (test_vector);
+  const auto test_matrix = adapter.convertToMatrix(test_vector);
 
   // Assert.
   for (unsigned int row = 0; row < dimension; ++row) {
@@ -49,8 +49,10 @@ TEST_F (Adapters_std_2d_vector_Test, convert_non_square_std_2d_vector_to_munkres
     {4, 5, 6}
   };
 
+  Std2dVectorAdapter<double> adapter;
+
   // Act.
-  const auto test_matrix = convert_std_2d_vector_to_munkres_matrix <double> (test_vector);
+  const auto test_matrix = adapter.convertToMatrix(test_vector);
 
   // Assert.
   for (unsigned int row = 0; row < dimension1; ++row) {
@@ -80,8 +82,10 @@ TEST_F (Adapters_std_2d_vector_Test, fill_std_2d_vector_from_munkres_matrix_Succ
     {7, 8, 9}
   };
 
+  Std2dVectorAdapter<double> adapter;
+
   // Act.
-  fill_std_2d_vector_from_munkres_matrix <double> (test_vector, etalon_matrix);
+  adapter.convertFromMatrix(test_vector, etalon_matrix);
 
   // Assert.
   for (unsigned int row = 0; row < dimension; ++row) {
@@ -109,8 +113,10 @@ TEST_F (Adapters_std_2d_vector_Test, fill_non_square_std_2d_vector_from_munkres_
     {4, 5, 6}
   };
 
+  Std2dVectorAdapter<double> adapter;
+
   // Act.
-  fill_std_2d_vector_from_munkres_matrix <double> (test_vector, etalon_matrix);
+  adapter.convertFromMatrix(test_vector, etalon_matrix);
 
   // Assert.
   for (unsigned int row = 0; row < dimension1; ++row) {
@@ -135,8 +141,10 @@ TEST_F (Adapters_std_2d_vector_Test, solve_std_2d_vector_Success)
     {1.0,  1.0,  0.0}
   }};
 
+  Std2dVectorAdapter<double> adapter;
+
   // Act.
-  solve (test_vector);
+  adapter.solve (test_vector);
 
   // Assert.
   for (unsigned int row = 0; row < dimension; ++row) {

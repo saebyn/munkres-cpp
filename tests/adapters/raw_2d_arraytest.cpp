@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "adapters/raw_2d_array.h"
+#include "adapters/"
 #include <iostream>
 #include <iomanip>
 

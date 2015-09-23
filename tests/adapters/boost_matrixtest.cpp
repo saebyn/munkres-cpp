@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "adapters/boost_matrix.h"
+#include "adapters/boostmatrixadapter.h"
 #include <iostream>
 #include <iomanip>
 
@@ -28,8 +28,10 @@ TEST_F (Adapters_boost_matrix_Test, convert_boost_matrix_to_munkres_matrix_Succe
     {7, 8, 9}
   };
 
+  BoostMatrixAdapter<double> adapter;
+
   // Act.
-  const auto test_matrix = convert_boost_matrix_to_munkres_matrix <double> (test_boost_matrix);
+  const auto test_matrix = adapter.convertToMatrix(test_boost_matrix);
 
   // Assert.
   for (unsigned int row = 0; row < dimension; ++row) {
@@ -54,8 +56,10 @@ TEST_F (Adapters_boost_matrix_Test, convert_non_square_boost_matrix_to_munkres_m
     {4, 5, 6}
   };
 
+  BoostMatrixAdapter<double> adapter;
+
   // Act.
-  const auto test_matrix = convert_boost_matrix_to_munkres_matrix <double> (test_boost_matrix);
+  const auto test_matrix = adapter.convertToMatrix(test_boost_matrix);
 
   // Assert.
   for (unsigned int row = 0; row < dimension1; ++row) {
@@ -91,8 +95,10 @@ TEST_F (Adapters_boost_matrix_Test, fill_boost_matrix_from_munkres_matrix_Succes
     {7, 8, 9}
   };
 
+  BoostMatrixAdapter<double> adapter;
+
   // Act.
-  fill_boost_matrix_from_munkres_matrix <double> (test_boost_matrix, etalon_matrix);
+  adapter.convertFromMatrix(test_boost_matrix, etalon_matrix);
 
   // Assert.
   for (unsigned int row = 0; row < dimension; ++row) {
@@ -124,8 +130,10 @@ TEST_F (Adapters_boost_matrix_Test, fill_non_square_boost_matrix_from_munkres_ma
     {4, 5, 6}
   };
 
+  BoostMatrixAdapter<double> adapter;
+
   // Act.
-  fill_boost_matrix_from_munkres_matrix <double> (test_boost_matrix, etalon_matrix);
+  adapter.convertFromMatrix(test_boost_matrix, etalon_matrix);
 
   // Assert.
   for (unsigned int row = 0; row < dimension1; ++row) {
@@ -155,8 +163,10 @@ TEST_F (Adapters_boost_matrix_Test, solve_boost_matrix_Success)
   test_boost_matrix (1, 0) = 0.0; test_boost_matrix (1, 1) = 1.0; test_boost_matrix (1, 2) = 1.0;
   test_boost_matrix (2, 0) = 1.0; test_boost_matrix (2, 1) = 1.0; test_boost_matrix (2, 2) = 0.0;
 
+  BoostMatrixAdapter<double> adapter;
+
   // Act.
-  solve (test_boost_matrix);
+  adapter.solve(test_boost_matrix);
 
   // Assert.
   for (unsigned int row = 0; row < dimension; ++row) {

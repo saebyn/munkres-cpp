@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "adapters/std_2d_array.h"
+#include "adapters/std2darrayadapter.h"
 #include <iostream>
 #include <iomanip>
 
@@ -26,8 +26,10 @@ TEST_F (Adapters_std_2d_array_Test, convert_std_2d_array_to_munkres_matrix_Succe
     {7, 8, 9}
   };
 
+  Std2dArrayAdapter<double,test_array.size(),test_array.size()> adapter;
+
   // Act.
-  const auto test_matrix = convert_std_2d_array_to_munkres_matrix <double, test_array.size(), test_array.size()> (test_array);
+  const auto test_matrix = adapter.convertToMatrix(test_array);
 
   // Assert.
   for (unsigned int row = 0; row < dimension; ++row) {
@@ -51,8 +53,10 @@ TEST_F (Adapters_std_2d_array_Test, convert_non_square_std_2d_array_to_munkres_m
     {4, 5, 6}
   };
 
+  Std2dArrayAdapter<double,test_array.size(),test_array[0].size()> adapter;
+
   // Act.
-  const auto test_matrix = convert_std_2d_array_to_munkres_matrix <double, test_array.size(), test_array[0].size()> (test_array);
+  const auto test_matrix = adapter.convertToMatrix(test_array);
 
   // Assert.
   for (unsigned int row = 0; row < dimension1; ++row) {
@@ -82,8 +86,10 @@ TEST_F (Adapters_std_2d_array_Test, fill_std_2d_array_from_munkres_matrix_Succes
     {7, 8, 9}
   };
 
+  Std2dArrayAdapter<double,test_array.size(),test_array.size()> adapter;
+
   // Act.
-  fill_std_2d_array_from_munkres_matrix <double, dimension, dimension> (test_array, etalon_matrix);
+  adapter.convertFromMatrix(test_array, etalon_matrix);
 
   // Assert.
   for (unsigned int row = 0; row < dimension; ++row) {
@@ -111,8 +117,10 @@ TEST_F (Adapters_std_2d_array_Test, fill_non_square_std_2d_array_from_munkres_ma
     {4, 5, 6}
   };
 
+  Std2dArrayAdapter<double,test_array.size(),dimension2> adapter;
+
   // Act.
-  fill_std_2d_array_from_munkres_matrix <double, dimension1, dimension2> (test_array, etalon_matrix);
+  adapter.convertFromMatrix(test_array, etalon_matrix);
 
   // Assert.
   for (unsigned int row = 0; row < dimension1; ++row) {
@@ -137,8 +145,10 @@ TEST_F (Adapters_std_2d_array_Test, solve_std_2d_array_Success)
     {1.0,  1.0,  0.0}
   }};
 
+  Std2dArrayAdapter<double,test_array.size(),test_array.size()> adapter;
+
   // Act.
-  solve <dimension, dimension> (test_array);
+  adapter.solve(test_array);
 
   // Assert.
   for (unsigned int row = 0; row < dimension; ++row) {
