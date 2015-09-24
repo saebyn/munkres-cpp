@@ -51,7 +51,7 @@ public:
                 size = std::max(rows, columns);
 
 #ifdef DEBUG
-        std::cout << "Munkres input: " m << std::endl;
+        std::cout << "Munkres input: " << m << std::endl;
 #endif
 
         // Copy input matrix
