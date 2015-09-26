@@ -36,7 +36,7 @@ main(int argc, char *argv[]) {
 	if ( argc == 3 ) {
 		nrows = atoi(argv[1]);
 		ncols = atoi(argv[2]);
-    }
+	}
 
 	Matrix<double> matrix(nrows, ncols);
 	
@@ -60,7 +60,7 @@ main(int argc, char *argv[]) {
 	std::cout << std::endl;
 
 	// Apply Munkres algorithm to matrix.
-    Munkres<double> m;
+	Munkres<double> m;
 	m.solve(matrix);
 
 	// Display solved matrix.
