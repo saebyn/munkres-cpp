@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2007 John Weaver
+ *   Copyright (c) 2015 Miroslav Krajicek
  *
  *   This program is free software; you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -16,25 +16,8 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
  */
 
-#if !defined(_MUNKRES_ADAPTERS_BOOST_MATRIX_H_)
-#define _MUNKRES_ADAPTERS_BOOST_MATRIX_H_
+#include "boostmatrixadapter.h"
 
-#include "matrix.h"
-#include <boost/numeric/ublas/matrix.hpp>
-
-
-// Set of functions for boost matrix.
-template <typename T>
-Matrix <T> convert_boost_matrix_to_munkres_matrix (const boost::numeric::ublas::matrix <T> &);
-
-template <typename T>
-void fill_boost_matrix_from_munkres_matrix (boost::numeric::ublas::matrix <T> & boost_matrix, const Matrix <T> &);
-
-void solve(boost::numeric::ublas::matrix <double> &);
-
-#ifndef USE_EXPORT_KEYWORD
-#include "boost_matrix.cpp"
-//#define export /*export*/
-#endif
-
-#endif /* !defined(_MUNKRES_ADAPTERS_BOOST_MATRIX_H_) */
+template class BoostMatrixAdapter<double>;
+template class BoostMatrixAdapter<float>;
+template class BoostMatrixAdapter<int>;

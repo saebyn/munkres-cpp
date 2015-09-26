@@ -10,6 +10,7 @@ set (CMAKE_CXX_FLAGS_DEBUG   "${CMAKE_CXX_FLAGS} -O0 -ggdb3 -DDEBUG")
 set (CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -O3")
 
 include_directories (${PROJECT_SOURCE_DIR}/src)
+include_directories (${PROJECT_SOURCE_DIR}/src/adapters)
 
 # Sources.
 set (
@@ -23,7 +24,10 @@ set (
     ${PROJECT_SOURCE_DIR}/src/matrix.h
     ${PROJECT_SOURCE_DIR}/src/matrix.cpp
     ${PROJECT_SOURCE_DIR}/src/munkres.h
+
 )
+
+add_subdirectory(${PROJECT_SOURCE_DIR}/src/adapters)
 
 # Library.
 add_library (
@@ -32,7 +36,7 @@ add_library (
 )
 
 install (TARGETS munkres                DESTINATION lib     PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ)
-install (FILES ${MunkresCppLib_HEADERS} DESTINATION include PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ)
+install (FILES ${MunkresCppLib_HEADERS} DESTINATION include/munkres PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ)
 
 
 # Binary example
@@ -42,8 +46,7 @@ target_link_libraries (munkres.bin munkres)
 add_custom_target (example)
 add_dependencies  (example munkres.bin)
 
-
-option (MUNKRESCPP_DEVEL_MODE "Configure project in development mode." OFF)
+option(MUNKRESCPP_DEVEL_MODE "Configure project in development mode." OFF)
 if (MUNKRESCPP_DEVEL_MODE)
     # Enable the ExternalProject_Add directive.
     # Which used for getting external tools for the Project.
@@ -68,6 +71,9 @@ if (MUNKRESCPP_DEVEL_MODE)
         benchmarks
     )
 
+    # celero needs curses library
+    #find_package(Curses)
+    #include_directories(${CURSES_INCLUDE_DIR})
 
     # Static code analyse.
     set (CppCheck_REPORT ${PROJECT_BINARY_DIR}/cppcheck.report)
@@ -77,4 +83,4 @@ if (MUNKRESCPP_DEVEL_MODE)
     )
     add_custom_target  (cppcheck DEPENDS ${CppCheck_REPORT})
     set_directory_properties (PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES ${CppCheck_REPORT})
-endif ()
+endif (MUNKRESCPP_DEVEL_MODE)

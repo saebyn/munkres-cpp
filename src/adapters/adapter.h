@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2007 John Weaver
+ *   Copyright (c) 2015 Miroslav Krajicek
  *
  *   This program is free software; you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -16,26 +16,25 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
  */
 
-#if !defined(_MUNKRES_ADAPTERS_RAW_2D_ARRAY_H_)
-#define _MUNKRES_ADAPTERS_RAW_2D_ARRAY_H_
+#ifndef _ADAPTER_H_
+#define _ADAPTER_H_
 
 #include "matrix.h"
-#include <array>
+#include "munkres.h"
 
+template<typename Data, class Container > class Adapter
+{
+public:
+    virtual Matrix<Data> convertToMatrix(const Container &con) const = 0;
+    virtual void convertFromMatrix(Container &con, const Matrix<Data> &matrix) const = 0;
+    virtual void solve(Container &con)
+    {
+        auto matrix = convertToMatrix(con);
+        m_munkres.solve(matrix);
+        convertFromMatrix(con, matrix);
+    }
+protected:
+    Munkres<Data> m_munkres;
+};
 
-// Set of functions for two-dimensional raw (C-style) array.
-template <typename T, const unsigned int dimention>
-Matrix <T> convert_raw_2d_array_to_munkres_matrix (const T array [dimention][dimention]);
-
-template <typename T, const unsigned int dimention>
-void fill_raw_2d_array_from_munkres_matrix (T array [dimention][dimention], const Matrix <T> & matrix);
-
-template <const unsigned int dimension>
-void solve(double m [dimension][dimension]);
-
-#ifndef USE_EXPORT_KEYWORD
-#include "raw_2d_array.cpp"
-//#define export /*export*/
-#endif
-
-#endif /* !defined(_MUNKRES_ADAPTERS_RAW_2D_ARRAY_H_) */
+#endif /* _ADAPTER_H_ */

@@ -4,14 +4,6 @@
 #include <iostream>
 #include <iomanip>
 
-
-
-// Forward declaration.
-void replace_infinites(Matrix<double> &matrix);
-void minimize_along_direction(Matrix<double> &matrix, bool over_columns);
-
-
-
 class MunkresTest : public ::testing::Test
 {
     protected:
@@ -101,7 +93,7 @@ TEST_F (MunkresTest, replace_infinites_4x4Case001_Success)
   };
 
   // Act.
-  replace_infinites (test_matrix);
+  Munkres<double>::replace_infinites (test_matrix);
 
   // Assert.
   EXPECT_EQ (etalon_matrix, test_matrix);
@@ -127,7 +119,7 @@ TEST_F (MunkresTest, replace_infinites_4x4Case002_Success)
   };
 
   // Act.
-  replace_infinites (test_matrix);
+  Munkres<double>::replace_infinites(test_matrix);
 
   // Assert.
   EXPECT_EQ (etalon_matrix, test_matrix);
@@ -153,7 +145,7 @@ TEST_F (MunkresTest, replace_infinites_4x4Case003_Success)
   };
 
   // Act.
-  replace_infinites (test_matrix);
+  Munkres<double>::replace_infinites (test_matrix);
 
   // Assert.
   EXPECT_EQ (etalon_matrix, test_matrix);
@@ -179,7 +171,7 @@ TEST_F (MunkresTest, replace_infinites_4x4Case004_Success)
   };
 
   // Act.
-  replace_infinites (test_matrix);
+  Munkres<double>::replace_infinites (test_matrix);
 
   // Assert.
   EXPECT_EQ (etalon_matrix, test_matrix);
@@ -205,7 +197,7 @@ TEST_F (MunkresTest, replace_infinites_4x4Case005_Success)
   };
 
   // Act.
-  replace_infinites (test_matrix);
+  Munkres<double>::replace_infinites (test_matrix);
 
   // Assert.
   EXPECT_EQ (etalon_matrix, test_matrix);
@@ -232,7 +224,7 @@ TEST_F (MunkresTest, minimize_along_direction_5x5_OverRowsOnly_Success)
   };
 
   // Act.
-  minimize_along_direction(test_matrix, false);
+  Munkres<double>::minimize_along_direction(test_matrix, false);
 
   // Assert.
   EXPECT_EQ (etalon_matrix, test_matrix);
@@ -259,7 +251,7 @@ TEST_F (MunkresTest, minimize_along_direction_5x5_OverColumnsOnly_Success)
   };
 
   // Act.
-  minimize_along_direction(test_matrix, true);
+  Munkres<double>::minimize_along_direction(test_matrix, true);
 
   // Assert.
   EXPECT_EQ (etalon_matrix, test_matrix);
@@ -286,8 +278,8 @@ TEST_F (MunkresTest, minimize_along_direction_5x5_OverRowsAndColumns_Success)
   };
 
   // Act.
-  minimize_along_direction(test_matrix, false);
-  minimize_along_direction(test_matrix, true);
+  Munkres<double>::minimize_along_direction(test_matrix, false);
+  Munkres<double>::minimize_along_direction(test_matrix, true);
 
   // Assert.
   EXPECT_EQ (etalon_matrix, test_matrix);
@@ -299,7 +291,7 @@ TEST_F (MunkresTest, solve_5x5_IsSingleSolution_Success)
 {
     // Arrange.
     Matrix<double> matrix = generateRandomMatrix(5, 5);
-    Munkres munkres;
+    Munkres<double> munkres;
 
     // Act.
     munkres.solve(matrix);
@@ -314,7 +306,7 @@ TEST_F (MunkresTest, solve_10x10_IsSingleSolution_Success)
 {
     // Arrange.
   Matrix<double> matrix = generateRandomMatrix(10, 10);
-  Munkres munkres;
+  Munkres<double> munkres;
 
     // Act.
   munkres.solve(matrix);
@@ -329,7 +321,7 @@ TEST_F (MunkresTest, solve_50x50_IsSingleSolution_Success)
 {
     // Arrange.
   Matrix<double> matrix = generateRandomMatrix(50, 50);
-  Munkres munkres;
+  Munkres<double> munkres;
 
     // Act.
   munkres.solve(matrix);
@@ -344,7 +336,7 @@ TEST_F (MunkresTest, solve_100x100_IsSingleSolution_Success)
 {
     // Arrange.
   Matrix<double> matrix = generateRandomMatrix(100, 100);
-  Munkres munkres;
+  Munkres<double> munkres;
 
     // Act.
   munkres.solve(matrix);
@@ -359,7 +351,7 @@ TEST_F (MunkresTest, solve_200x200_IsSingleSolution_Success)
 {
     // Arrange.
   Matrix<double> matrix = generateRandomMatrix(200, 200);
-  Munkres munkres;
+  Munkres<double> munkres;
 
     // Act.
   munkres.solve(matrix);
@@ -374,7 +366,7 @@ TEST_F (MunkresTest, solve_10x10_IsValideOutput_Success)
 {
   // Arrange.
   Matrix<double> matrix = generateRandomMatrix(10, 10);
-  Munkres munkres;
+  Munkres<double> munkres;
 
   // Act.
   munkres.solve(matrix);
@@ -395,7 +387,7 @@ TEST_F (MunkresTest, solve_1x1_ObviousSolution_Success)
     {0.0}
   };
 
-  Munkres munkres;
+  Munkres<double> munkres;
 
   // Act.
   munkres.solve(test_matrix);
@@ -418,7 +410,7 @@ TEST_F (MunkresTest, solve_2x2_ObviousSolution_Success)
     {0.0,  1.0}
   };
 
-  Munkres munkres;
+  Munkres<double> munkres;
 
   // Act.
   munkres.solve(test_matrix);
@@ -443,7 +435,7 @@ TEST_F (MunkresTest, solve_3x3_ObviousSolution_Success)
     {1.0,  1.0,  0.0}
   };
 
-  Munkres munkres;
+  Munkres<double> munkres;
 
   // Act.
   munkres.solve(test_matrix);
@@ -468,7 +460,7 @@ TEST_F (MunkresTest, solve_3x2_NonObviousSolutionCase001_Success)
     {9.0,  9.0}
   };
 
-  Munkres munkres;
+  Munkres<double> munkres;
 
   // Act.
   munkres.solve(test_matrix);
@@ -493,7 +485,7 @@ TEST_F (MunkresTest, solve_3x3_NonObviousSolutionCase001_Success)
     {9.0,  9.0,  0.0}
   };
 
-  Munkres munkres;
+  Munkres<double> munkres;
 
   // Act.
   munkres.solve(test_matrix);
@@ -518,7 +510,7 @@ TEST_F (MunkresTest, solve_3x3_NonObviousSolutionCase002_Success)
     {3.0,  4.0,  9.0}
   };
 
-  Munkres munkres;
+  Munkres<double> munkres;
 
   // Act.
   munkres.solve(test_matrix);
@@ -546,7 +538,7 @@ TEST_F (MunkresTest, solve_3x3_IsValide_Fail)
     {1.0,  1.0,  0.0}
   };
 
-  Munkres munkres;
+  Munkres<double> munkres;
 
   // Act.
   munkres.solve(test_matrix);

@@ -16,11 +16,12 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
  */
 
-#if !defined(_MATRIX_H_)
+#ifndef _MATRIX_H_
 #define _MATRIX_H_
 
 #include <initializer_list>
 #include <cstdlib>
+#include <ostream>
 
 template <class T>
 class Matrix {
@@ -38,15 +39,25 @@ public:
   const T& operator () (const size_t x, const size_t y) const;
   const T min() const;
   const T max() const;
-  inline size_t minsize() {
-    return ((m_rows < m_columns) ? m_rows : m_columns);
+  inline size_t minsize() { return ((m_rows < m_columns) ? m_rows : m_columns); }
+  inline size_t columns() const { return m_columns;}
+  inline size_t rows() const { return m_rows;}
+
+  friend std::ostream& operator<<(std::ostream& os, const Matrix &matrix)
+  {
+      os << "Matrix:" << std::endl;
+      for (size_t row = 0 ; row < matrix.rows() ; row++ )
+      {
+          for (size_t col = 0 ; col < matrix.columns() ; col++ )
+          {
+              os.width(8);
+              os << matrix(row, col) << ",";
+          }
+          os << std::endl;
+      }
+      return os;
   }
-  inline size_t columns() const {
-    return m_columns;
-  }
-  inline size_t rows() const {
-    return m_rows;
-  }
+
 private:
   T **m_matrix;
   size_t m_rows;

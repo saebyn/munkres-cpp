@@ -26,6 +26,7 @@
 #include <ctime>
 
 #include "munkres.h"
+#include "adapters/boostmatrixadapter.h"
 
 int
 main(int argc, char *argv[]) {
@@ -35,8 +36,8 @@ main(int argc, char *argv[]) {
 	if ( argc == 3 ) {
 		nrows = atoi(argv[1]);
 		ncols = atoi(argv[2]);
-	}
-	
+    }
+
 	Matrix<double> matrix(nrows, ncols);
 	
 	srandom(time(nullptr)); // Seed random number generator.
@@ -59,7 +60,7 @@ main(int argc, char *argv[]) {
 	std::cout << std::endl;
 
 	// Apply Munkres algorithm to matrix.
-	Munkres m;
+    Munkres<double> m;
 	m.solve(matrix);
 
 	// Display solved matrix.
