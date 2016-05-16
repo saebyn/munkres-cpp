@@ -411,8 +411,8 @@ Munkres::solve(Matrix<double> &m) {
   // than the maximum value in the matrix.
   replace_infinites(matrix);
 
-  minimize_along_direction(matrix, false);
-  minimize_along_direction(matrix, true);
+  minimize_along_direction(matrix, rows >= columns);
+  minimize_along_direction(matrix, rows <  columns);
 
   // Follow the steps
   int step = 1;
