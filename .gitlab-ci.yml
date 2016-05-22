@@ -1,0 +1,46 @@
+image: debian:latest
+
+
+stages:
+    - build
+    - test
+
+
+build_job:
+    stage: build
+    before_script:
+        - apt-get update -qq && apt-get install -y -qq cmake g++
+        - BUILD_DIR=`pwd`/build
+        - mkdir -p ${BUILD_DIR}
+        - cd ${BUILD_DIR}
+        - cmake -DCMAKE_BUILD_TYPE=Debug ${BUILD_DIR}/..
+    script:
+        - cd ${BUILD_DIR}
+        - make
+    #after_script:
+    #    - rm -rf ${BUILD_DIR}
+
+
+test_job:
+    stage: test
+    before_script:
+        - apt-get update -qq && apt-get install -y -qq cmake g++ git lcov gcovr libboost-math-dev libboost-system-dev
+        - BUILD_DIR=`pwd`/build
+        - mkdir -p ${BUILD_DIR}
+        - cd ${BUILD_DIR}
+        - cmake -DCMAKE_BUILD_TYPE=Debug -DMUNKRESCPP_DEVEL_MODE=ON ${BUILD_DIR}/..
+    script:
+        - make tests
+        - cd ${BUILD_DIR}/tests && ./munkrestest > /dev/null
+    #after_script:
+        - cd ${BUILD_DIR}
+        - mkdir coverage
+        - cp -v ../src/*.cpp coverage
+        - mv tests/CMakeFiles/munkrestest.dir/__/src/*.gcda coverage
+        - mv tests/CMakeFiles/munkrestest.dir/__/src/*.gcno coverage
+        - cd coverage
+        - find . -type f -name '*.gcda' -exec gcov {} +
+    #    - bash <(curl -s https://codecov.io/bash)
+    #when: on_success
+    #dependencies:
+    #    - build_job
