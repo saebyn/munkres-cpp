@@ -1,4 +1,4 @@
-image: debian:latest
+image: gluttton/munkres-cpp:latest
 
 
 stages:
@@ -9,7 +9,6 @@ stages:
 build_job:
     stage: build
     before_script:
-        - apt-get update -qq && apt-get install -y -qq cmake g++
         - BUILD_DIR=`pwd`/build
         - mkdir -p ${BUILD_DIR}
         - cd ${BUILD_DIR}
@@ -24,7 +23,6 @@ build_job:
 test_job:
     stage: test
     before_script:
-        - apt-get update -qq && apt-get install -y -qq cmake g++ git lcov gcovr libboost-math-dev libboost-system-dev
         - BUILD_DIR=`pwd`/build
         - mkdir -p ${BUILD_DIR}
         - cd ${BUILD_DIR}
