@@ -35,6 +35,6 @@ int main (int argc, char * argv [])
 {
     read<double>(matrices);
 
-    benchmark::Initialize ( &argc, const_cast<const char **>(argv) );
+    benchmark::Initialize ( &argc, argv);
     benchmark::RunSpecifiedBenchmarks ();
 }
