@@ -38,7 +38,7 @@ test_job:
         - mv tests/CMakeFiles/munkrestest.dir/__/src/*.gcno coverage
         - cd coverage
         - find . -type f -name '*.gcda' -exec gcov {} +
-        - bash <(curl -s https://codecov.io/bash)
+        - bash <(curl -s https://codecov.io/bash) -t :5a25c8bf-2d43-48cb-a813-9eef7f694194
     #when: on_success
     #dependencies:
     #    - build_job
