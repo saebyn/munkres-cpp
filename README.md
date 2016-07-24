@@ -133,9 +133,13 @@ $ make cppcheck
 ```
 
 
-Lunch code formatter:
-TBD
-
+Lunch code formatter.
+Code formatter is used to convert style of each contributor to common style and make code easier to read.  
+In the project [Uncrustify](http://uncrustify.sourceforge.net) is used as code formatter.  
+Modified code before commit should be formatted using Uncrustify.  
+```
+$ make beauty
+```
 
 
 Bug reporting and work to be done

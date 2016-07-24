@@ -77,4 +77,13 @@ if (MUNKRESCPP_DEVEL_MODE)
     )
     add_custom_target  (cppcheck DEPENDS ${CppCheck_REPORT})
     set_directory_properties (PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES ${CppCheck_REPORT})
+
+    # Code format.
+    set (UNCRUSTIFY_LST ${PROJECT_BINARY_DIR}/uncrustify.lst)
+    set (UNCRUSTIFY_CFG ${PROJECT_SOURCE_DIR}/uncrustify.cfg)
+    add_custom_target (
+        beauty
+        COMMAND find ${PROJECT_SOURCE_DIR} -name '*.cpp' -o -name '*.h' | grep -v ${PROJECT_BINARY_DIR} > ${UNCRUSTIFY_LST}
+        COMMAND uncrustify -c ${UNCRUSTIFY_CFG} -F ${UNCRUSTIFY_LST} --no-backup -l CPP
+    )
 endif ()

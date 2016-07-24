@@ -24,14 +24,14 @@
 
 
 // Set of functions for two-dimensional raw (C-style) array.
-template <typename T, const unsigned int dimention>
-Matrix <T> convert_raw_2d_array_to_munkres_matrix (const T array [dimention][dimention]);
+template<typename T, const unsigned int dimention>
+Matrix<T> convert_raw_2d_array_to_munkres_matrix (const T array [dimention][dimention]);
 
-template <typename T, const unsigned int dimention>
-void fill_raw_2d_array_from_munkres_matrix (T array [dimention][dimention], const Matrix <T> & matrix);
+template<typename T, const unsigned int dimention>
+void fill_raw_2d_array_from_munkres_matrix (T array [dimention][dimention], const Matrix<T> & matrix);
 
-template <const unsigned int dimension>
-void solve(double m [dimension][dimension]);
+template<const unsigned int dimension>
+void solve (double m [dimension][dimension]);
 
 #ifndef USE_EXPORT_KEYWORD
 #include "raw_2d_array.cpp"

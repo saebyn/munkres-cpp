@@ -22,16 +22,16 @@
 #include "matrix.h"
 #include <iostream>
 
-template <class T>
-bool operator == (const Matrix <T> & a, const Matrix <T> & b)
+template<class T>
+bool operator == (const Matrix<T> & a, const Matrix<T> & b)
 {
-    if (a.rows () != b.rows () || a.columns () != b.columns () ) {
+    if ( a.rows () != b.rows () || a.columns () != b.columns () ) {
         return false;
     }
 
     for (unsigned int row = 0; row < a.rows (); ++row) {
         for (unsigned int col = 0; col < a.columns (); ++col) {
-            if (a (row, col) != b (row, col) ) {
+            if ( a (row, col) != b (row, col) ) {
                 return false;
             }
         }
@@ -42,23 +42,23 @@ bool operator == (const Matrix <T> & a, const Matrix <T> & b)
 
 
 
-template <class T>
-bool operator != (const Matrix <T> & a, const Matrix <T> & b)
+template<class T>
+bool operator != (const Matrix<T> & a, const Matrix<T> & b)
 {
-    return ! (a == b);
+    return !(a == b);
 }
 
 
 
-template <class T>
-std::ostream & operator << (std::ostream & os, const Matrix <T> & m)
+template<class T>
+std::ostream & operator << (std::ostream & os, const Matrix<T> & m)
 {
     const std::string indent ("           ");
-    os << "Matrix (" << & m << ") of " << m.rows () << "x" << m.columns () << std::endl;
+    os << "Matrix (" << &m << ") of " << m.rows () << "x" << m.columns () << std::endl;
     for (unsigned int row = 0; row < m.rows (); ++row) {
         os << indent;
         for (unsigned int col = 0; col < m.columns (); ++col) {
-            os << std::setw (4) << std::setfill (' ') <<  m (row, col) << " ";
+            os << std::setw (4) << std::setfill (' ') << m (row, col) << " ";
         }
         os << std::endl;
     }

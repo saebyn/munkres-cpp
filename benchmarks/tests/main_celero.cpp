@@ -6,7 +6,7 @@
 
 
 
-std::vector <Matrix <double> *> matrices;
+std::vector<Matrix<double> *> matrices;
 
 size_t i {0};
 
@@ -17,11 +17,11 @@ class MunkresFixture : public celero::TestFixture
     public:
         void setUp (int64_t) override
         {
-            matrix = * matrices [i];
+            matrix = *matrices [i];
         }
 
         Munkres munkres;
-        Matrix <double> matrix;
+        Matrix<double> matrix;
 };
 
 
@@ -43,7 +43,7 @@ BENCHMARK_F (Munkres, Solve, MunkresFixture, 5000, 1)
 // Main function.
 int main (int argc, char * argv [])
 {
-    read <double> (matrices);
+    read<double>(matrices);
 
     for (const auto x : matrices) {
         celero::Run (argc, argv);

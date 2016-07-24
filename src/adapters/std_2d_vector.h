@@ -24,13 +24,13 @@
 
 
 // Set of functions for two-dimensional std::vector.
-template <typename T>
-Matrix <T> convert_std_2d_vector_to_munkres_matrix (const std::vector <std::vector <T> > & vector);
+template<typename T>
+Matrix<T> convert_std_2d_vector_to_munkres_matrix (const std::vector<std::vector<T>> & vector);
 
-template <typename T>
-void fill_std_2d_vector_from_munkres_matrix (std::vector <std::vector <T> > & vector, const Matrix <T> & matrix);
+template<typename T>
+void fill_std_2d_vector_from_munkres_matrix (std::vector<std::vector<T>> & vector, const Matrix<T> & matrix);
 
-void solve(std::vector <std::vector <double> > &m);
+void solve (std::vector<std::vector<double>> & m);
 
 #ifndef USE_EXPORT_KEYWORD
 #include "std_2d_vector.cpp"

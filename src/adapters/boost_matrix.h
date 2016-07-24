@@ -24,13 +24,13 @@
 
 
 // Set of functions for boost matrix.
-template <typename T>
-Matrix <T> convert_boost_matrix_to_munkres_matrix (const boost::numeric::ublas::matrix <T> &);
+template<typename T>
+Matrix<T> convert_boost_matrix_to_munkres_matrix (const boost::numeric::ublas::matrix<T> &);
 
-template <typename T>
-void fill_boost_matrix_from_munkres_matrix (boost::numeric::ublas::matrix <T> & boost_matrix, const Matrix <T> &);
+template<typename T>
+void fill_boost_matrix_from_munkres_matrix (boost::numeric::ublas::matrix<T> & boost_matrix, const Matrix<T> &);
 
-void solve(boost::numeric::ublas::matrix <double> &);
+void solve (boost::numeric::ublas::matrix<double> &);
 
 #ifndef USE_EXPORT_KEYWORD
 #include "boost_matrix.cpp"
