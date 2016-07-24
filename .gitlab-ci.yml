@@ -9,6 +9,7 @@ stages:
 build_job:
     stage: build
     before_script:
+        - git checkout devel
         - BUILD_DIR=`pwd`/build
         - mkdir -p ${BUILD_DIR}
         - cd ${BUILD_DIR}
@@ -23,6 +24,7 @@ build_job:
 test_job:
     stage: test
     before_script:
+        - git checkout devel
         - BUILD_DIR=`pwd`/build
         - mkdir -p ${BUILD_DIR}
         - cd ${BUILD_DIR}
