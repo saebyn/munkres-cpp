@@ -14,7 +14,7 @@ int main (int argc, char * argv [])
 
     for (size_t i = 0; i < matrices.size (); ++i) {
         std::cout << "Test case " << i + 1 << " from " << matrices.size () << std::endl;
-        Munkres munkres;
+        Munkres<double> munkres;
         auto matrix = *matrices [i];
         munkres.solve (matrix);
     }

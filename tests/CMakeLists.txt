@@ -37,7 +37,7 @@ set (SPECIAL_CXX_WARNING_FLAGS "${SPECIAL_CXX_WARNING_FLAGS} -Wcast-qual -Wpoint
 set (SPECIAL_CXX_WARNING_FLAGS "${SPECIAL_CXX_WARNING_FLAGS} -Wold-style-cast")
 
 set_source_files_properties (
-    ${MunkresCppLib_SOURCES}
+    ${MunkresCpp_HEADERS}
     PROPERTIES COMPILE_FLAGS ${SPECIAL_CXX_WARNING_FLAGS}
 )
 
@@ -52,7 +52,7 @@ set (
     ${PROJECT_SOURCE_DIR}/tests/adapters/std_2d_vectortest.cpp
     ${PROJECT_SOURCE_DIR}/tests/adapters/boost_matrixtest.cpp
 )
-add_executable (munkrestest EXCLUDE_FROM_ALL ${MunkresCppLib_SOURCES} ${MunkresCppTest_SOURCES})
+add_executable (munkrestest EXCLUDE_FROM_ALL ${MunkresCppTest_SOURCES})
 target_link_libraries (munkrestest ${GTEST_BOTH_LIBRARIES} gcov pthread)
 add_custom_target (tests)
 add_dependencies  (tests munkrestest)
@@ -110,8 +110,8 @@ foreach (File ${Sources})
 endforeach (File)
 endmacro (determine_coverage_data)
 
-determine_coverage_data ("${MunkresCppTest_SOURCES};${MunkresCppLib_SOURCES}" munkrestest Coverage_GCNO ".gcno")
-determine_coverage_data ("${MunkresCppTest_SOURCES};${MunkresCppLib_SOURCES}" munkrestest Coverage_GCDA ".gcda")
+determine_coverage_data ("${MunkresCppTest_SOURCES};${MunkresCpp_HEADERS}" munkrestest Coverage_GCNO ".gcno")
+determine_coverage_data ("${MunkresCppTest_SOURCES};${MunkresCpp_HEADERS}" munkrestest Coverage_GCDA ".gcda")
 
 list (APPEND Coverage_DATA "${Coverage_REPORT}")
 list (APPEND Coverage_DATA "${Coverage_DIR}")

@@ -6,12 +6,6 @@
 
 
 
-// Forward declaration.
-void replace_infinites (Matrix<double> & matrix);
-void minimize_along_direction (Matrix<double> & matrix, bool over_columns);
-
-
-
 class MunkresTest : public ::testing::Test
 {
     protected:
@@ -299,7 +293,7 @@ TEST_F (MunkresTest, solve_5x5_IsSingleSolution_Success)
 {
     // Arrange.
     Matrix<double> matrix = generateRandomMatrix (5, 5);
-    Munkres munkres;
+    Munkres<double> munkres;
 
     // Act.
     munkres.solve (matrix);
@@ -314,7 +308,7 @@ TEST_F (MunkresTest, solve_10x10_IsSingleSolution_Success)
 {
     // Arrange.
     Matrix<double> matrix = generateRandomMatrix (10, 10);
-    Munkres munkres;
+    Munkres<double> munkres;
 
     // Act.
     munkres.solve (matrix);
@@ -329,7 +323,7 @@ TEST_F (MunkresTest, solve_50x50_IsSingleSolution_Success)
 {
     // Arrange.
     Matrix<double> matrix = generateRandomMatrix (50, 50);
-    Munkres munkres;
+    Munkres<double> munkres;
 
     // Act.
     munkres.solve (matrix);
@@ -344,7 +338,7 @@ TEST_F (MunkresTest, solve_100x100_IsSingleSolution_Success)
 {
     // Arrange.
     Matrix<double> matrix = generateRandomMatrix (100, 100);
-    Munkres munkres;
+    Munkres<double> munkres;
 
     // Act.
     munkres.solve (matrix);
@@ -359,7 +353,7 @@ TEST_F (MunkresTest, solve_200x200_IsSingleSolution_Success)
 {
     // Arrange.
     Matrix<double> matrix = generateRandomMatrix (200, 200);
-    Munkres munkres;
+    Munkres<double> munkres;
 
     // Act.
     munkres.solve (matrix);
@@ -374,7 +368,7 @@ TEST_F (MunkresTest, solve_10x10_IsValideOutput_Success)
 {
     // Arrange.
     Matrix<double> matrix = generateRandomMatrix (10, 10);
-    Munkres munkres;
+    Munkres<double> munkres;
 
     // Act.
     munkres.solve (matrix);
@@ -395,7 +389,7 @@ TEST_F (MunkresTest, solve_1x1_ObviousSolution_Success)
         {0.0}
     };
 
-    Munkres munkres;
+    Munkres<double> munkres;
 
     // Act.
     munkres.solve (test_matrix);
@@ -418,7 +412,7 @@ TEST_F (MunkresTest, solve_2x2_ObviousSolution_Success)
         {0.0,  1.0}
     };
 
-    Munkres munkres;
+    Munkres<double> munkres;
 
     // Act.
     munkres.solve (test_matrix);
@@ -443,7 +437,7 @@ TEST_F (MunkresTest, solve_3x3_ObviousSolution_Success)
         {1.0,  1.0,  0.0}
     };
 
-    Munkres munkres;
+    Munkres<double> munkres;
 
     // Act.
     munkres.solve (test_matrix);
@@ -468,7 +462,7 @@ TEST_F (MunkresTest, solve_3x2_NonObviousSolutionCase001_Success)
         {9.0,  9.0}
     };
 
-    Munkres munkres;
+    Munkres<double> munkres;
 
     // Act.
     munkres.solve (test_matrix);
@@ -494,7 +488,7 @@ TEST_F (MunkresTest, solve_3x2_NonObviousSolutionCase002_Success)
         {4,       1}
     };
 
-    Munkres munkres;
+    Munkres<double> munkres;
 
     // Act.
     munkres.solve (test_matrix);
@@ -518,7 +512,7 @@ TEST_F (MunkresTest, solve_2x3_NonObviousSolutionCase003_Success)
         {3,       1.0e+17, 1}
     };
 
-    Munkres munkres;
+    Munkres<double> munkres;
 
     // Act.
     munkres.solve (test_matrix);
@@ -546,7 +540,7 @@ TEST_F (MunkresTest, solve_4x3_NonObviousSolutionCase004_Success)
         {4,       1,       1.0e+17}
     };
 
-    Munkres munkres;
+    Munkres<double> munkres;
 
     // Act.
     munkres.solve (test_matrix);
@@ -573,7 +567,7 @@ TEST_F (MunkresTest, solve_3x4_NonObviousSolutionCase005_Success)
         {1.0e+17, 1.0e+17, 1.0e17, 1.0e+17}
     };
 
-    Munkres munkres;
+    Munkres<double> munkres;
 
     // Act.
     munkres.solve (test_matrix);
@@ -599,7 +593,7 @@ TEST_F (MunkresTest, solve_3x3_NonObviousSolutionCase006_Success)
         {9.0,  9.0,  0.0}
     };
 
-    Munkres munkres;
+    Munkres<double> munkres;
 
     // Act.
     munkres.solve (test_matrix);
@@ -624,7 +618,7 @@ TEST_F (MunkresTest, solve_3x3_NonObviousSolutionCase007_Success)
         {3.0,  4.0,  9.0}
     };
 
-    Munkres munkres;
+    Munkres<double> munkres;
 
     // Act.
     munkres.solve (test_matrix);
@@ -656,7 +650,7 @@ TEST_F (MunkresTest, solve_6x4_NonObviousSolutionCase008_Success)
         {7.58851e+08,  8.58445e+08,  8.7235e+07,   5.47076e+08}
     };
 
-    Munkres munkres;
+    Munkres<double> munkres;
 
     // Act.
     munkres.solve (test_matrix);
@@ -683,7 +677,7 @@ TEST_F (MunkresTest, solve_4x6_NonObviousSolutionCase009_Success)
         {2.79247e+08,  7.06878e+08,  1.14174e+08,  1.79769e+308, 4.96945e+07,  5.47076e+08}
     };
 
-    Munkres munkres;
+    Munkres<double> munkres;
 
     // Act.
     munkres.solve (test_matrix);
@@ -711,7 +705,7 @@ TEST_F (MunkresTest, solve_3x3_IsValide_Fail)
         {1.0,  1.0,  0.0}
     };
 
-    Munkres munkres;
+    Munkres<double> munkres;
 
     // Act.
     munkres.solve (test_matrix);

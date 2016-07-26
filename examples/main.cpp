@@ -59,7 +59,7 @@ int main (int argc, char * argv[])
     std::cout << std::endl;
 
     // Apply Munkres algorithm to matrix.
-    Munkres m;
+    Munkres<double> m;
     m.solve (matrix);
 
     // Display solved matrix.

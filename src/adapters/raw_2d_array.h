@@ -19,23 +19,46 @@
 #if !defined(_MUNKRES_ADAPTERS_RAW_2D_ARRAY_H_)
 #define _MUNKRES_ADAPTERS_RAW_2D_ARRAY_H_
 
-#include "matrix.h"
+#include "munkres.h"
 #include <array>
+
 
 
 // Set of functions for two-dimensional raw (C-style) array.
 template<typename T, const unsigned int dimention>
-Matrix<T> convert_raw_2d_array_to_munkres_matrix (const T array [dimention][dimention]);
+Matrix<T> convert_raw_2d_array_to_munkres_matrix (const T array [dimention][dimention])
+{
+    Matrix<T> matrix (dimention, dimention);
+    for (int i = 0; i < dimention; ++i) {
+        for (int j = 0; j < dimention; ++j) {
+            matrix (i, j) = array [i][j];
+        }
+    }
+
+    return matrix;
+};
+
+
 
 template<typename T, const unsigned int dimention>
-void fill_raw_2d_array_from_munkres_matrix (T array [dimention][dimention], const Matrix<T> & matrix);
+void fill_raw_2d_array_from_munkres_matrix (T array [dimention][dimention], const Matrix<T> & matrix)
+{
+    for (int i = 0; i < dimention; ++i) {
+        for (int j = 0; j < dimention; ++j) {
+            array [i][j] = matrix (i, j);
+        }
+    }
+};
 
-template<const unsigned int dimension>
-void solve (double m [dimension][dimension]);
 
-#ifndef USE_EXPORT_KEYWORD
-#include "raw_2d_array.cpp"
-//#define export /*export*/
-#endif
+
+template<typename T, const unsigned int dimension>
+void solve (T m [dimension][dimension])
+{
+    auto matrix = convert_raw_2d_array_to_munkres_matrix<T, dimension>(m);
+    Munkres<T> munkres;
+    munkres.solve (matrix);
+    fill_raw_2d_array_from_munkres_matrix<T, dimension>(m, matrix);
+};
 
 #endif /* !defined(_MUNKRES_ADAPTERS_RAW_2D_ARRAY_H_) */

@@ -20,7 +20,7 @@ class MunkresFixture : public celero::TestFixture
             matrix = *matrices [i];
         }
 
-        Munkres munkres;
+        Munkres<double> munkres;
         Matrix<double> matrix;
 };
 

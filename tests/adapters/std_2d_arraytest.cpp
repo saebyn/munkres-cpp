@@ -88,7 +88,7 @@ TEST_F (Adapters_std_2d_array_Test, solve_std_2d_array_Success)
                                                                      }};
 
     // Act.
-    solve<dimension>(test_array);
+    solve<double, dimension>(test_array);
 
     // Assert.
     for (unsigned int row = 0; row < dimension; ++row) {

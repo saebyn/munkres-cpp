@@ -11,28 +11,24 @@ set (CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -O3")
 
 include_directories (${PROJECT_SOURCE_DIR}/src)
 
-# Sources.
+# Sources (nothing).
 set (
-    MunkresCppLib_SOURCES
-    ${PROJECT_SOURCE_DIR}/src/munkres.cpp
+    MunkresCpp_SOURCES
 )
 
 # Headers.
 set (
-    MunkresCppLib_HEADERS
+    MunkresCpp_HEADERS
     ${PROJECT_SOURCE_DIR}/src/matrix.h
-    ${PROJECT_SOURCE_DIR}/src/matrix.cpp
     ${PROJECT_SOURCE_DIR}/src/munkres.h
 )
 
 # Library.
 add_library (
-    munkres STATIC
-    ${MunkresCppLib_SOURCES}
+    munkres INTERFACE
 )
 
-install (TARGETS munkres                DESTINATION lib     PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ)
-install (FILES ${MunkresCppLib_HEADERS} DESTINATION include PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ)
+install (FILES ${MunkresCpp_HEADERS} DESTINATION include PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ)
 
 
 # Binary example
@@ -73,7 +69,7 @@ if (MUNKRESCPP_DEVEL_MODE)
     set (CppCheck_REPORT ${PROJECT_BINARY_DIR}/cppcheck.report)
     add_custom_command (
         OUTPUT  ${CppCheck_REPORT}
-        COMMAND cppcheck ${MunkresCppLib_SOURCES} ${MunkresCppBin_SOURCES} -I${PROJECT_SOURCE_DIR}/src -I${PROJECT_SOURCE_DIR} --enable=all --force --inconclusive > cppcheck.report 2>&1
+        COMMAND cppcheck ${MunkresCpp_HEADERS} ${MunkresCppBin_SOURCES} -I${PROJECT_SOURCE_DIR}/src -I${PROJECT_SOURCE_DIR} --enable=all --force --inconclusive > cppcheck.report 2>&1
     )
     add_custom_target  (cppcheck DEPENDS ${CppCheck_REPORT})
     set_directory_properties (PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES ${CppCheck_REPORT})

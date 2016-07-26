@@ -19,22 +19,48 @@
 #if !defined(_MUNKRES_ADAPTERS_BOOST_MATRIX_H_)
 #define _MUNKRES_ADAPTERS_BOOST_MATRIX_H_
 
-#include "matrix.h"
+#include "munkres.h"
 #include <boost/numeric/ublas/matrix.hpp>
+
 
 
 // Set of functions for boost matrix.
 template<typename T>
-Matrix<T> convert_boost_matrix_to_munkres_matrix (const boost::numeric::ublas::matrix<T> &);
+Matrix<T> convert_boost_matrix_to_munkres_matrix (const boost::numeric::ublas::matrix<T> & boost_matrix)
+{
+    const auto dimention = std::min ( boost_matrix.size1 (), boost_matrix.size2 () );
+    Matrix<T> matrix (dimention, dimention);
+    for (int i = 0; i < dimention; ++i) {
+        for (int j = 0; j < dimention; ++j) {
+            matrix (i, j) = boost_matrix (i, j);
+        }
+    }
+
+    return matrix;
+};
+
+
 
 template<typename T>
-void fill_boost_matrix_from_munkres_matrix (boost::numeric::ublas::matrix<T> & boost_matrix, const Matrix<T> &);
+void fill_boost_matrix_from_munkres_matrix (boost::numeric::ublas::matrix<T> & boost_matrix, const Matrix<T> & matrix)
+{
+    const auto dimention = std::min ( boost_matrix.size1 (), boost_matrix.size2 () );
+    for (int i = 0; i < dimention; ++i) {
+        for (int j = 0; j < dimention; ++j) {
+            boost_matrix (i, j) = matrix (i, j);
+        }
+    }
+};
 
-void solve (boost::numeric::ublas::matrix<double> &);
 
-#ifndef USE_EXPORT_KEYWORD
-#include "boost_matrix.cpp"
-//#define export /*export*/
-#endif
+
+template<typename T>
+void solve (boost::numeric::ublas::matrix<T> & boost_matrix)
+{
+    auto matrix = convert_boost_matrix_to_munkres_matrix<T>(boost_matrix);
+    Munkres<T> munkres;
+    munkres.solve (matrix);
+    fill_boost_matrix_from_munkres_matrix<T>(boost_matrix, matrix);
+};
 
 #endif /* !defined(_MUNKRES_ADAPTERS_BOOST_MATRIX_H_) */

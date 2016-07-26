@@ -74,7 +74,7 @@ target_link_libraries (munkresbenchmark_rdtsc.bin munkres)
 
 # Test for generate profiler (gprof) data.
 set (MunkresCppBenchmarkGprof_SOURCES
-    ${PROJECT_SOURCE_DIR}/src/munkres.cpp
+    #${PROJECT_SOURCE_DIR}/src/munkres.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/main_gprof.cpp
 )
 add_executable (munkresbenchmark_gprof.bin EXCLUDE_FROM_ALL ${MunkresCppBenchmarkGprof_SOURCES})

@@ -19,22 +19,48 @@
 #if !defined(_MUNKRES_ADAPTERS_STD_2D_VECTOR_H_)
 #define _MUNKRES_ADAPTERS_STD_2D_VECTOR_H_
 
-#include "matrix.h"
+#include "munkres.h"
 #include <vector>
+
 
 
 // Set of functions for two-dimensional std::vector.
 template<typename T>
-Matrix<T> convert_std_2d_vector_to_munkres_matrix (const std::vector<std::vector<T>> & vector);
+Matrix<T> convert_std_2d_vector_to_munkres_matrix (const std::vector<std::vector<T>> & vector)
+{
+    const int dimention = vector.size ();
+    Matrix<T> matrix (dimention, dimention);
+    for (int i = 0; i < dimention; ++i) {
+        for (int j = 0; j < dimention; ++j) {
+            matrix (i, j) = vector [i][j];
+        }
+    }
+
+    return matrix;
+};
+
+
 
 template<typename T>
-void fill_std_2d_vector_from_munkres_matrix (std::vector<std::vector<T>> & vector, const Matrix<T> & matrix);
+void fill_std_2d_vector_from_munkres_matrix (std::vector<std::vector<T>> & vector, const Matrix<T> & matrix)
+{
+    const int dimention = vector.size ();
+    for (int i = 0; i < dimention; ++i) {
+        for (int j = 0; j < dimention; ++j) {
+            vector [i][j] = matrix (i, j);
+        }
+    }
+};
 
-void solve (std::vector<std::vector<double>> & m);
 
-#ifndef USE_EXPORT_KEYWORD
-#include "std_2d_vector.cpp"
-//#define export /*export*/
-#endif
+
+template<typename T>
+void solve (std::vector<std::vector<T>> & m)
+{
+    auto matrix = convert_std_2d_vector_to_munkres_matrix<T>(m);
+    Munkres<T> munkres;
+    munkres.solve (matrix);
+    fill_std_2d_vector_from_munkres_matrix<T>(m, matrix);
+};
 
 #endif /* !defined(_MUNKRES_ADAPTERS_STD_2D_VECTOR_H_) */
