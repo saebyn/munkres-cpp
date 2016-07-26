@@ -434,7 +434,7 @@ void Munkres<T>::solve (munkres::matrix_base<T> & matrix)
     for (size_t row = 0; row < rows; row++) {
         for (size_t col = 0; col < columns; col++) {
             std::cout.width (8);
-            std::cout << m (row, col) << ",";
+            std::cout << matrix (row, col) << ",";
         }
         std::cout << std::endl;
     }
