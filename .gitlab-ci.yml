@@ -35,7 +35,7 @@ test_job:
     #after_script:
         - cd ${BUILD_DIR}
         - mkdir coverage
-        - cp -v ../src/*.cpp coverage
+        - cp -v ../src/*.h coverage
         - mv tests/CMakeFiles/munkrestest.dir/__/src/*.gcda coverage
         - mv tests/CMakeFiles/munkrestest.dir/__/src/*.gcno coverage
         - cd coverage
