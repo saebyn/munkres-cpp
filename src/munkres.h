@@ -40,7 +40,6 @@ class Munkres
         static constexpr int STAR = 1;
         static constexpr int PRIME = 2;
         inline bool find_uncovered_in_matrix (munkres::matrix_base<T> &, const double, size_t &, size_t &) const;
-        inline bool pair_in_list (const std::pair<size_t,size_t> &, const std::list<std::pair<size_t,size_t>> &);
         int step1 (munkres::matrix_base<T> &);
         int step2 (munkres::matrix_base<T> &);
         int step3 (munkres::matrix_base<T> &);
@@ -147,20 +146,6 @@ bool Munkres<T>::find_uncovered_in_matrix (munkres::matrix_base<T> & matrix, con
                     }
                 }
             }
-        }
-    }
-
-    return false;
-}
-
-
-
-template<typename T>
-bool Munkres<T>::pair_in_list (const std::pair<size_t,size_t> & needle, const std::list<std::pair<size_t,size_t>> & haystack)
-{
-    for (std::list<std::pair<size_t,size_t>>::const_iterator i = haystack.begin (); i != haystack.end (); i++) {
-        if (needle == *i) {
-            return true;
         }
     }
 
@@ -300,13 +285,11 @@ int Munkres<T>::step4 (munkres::matrix_base<T> & matrix)
             if (mask_matrix (row,col) == STAR) {
                 z1.first = row;
                 z1.second = col;
-                if ( pair_in_list (z1, seq) ) {
-                    continue;
+                if (std::find (seq.cbegin(), seq.cend(), z1) == seq.cend() ) {
+                    madepair = true;
+                    seq.insert (seq.end (), z1);
+                    break;
                 }
-
-                madepair = true;
-                seq.insert (seq.end (), z1);
-                break;
             }
         }
 
@@ -319,19 +302,16 @@ int Munkres<T>::step4 (munkres::matrix_base<T> & matrix)
             if (mask_matrix (row, col) == PRIME) {
                 z2n.first = row;
                 z2n.second = col;
-                if ( pair_in_list (z2n, seq) ) {
-                    continue;
+                if (std::find (seq.cbegin(), seq.cend(), z2n) == seq.cend() ) {
+                    madepair = true;
+                    seq.insert (seq.end (), z2n);
+                    break;
                 }
-                madepair = true;
-                seq.insert (seq.end (), z2n);
-                break;
             }
         }
     } while (madepair);
 
-    for (std::list<std::pair<size_t,size_t>>::iterator i = seq.begin ();
-         i != seq.end ();
-         i++) {
+    for (auto i = seq.cbegin (); i != seq.cend (); ++i) {
         // 2. Unstar each starred zero of the sequence.
         if (mask_matrix (i->first,i->second) == STAR)
             mask_matrix (i->first,i->second) = NORMAL;
@@ -351,13 +331,8 @@ int Munkres<T>::step4 (munkres::matrix_base<T> & matrix)
         }
     }
 
-    for (size_t i = 0; i < rows; i++) {
-        row_mask[i] = false;
-    }
-
-    for (size_t i = 0; i < columns; i++) {
-        col_mask[i] = false;
-    }
+    std::fill_n (row_mask, rows, false);
+    std::fill_n (col_mask, columns, false);
 
     // and return to Step 2.
     return 2;
