@@ -65,7 +65,7 @@ class Matrix : public munkres::matrix_base<T>
 
 
 
-/*export*/ template<class T>
+template<class T>
 Matrix<T>::Matrix ()
 {
     m_rows = 0;
@@ -75,7 +75,7 @@ Matrix<T>::Matrix ()
 
 
 
-/*export*/ template<class T>
+template<class T>
 Matrix<T>::Matrix (const std::initializer_list<std::initializer_list<T>> init)
 {
     m_matrix = nullptr;
@@ -101,7 +101,7 @@ Matrix<T>::Matrix (const std::initializer_list<std::initializer_list<T>> init)
 
 
 
-/*export*/ template<class T>
+template<class T>
 Matrix<T>::Matrix (const Matrix<T> & other)
 {
     if (other.m_matrix != nullptr) {
@@ -122,7 +122,7 @@ Matrix<T>::Matrix (const Matrix<T> & other)
 
 
 
-/*export*/ template<class T>
+template<class T>
 Matrix<T>::Matrix (const size_t rows, const size_t columns)
 {
     m_matrix = nullptr;
@@ -131,7 +131,7 @@ Matrix<T>::Matrix (const size_t rows, const size_t columns)
 
 
 
-/*export*/ template<class T>
+template<class T>
 Matrix<T> & Matrix<T>::operator= (const Matrix<T> & other)
 {
     if (other.m_matrix != nullptr) {
@@ -160,7 +160,7 @@ Matrix<T> & Matrix<T>::operator= (const Matrix<T> & other)
 
 
 
-/*export*/ template<class T>
+template<class T>
 Matrix<T>::~Matrix ()
 {
     if (m_matrix != nullptr) {
@@ -176,7 +176,7 @@ Matrix<T>::~Matrix ()
 
 
 
-/*export*/ template<class T>
+template<class T>
 void Matrix<T>::resize (const size_t rows, const size_t columns, const T default_value)
 {
     assert ( rows > 0 && columns > 0 && "Columns and rows must exist." );
@@ -230,7 +230,7 @@ void Matrix<T>::resize (const size_t rows, const size_t columns, const T default
 
 
 
-/*export*/ template<class T>
+template<class T>
 void Matrix<T>::clear ()
 {
     assert ( m_matrix != nullptr );
@@ -244,7 +244,7 @@ void Matrix<T>::clear ()
 
 
 
-/*export*/ template<class T>
+template<class T>
 inline T & Matrix<T>::operator () (const size_t x, const size_t y) noexcept
 {
     assert ( x < m_rows );
@@ -255,7 +255,7 @@ inline T & Matrix<T>::operator () (const size_t x, const size_t y) noexcept
 
 
 
-/*export*/ template<class T>
+template<class T>
 inline const T & Matrix<T>::operator () (const size_t x, const size_t y) const noexcept
 {
     assert ( x < m_rows );
@@ -266,7 +266,7 @@ inline const T & Matrix<T>::operator () (const size_t x, const size_t y) const n
 
 
 
-/*export*/ template<class T>
+template<class T>
 T Matrix<T>::min () const
 {
     assert ( m_matrix != nullptr );
@@ -285,7 +285,7 @@ T Matrix<T>::min () const
 
 
 
-/*export*/ template<class T>
+template<class T>
 T Matrix<T>::max () const
 {
     assert ( m_matrix != nullptr );
