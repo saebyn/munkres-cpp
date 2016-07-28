@@ -31,7 +31,7 @@
 namespace munkres
 {
 
-template <class T>
+template<class T>
 class matrix_base
 {
     public:
@@ -39,15 +39,15 @@ class matrix_base
         using elem_t = T;
 
         // Constants.
-        static constexpr elem_t zero    = elem_t (0);
-        static constexpr elem_t max_val = std::numeric_limits <elem_t>::max ();
+        static constexpr elem_t zero = elem_t (0);
+        static constexpr elem_t max_val = std::numeric_limits<elem_t>::max ();
 
         // Interface.
         virtual ~matrix_base () = default;
         virtual const elem_t & operator () (const size_t, const size_t) const noexcept = 0;
-        virtual       elem_t & operator () (const size_t, const size_t)       noexcept = 0;
-        virtual       size_t   columns  () const noexcept = 0;
-        virtual       size_t   rows     () const noexcept = 0;
+        virtual elem_t & operator () (const size_t, const size_t)       noexcept = 0;
+        virtual size_t   columns () const noexcept = 0;
+        virtual size_t   rows () const noexcept = 0;
 
         // Default implementation.
         virtual void resize (const size_t, const size_t, const elem_t = zero)
@@ -57,10 +57,10 @@ class matrix_base
 
         virtual elem_t max () const
         {
-            elem_t max_elem = rows () && columns () ? operator ()(0, 0) : zero;
+            elem_t max_elem = rows () && columns () ? operator () (0, 0) : zero;
             for (size_t i = 0; i < rows (); ++i) {
                 for (size_t j = 0; j < columns (); ++j) {
-                    max_elem = std::max <elem_t> (max_elem, operator ()(i, j) );
+                    max_elem = std::max<elem_t>( max_elem, operator () (i, j) );
                 }
             }
             return max_elem;

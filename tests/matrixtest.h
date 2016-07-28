@@ -25,13 +25,13 @@
 template<class T>
 bool operator == (const Matrix<T> & a, const Matrix<T> & b)
 {
-    if ( a.rows () != b.rows () || a.columns () != b.columns () ) {
+    if (a.rows () != b.rows () || a.columns () != b.columns () ) {
         return false;
     }
 
     for (unsigned int row = 0; row < a.rows (); ++row) {
         for (unsigned int col = 0; col < a.columns (); ++col) {
-            if ( a (row, col) != b (row, col) ) {
+            if (a (row, col) != b (row, col) ) {
                 return false;
             }
         }

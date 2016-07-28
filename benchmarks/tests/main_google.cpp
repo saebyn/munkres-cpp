@@ -16,9 +16,9 @@ constexpr int maxReasonableDataSetCount {100};
 static void BM_solve (benchmark::State & state)
 {
     state.PauseTiming ();
-    if ( state.range_x () < matrices.size () ) {
+    if (state.range_x () < matrices.size () ) {
         Munkres<double> munkres;
-        while ( state.KeepRunning () ) {
+        while (state.KeepRunning () ) {
             auto matrix = *matrices [state.range_x ()];
             state.ResumeTiming ();
             munkres.solve (matrix);

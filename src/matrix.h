@@ -46,7 +46,7 @@ class Matrix : public munkres::matrix_base<T>
         T max () const;
         inline size_t minsize ()
         {
-            return ( (m_rows < m_columns) ? m_rows : m_columns );
+            return ( (m_rows < m_columns) ? m_rows : m_columns);
         }
         size_t columns () const noexcept override
         {

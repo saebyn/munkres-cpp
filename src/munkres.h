@@ -162,9 +162,9 @@ int Munkres<T>::step1 (munkres::matrix_base<T> & matrix)
 
     for (size_t row = 0; row < rows; row++) {
         for (size_t col = 0; col < columns; col++) {
-            if ( 0 == matrix (row, col) ) {
+            if (0 == matrix (row, col) ) {
                 for (size_t nrow = 0; nrow < row; nrow++)
-                    if ( STAR == mask_matrix (nrow,col) )
+                    if (STAR == mask_matrix (nrow,col) )
                         goto next_column;
 
                 mask_matrix (row,col) = STAR;
@@ -189,12 +189,12 @@ int Munkres<T>::step2 (munkres::matrix_base<T> & matrix)
 
     for (size_t row = 0; row < rows; row++)
         for (size_t col = 0; col < columns; col++)
-            if ( STAR == mask_matrix (row, col) ) {
+            if (STAR == mask_matrix (row, col) ) {
                 col_mask[col] = true;
                 covercount++;
             }
 
-    if ( covercount >= matrix.minsize () ) {
+    if (covercount >= matrix.minsize () ) {
         #ifdef DEBUG
         std::cout << "Final cover count: " << covercount << std::endl;
         #endif
@@ -229,7 +229,7 @@ int Munkres<T>::step3 (munkres::matrix_base<T> & matrix)
        2. If No Z* exists in the row of the Z', go to Step 4.
        3. If a Z* exists, cover this row and uncover the column of the Z*. Return to Step 3.1 to find a new Z
      */
-    if ( find_uncovered_in_matrix (matrix, 0, saverow, savecol) ) {
+    if (find_uncovered_in_matrix (matrix, 0, saverow, savecol) ) {
         mask_matrix (saverow,savecol) = PRIME; // prime it.
     } else {
         return 5;
@@ -285,7 +285,7 @@ int Munkres<T>::step4 (munkres::matrix_base<T> & matrix)
             if (mask_matrix (row,col) == STAR) {
                 z1.first = row;
                 z1.second = col;
-                if (std::find (seq.cbegin(), seq.cend(), z1) == seq.cend() ) {
+                if (std::find (seq.cbegin (), seq.cend (), z1) == seq.cend () ) {
                     madepair = true;
                     seq.insert (seq.end (), z1);
                     break;
@@ -302,7 +302,7 @@ int Munkres<T>::step4 (munkres::matrix_base<T> & matrix)
             if (mask_matrix (row, col) == PRIME) {
                 z2n.first = row;
                 z2n.second = col;
-                if (std::find (seq.cbegin(), seq.cend(), z2n) == seq.cend() ) {
+                if (std::find (seq.cbegin (), seq.cend (), z2n) == seq.cend () ) {
                     madepair = true;
                     seq.insert (seq.end (), z2n);
                     break;

@@ -101,7 +101,7 @@ TEST_F (Adapters_boost_matrix_Test, solve_boost_matrix_Success)
     test_boost_matrix (2, 0) = 1.0; test_boost_matrix (2, 1) = 1.0; test_boost_matrix (2, 2) = 0.0;
 
     // Act.
-    solve<double> (test_boost_matrix);
+    solve<double>(test_boost_matrix);
 
     // Assert.
     for (unsigned int row = 0; row < dimension; ++row) {
