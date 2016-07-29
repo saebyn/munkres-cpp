@@ -45,14 +45,16 @@ class matrix_base
         // Interface.
         virtual ~matrix_base () = default;
         virtual const elem_t & operator () (const size_t, const size_t) const noexcept = 0;
-        virtual elem_t & operator () (const size_t, const size_t)       noexcept = 0;
-        virtual size_t   columns () const noexcept = 0;
-        virtual size_t   rows () const noexcept = 0;
+        virtual elem_t & operator () (const size_t, const size_t) noexcept = 0;
+        virtual size_t columns () const noexcept = 0;
+        virtual size_t rows () const noexcept = 0;
 
         // Default implementation.
-        virtual void resize (const size_t, const size_t, const elem_t = zero)
+        virtual void resize (const size_t rows, const size_t columns, const elem_t = zero)
         {
-            throw std::logic_error ("Called function with inappropriate default implementation.");
+            if (rows != this->rows () || columns != this->columns () ) {
+                throw std::logic_error ("Called function with inappropriate default implementation.");
+            }
         }
 
         virtual elem_t max () const
