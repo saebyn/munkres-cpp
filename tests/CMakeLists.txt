@@ -1,4 +1,5 @@
-find_package (Boost     COMPONENTS      system      REQUIRED)
+find_package (Boost     COMPONENTS  system  REQUIRED)
+find_package (OpenCV    COMPONENTS  core    REQUIRED)
 
 enable_testing ()
 
@@ -22,6 +23,7 @@ set (GTEST_MAIN_LIBRARIES "${PROJECT_BINARY_DIR}/googletest/googletest/libgtest_
 set (GTEST_BOTH_LIBRARIES ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARIES})
 
 include_directories (${GTEST_INCLUDE_DIRS})
+include_directories (${OpenCV_INCLUDE_DIRS})
 
 # Special flags fo generating code coverage.
 set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage")
@@ -49,9 +51,16 @@ set (
     ${PROJECT_SOURCE_DIR}/tests/matrixtest.cpp
     ${PROJECT_SOURCE_DIR}/tests/adapters/std_2d_vectortest.cpp
     ${PROJECT_SOURCE_DIR}/tests/adapters/boost_matrixtest.cpp
+    ${PROJECT_SOURCE_DIR}/tests/adapters/opencv_matrixtest.cpp
 )
 add_executable (munkrestest EXCLUDE_FROM_ALL ${MunkresCppTest_SOURCES})
-target_link_libraries (munkrestest ${GTEST_BOTH_LIBRARIES} gcov pthread)
+target_link_libraries (
+    munkrestest
+    ${GTEST_BOTH_LIBRARIES}
+    ${OpenCV_LIBS}
+    gcov
+    pthread
+)
 add_custom_target (tests)
 add_dependencies  (tests munkrestest)
 add_dependencies  (munkrestest googletest)
