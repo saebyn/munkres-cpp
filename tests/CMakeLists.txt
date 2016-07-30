@@ -1,8 +1,8 @@
-find_package (Boost     COMPONENTS  system  REQUIRED)
-find_package (OpenCV    COMPONENTS  core    REQUIRED)
-find_package (Armadillo                     REQUIRED)
-find_package (Eigen3                        REQUIRED)
-find_package (Qt5Gui                        REQUIRED)
+find_package (Armadillo)
+find_package (Boost     COMPONENTS  system)
+find_package (Eigen3)
+find_package (OpenCV    COMPONENTS  core)
+find_package (Qt5Gui)
 
 enable_testing ()
 
@@ -54,13 +54,38 @@ set (
     MunkresCppTest_SOURCES
     ${PROJECT_SOURCE_DIR}/tests/munkres_test.cpp
     ${PROJECT_SOURCE_DIR}/tests/matrix_test.cpp
-    ${PROJECT_SOURCE_DIR}/tests/adapters/matrix_armadillo_test.cpp
-    ${PROJECT_SOURCE_DIR}/tests/adapters/matrix_boost_test.cpp
-    ${PROJECT_SOURCE_DIR}/tests/adapters/matrix_eigen_test.cpp
-    ${PROJECT_SOURCE_DIR}/tests/adapters/matrix_opencv_test.cpp
-    ${PROJECT_SOURCE_DIR}/tests/adapters/matrix_qt_test.cpp
     ${PROJECT_SOURCE_DIR}/tests/adapters/matrix_std_2d_vector_test.cpp
 )
+if (ARMADILLO_FOUND)
+set (
+    MunkresCppTest_SOURCES ${MunkresCppTest_SOURCES}
+    ${PROJECT_SOURCE_DIR}/tests/adapters/matrix_armadillo_test.cpp
+)
+endif ()
+if (Boost_FOUND)
+set (
+    MunkresCppTest_SOURCES ${MunkresCppTest_SOURCES}
+    ${PROJECT_SOURCE_DIR}/tests/adapters/matrix_boost_test.cpp
+)
+endif ()
+if (EIGEN3_FOUND)
+set (
+    MunkresCppTest_SOURCES ${MunkresCppTest_SOURCES}
+    ${PROJECT_SOURCE_DIR}/tests/adapters/matrix_eigen_test.cpp
+)
+endif ()
+if (OpenCV_FOUND)
+set (
+    MunkresCppTest_SOURCES ${MunkresCppTest_SOURCES}
+    ${PROJECT_SOURCE_DIR}/tests/adapters/matrix_opencv_test.cpp
+)
+endif ()
+if (Qt5Gui_FOUND)
+set (
+    MunkresCppTest_SOURCES ${MunkresCppTest_SOURCES}
+    ${PROJECT_SOURCE_DIR}/tests/adapters/matrix_qt_test.cpp
+)
+endif ()
 add_executable (munkrestest EXCLUDE_FROM_ALL ${MunkresCppTest_SOURCES})
 target_link_libraries (
     munkrestest
