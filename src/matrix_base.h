@@ -36,33 +36,33 @@ class matrix_base
 {
     public:
         // Types.
-        using elem_t = T;
+        using value_type = T;
 
         // Constants.
-        static constexpr elem_t zero = elem_t (0);
-        static constexpr elem_t max_val = std::numeric_limits<elem_t>::max ();
+        static constexpr value_type zero = value_type (0);
+        static constexpr value_type max_val = std::numeric_limits<value_type>::max ();
 
         // Interface.
         virtual ~matrix_base () = default;
-        virtual const elem_t & operator () (const size_t, const size_t) const noexcept = 0;
-        virtual elem_t & operator () (const size_t, const size_t) noexcept = 0;
+        virtual const value_type & operator () (const size_t, const size_t) const noexcept = 0;
+        virtual value_type & operator () (const size_t, const size_t) noexcept = 0;
         virtual size_t columns () const noexcept = 0;
         virtual size_t rows () const noexcept = 0;
 
         // Default implementation.
-        virtual void resize (const size_t rows, const size_t columns, const elem_t = zero)
+        virtual void resize (const size_t rows, const size_t columns, const value_type = zero)
         {
             if (rows != this->rows () || columns != this->columns () ) {
                 throw std::logic_error ("Called function with inappropriate default implementation.");
             }
         }
 
-        virtual elem_t max () const
+        virtual value_type max () const
         {
-            elem_t max_elem = rows () && columns () ? operator () (0, 0) : zero;
+            value_type max_elem = rows () && columns () ? operator () (0, 0) : zero;
             for (size_t i = 0; i < rows (); ++i) {
                 for (size_t j = 0; j < columns (); ++j) {
-                    max_elem = std::max<elem_t>( max_elem, operator () (i, j) );
+                    max_elem = std::max<value_type>( max_elem, operator () (i, j) );
                 }
             }
             return max_elem;
@@ -74,7 +74,7 @@ class matrix_base
             return rows () < columns () ? rows () : columns ();
         }
 
-        static constexpr bool is_infinity (const elem_t & elem) noexcept
+        static constexpr bool is_infinity (const value_type & elem) noexcept
         {
             return std::isinf (elem);
         }
