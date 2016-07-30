@@ -1,6 +1,7 @@
 find_package (Boost     COMPONENTS  system  REQUIRED)
 find_package (OpenCV    COMPONENTS  core    REQUIRED)
 find_package (Armadillo                     REQUIRED)
+find_package (Eigen3                        REQUIRED)
 
 enable_testing ()
 
@@ -26,6 +27,7 @@ set (GTEST_BOTH_LIBRARIES ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARIES})
 include_directories (${GTEST_INCLUDE_DIRS})
 include_directories (${OPENCV_INCLUDE_DIRS})
 include_directories (${ARMADILLO_INCLUDE_DIRS})
+include_directories (${EIGEN3_INCLUDE_DIR})
 
 # Special flags fo generating code coverage.
 set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage")
@@ -55,6 +57,7 @@ set (
     ${PROJECT_SOURCE_DIR}/tests/adapters/boost_matrixtest.cpp
     ${PROJECT_SOURCE_DIR}/tests/adapters/opencv_matrixtest.cpp
     ${PROJECT_SOURCE_DIR}/tests/adapters/armadillo_matrixtest.cpp
+    ${PROJECT_SOURCE_DIR}/tests/adapters/eigen_matrixtest.cpp
 )
 add_executable (munkrestest EXCLUDE_FROM_ALL ${MunkresCppTest_SOURCES})
 target_link_libraries (
