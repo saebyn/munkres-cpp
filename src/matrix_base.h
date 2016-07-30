@@ -68,13 +68,12 @@ class matrix_base
             return max_elem;
         }
 
+        // Implementation.
         size_t minsize () const
         {
             return rows () < columns () ? rows () : columns ();
         }
 
-    private:
-        // Implementation.
         static constexpr bool is_infinity (const elem_t & elem) noexcept
         {
             return std::isinf (elem);
