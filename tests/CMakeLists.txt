@@ -2,6 +2,7 @@ find_package (Boost     COMPONENTS  system  REQUIRED)
 find_package (OpenCV    COMPONENTS  core    REQUIRED)
 find_package (Armadillo                     REQUIRED)
 find_package (Eigen3                        REQUIRED)
+find_package (Qt5Gui                        REQUIRED)
 
 enable_testing ()
 
@@ -58,12 +59,14 @@ set (
     ${PROJECT_SOURCE_DIR}/tests/adapters/opencv_matrixtest.cpp
     ${PROJECT_SOURCE_DIR}/tests/adapters/armadillo_matrixtest.cpp
     ${PROJECT_SOURCE_DIR}/tests/adapters/eigen_matrixtest.cpp
+    ${PROJECT_SOURCE_DIR}/tests/adapters/qt_matrixtest.cpp
 )
 add_executable (munkrestest EXCLUDE_FROM_ALL ${MunkresCppTest_SOURCES})
 target_link_libraries (
     munkrestest
     ${GTEST_BOTH_LIBRARIES}
     ${OpenCV_LIBS}
+    Qt5::Gui
     gcov
     pthread
 )
