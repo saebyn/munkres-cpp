@@ -31,11 +31,6 @@ class matrix_qt : public matrix_base<T>, QGenericMatrix<N, M, T>
     public:
         using elem_t = typename matrix_base<T>::elem_t;
 
-        //matrix_qt ()
-        //    : Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>::Matrix (rows, columns)
-        //{
-        //}
-
         const elem_t & operator () (const size_t row, const size_t column) const noexcept override
         {
             return QGenericMatrix<N, M, T>::operator () (row, column) ;
