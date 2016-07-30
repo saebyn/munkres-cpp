@@ -29,19 +29,17 @@ template<class T>
 class matrix_eigen : public matrix_base<T>, Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>
 {
     public:
-        using elem_t = typename matrix_base<T>::elem_t;
-
         matrix_eigen (const size_t rows, const size_t columns)
             : Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>::Matrix (rows, columns)
         {
         }
 
-        const elem_t & operator () (const size_t row, const size_t column) const noexcept override
+        const T & operator () (const size_t row, const size_t column) const noexcept override
         {
             return Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>::operator () (row, column) ;
         };
 
-        elem_t & operator () (const size_t row, const size_t column) noexcept override
+        T & operator () (const size_t row, const size_t column) noexcept override
         {
             return Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>::operator () (row, column) ;
         }

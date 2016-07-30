@@ -30,19 +30,17 @@ template<class T>
 class matrix_std_2d_vector : public matrix_base<T>
 {
     public:
-        using elem_t = typename matrix_base<T>::elem_t;
-
         matrix_std_2d_vector (std::vector<std::vector<T>> & data)
             : data {data}
         {
         }
 
-        const elem_t & operator () (const size_t row, const size_t column) const noexcept override
+        const T & operator () (const size_t row, const size_t column) const noexcept override
         {
             return data [row][column];
         };
 
-        elem_t & operator () (const size_t row, const size_t column) noexcept override
+        T & operator () (const size_t row, const size_t column) noexcept override
         {
             return data [row][column];
         }
@@ -61,7 +59,7 @@ class matrix_std_2d_vector : public matrix_base<T>
             return data.size ();
         }
 
-        void resize (const size_t rows, const size_t columns, const elem_t value = matrix_base<T>::zero) override
+        void resize (const size_t rows, const size_t columns, const T value = matrix_base<T>::zero) override
         {
             if (rows != this->rows () ) {
                 data.resize (rows);

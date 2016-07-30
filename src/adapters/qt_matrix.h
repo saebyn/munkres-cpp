@@ -29,14 +29,12 @@ template<class T, const int N, const int M>
 class matrix_qt : public matrix_base<T>, QGenericMatrix<N, M, T>
 {
     public:
-        using elem_t = typename matrix_base<T>::elem_t;
-
-        const elem_t & operator () (const size_t row, const size_t column) const noexcept override
+        const T & operator () (const size_t row, const size_t column) const noexcept override
         {
             return QGenericMatrix<N, M, T>::operator () (row, column) ;
         };
 
-        elem_t & operator () (const size_t row, const size_t column) noexcept override
+        T & operator () (const size_t row, const size_t column) noexcept override
         {
             return QGenericMatrix<N, M, T>::operator () (row, column) ;
         }

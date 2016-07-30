@@ -29,19 +29,17 @@ template<class T>
 class matrix_opencv : public matrix_base<T>, cv::Mat_<T>
 {
     public:
-        using elem_t = typename matrix_base<T>::elem_t;
-
         matrix_opencv (const size_t rows, const size_t columns)
             : cv::Mat_<T>::Mat_ (rows, columns)
         {
         }
 
-        const elem_t & operator () (const size_t row, const size_t column) const noexcept override
+        const T & operator () (const size_t row, const size_t column) const noexcept override
         {
             return cv::Mat_<T>::operator () (row, column) ;
         };
 
-        elem_t & operator () (const size_t row, const size_t column) noexcept override
+        T & operator () (const size_t row, const size_t column) noexcept override
         {
             return cv::Mat_<T>::operator () (row, column) ;
         }
