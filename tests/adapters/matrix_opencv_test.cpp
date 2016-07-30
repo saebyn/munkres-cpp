@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 #include "munkres.h"
-#include "adapters/opencv_matrix.h"
+#include "adapters/matrix_opencv.h"
 
 
 

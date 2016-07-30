@@ -52,14 +52,14 @@ set_source_files_properties (
 # Test suites.
 set (
     MunkresCppTest_SOURCES
-    ${PROJECT_SOURCE_DIR}/tests/munkrestest.cpp
-    ${PROJECT_SOURCE_DIR}/tests/matrixtest.cpp
-    ${PROJECT_SOURCE_DIR}/tests/adapters/std_2d_vectortest.cpp
-    ${PROJECT_SOURCE_DIR}/tests/adapters/boost_matrixtest.cpp
-    ${PROJECT_SOURCE_DIR}/tests/adapters/opencv_matrixtest.cpp
-    ${PROJECT_SOURCE_DIR}/tests/adapters/armadillo_matrixtest.cpp
-    ${PROJECT_SOURCE_DIR}/tests/adapters/eigen_matrixtest.cpp
-    ${PROJECT_SOURCE_DIR}/tests/adapters/qt_matrixtest.cpp
+    ${PROJECT_SOURCE_DIR}/tests/munkres_test.cpp
+    ${PROJECT_SOURCE_DIR}/tests/matrix_test.cpp
+    ${PROJECT_SOURCE_DIR}/tests/adapters/matrix_armadillo_test.cpp
+    ${PROJECT_SOURCE_DIR}/tests/adapters/matrix_boost_test.cpp
+    ${PROJECT_SOURCE_DIR}/tests/adapters/matrix_eigen_test.cpp
+    ${PROJECT_SOURCE_DIR}/tests/adapters/matrix_opencv_test.cpp
+    ${PROJECT_SOURCE_DIR}/tests/adapters/matrix_qt_test.cpp
+    ${PROJECT_SOURCE_DIR}/tests/adapters/matrix_std_2d_vector_test.cpp
 )
 add_executable (munkrestest EXCLUDE_FROM_ALL ${MunkresCppTest_SOURCES})
 target_link_libraries (

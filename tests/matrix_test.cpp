@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "matrixtest.h"
+#include "matrix_test.h"
 #include <iostream>
 #include <iomanip>
 
