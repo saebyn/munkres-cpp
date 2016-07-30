@@ -9,60 +9,63 @@ class Adapters_std_2d_vector_Test : public ::testing::Test
 
 
 
-TEST_F (Adapters_std_2d_vector_Test, convert_std_2d_vector_to_munkres_matrix_Success)
+TEST_F (Adapters_std_2d_vector_Test, resize_std_2d_vector_reduce_Success)
 {
     // Arrange.
-    constexpr unsigned int dimension {3};
-    const std::vector<std::vector<double>> test_vector {{
-                                                            {1, 2, 3},
-                                                            {4, 5, 6},
-                                                            {7, 8, 9}
-                                                        }};
-    const Matrix<double> etalon_matrix {
-        {1, 2, 3},
-        {4, 5, 6},
-        {7, 8, 9}
+    std::vector<std::vector<double>> etalon_vector
+    {
+        {1.0},
+        {4.0},
     };
 
+    std::vector<std::vector<double>> test_vector
+    {
+        {1.0, 2.0, 3.0},
+        {4.0, 5.0, 6.0},
+        {7.0, 8.0, 9.0}
+    };
+    munkres::matrix_std_2d_vector<double> test_matrix (test_vector);
+
     // Act.
-    const auto test_matrix = convert_std_2d_vector_to_munkres_matrix<double>(test_vector);
+    test_matrix.resize (2, 1);
 
     // Assert.
-    for (unsigned int row = 0; row < dimension; ++row) {
-        for (unsigned int col = 0; col < dimension; ++col) {
-            EXPECT_EQ ( etalon_matrix (row, col), test_matrix (row, col) );
+    ASSERT_EQ (etalon_vector.size (), test_vector.size () );
+    for (unsigned int row = 0; row < etalon_vector.size (); ++row) {
+        ASSERT_EQ (etalon_vector [row].size (), test_vector [row].size () );
+        for (unsigned int col = 0; col < etalon_vector [row].size (); ++col) {
+            EXPECT_EQ (etalon_vector [row][col], test_vector [row][col]);
         }
     }
 }
 
 
 
-TEST_F (Adapters_std_2d_vector_Test, fill_std_2d_vector_from_munkres_matrix_Success)
+TEST_F (Adapters_std_2d_vector_Test, resize_std_2d_vector_increase_Success)
 {
     // Arrange.
-    constexpr unsigned int dimension {3};
-    std::vector<std::vector<double>> test_vector {{
-                                                      {0, 0, 0},
-                                                      {0, 0, 0},
-                                                      {0, 0, 0}
-                                                  }};
-    const std::vector<std::vector<double>> etalon_vector {{
-                                                              {1, 2, 3},
-                                                              {4, 5, 6},
-                                                              {7, 8, 9}
-                                                          }};
-    const Matrix<double> etalon_matrix {
-        {1, 2, 3},
-        {4, 5, 6},
-        {7, 8, 9}
+    std::vector<std::vector<double>> etalon_vector
+    {
+        {1.0, 2.0, 0.0},
+        {3.0, 4.0, 0.0},
+        {0.0, 0.0, 0.0}
     };
 
+    std::vector<std::vector<double>> test_vector
+    {
+        {1.0,  2.0},
+        {3.0,  4.0},
+    };
+    munkres::matrix_std_2d_vector<double> test_matrix (test_vector);
+
     // Act.
-    fill_std_2d_vector_from_munkres_matrix<double>(test_vector, etalon_matrix);
+    test_matrix.resize (3, 3);
 
     // Assert.
-    for (unsigned int row = 0; row < dimension; ++row) {
-        for (unsigned int col = 0; col < dimension; ++col) {
+    ASSERT_EQ (etalon_vector.size (), test_vector.size () );
+    for (unsigned int row = 0; row < etalon_vector.size (); ++row) {
+        ASSERT_EQ (etalon_vector [row].size (), test_vector [row].size () );
+        for (unsigned int col = 0; col < etalon_vector [row].size (); ++col) {
             EXPECT_EQ (etalon_vector [row][col], test_vector [row][col]);
         }
     }
@@ -73,25 +76,31 @@ TEST_F (Adapters_std_2d_vector_Test, fill_std_2d_vector_from_munkres_matrix_Succ
 TEST_F (Adapters_std_2d_vector_Test, solve_std_2d_vector_Success)
 {
     // Arrange.
-    constexpr unsigned int dimension {3};
-    std::vector<std::vector<double>> etalon_vector {{
-                                                        {-1.0,  0.0, -1.0},
-                                                        { 0.0, -1.0, -1.0},
-                                                        {-1.0, -1.0,  0.0}
-                                                    }};
-    std::vector<std::vector<double>> test_vector {{
-                                                      {1.0,  0.0,  1.0},
-                                                      {0.0,  1.0,  1.0},
-                                                      {1.0,  1.0,  0.0}
-                                                  }};
+    std::vector<std::vector<double>> etalon_vector
+    {
+        {-1.0,  0.0, -1.0},
+        { 0.0, -1.0, -1.0},
+        {-1.0, -1.0,  0.0}
+    };
+    std::vector<std::vector<double>> test_vector
+    {
+        {1.0,  0.0,  1.0},
+        {0.0,  1.0,  1.0},
+        {1.0,  1.0,  0.0}
+    };
+    munkres::matrix_std_2d_vector<double> test_matrix (test_vector);
 
     // Act.
-    solve (test_vector);
+    Munkres<double> solver;
+    solver.solve (test_matrix);
 
     // Assert.
-    for (unsigned int row = 0; row < dimension; ++row) {
-        for (unsigned int col = 0; col < dimension; ++col) {
+    ASSERT_EQ (etalon_vector.size (), test_vector.size () );
+    for (unsigned int row = 0; row < etalon_vector.size (); ++row) {
+        ASSERT_EQ (etalon_vector [row].size (), test_vector [row].size () );
+        for (unsigned int col = 0; col < etalon_vector [row].size (); ++col) {
             EXPECT_EQ (etalon_vector [row][col], test_vector [row][col]);
         }
     }
 }
+

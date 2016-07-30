@@ -19,48 +19,68 @@
 #if !defined(_MUNKRES_ADAPTERS_BOOST_MATRIX_H_)
 #define _MUNKRES_ADAPTERS_BOOST_MATRIX_H_
 
-#include "munkres.h"
+#include "matrix_base.h"
 #include <boost/numeric/ublas/matrix.hpp>
 
-
-
-// Set of functions for boost matrix.
-template<typename T>
-Matrix<T> convert_boost_matrix_to_munkres_matrix (const boost::numeric::ublas::matrix<T> & boost_matrix)
+namespace munkres
 {
-    const auto dimention = std::min ( boost_matrix.size1 (), boost_matrix.size2 () );
-    Matrix<T> matrix (dimention, dimention);
-    for (int i = 0; i < dimention; ++i) {
-        for (int j = 0; j < dimention; ++j) {
-            matrix (i, j) = boost_matrix (i, j);
+
+template<class T>
+class matrix_boost : public matrix_base<T>, boost::numeric::ublas::matrix<T>
+{
+    public:
+        using elem_t = typename matrix_base<T>::elem_t;
+
+        matrix_boost (const size_t rows, const size_t columns)
+            : boost::numeric::ublas::matrix<T>::matrix (rows, columns)
+        {
         }
-    }
 
-    return matrix;
-};
+        const elem_t & operator () (const size_t row, const size_t column) const noexcept override
+        {
+            return boost::numeric::ublas::matrix<T>::operator () (row, column);
+        };
 
-
-
-template<typename T>
-void fill_boost_matrix_from_munkres_matrix (boost::numeric::ublas::matrix<T> & boost_matrix, const Matrix<T> & matrix)
-{
-    const auto dimention = std::min ( boost_matrix.size1 (), boost_matrix.size2 () );
-    for (int i = 0; i < dimention; ++i) {
-        for (int j = 0; j < dimention; ++j) {
-            boost_matrix (i, j) = matrix (i, j);
+        elem_t & operator () (const size_t row, const size_t column) noexcept override
+        {
+            return boost::numeric::ublas::matrix<T>::operator () (row, column);
         }
-    }
+
+        size_t columns () const noexcept override
+        {
+            return boost::numeric::ublas::matrix<T>::size2 ();
+        }
+
+        size_t rows () const noexcept override
+        {
+            return boost::numeric::ublas::matrix<T>::size1 ();
+        }
+
+        void resize (const size_t rows, const size_t columns, const elem_t value = matrix_base<T>::zero) override
+        {
+            if (rows != this->rows () || columns != this->columns () ) {
+                const auto rows_old = this->rows ();
+                const auto columns_old = this->columns ();
+                boost::numeric::ublas::matrix<T>::resize (rows, columns, true);
+                if (rows_old < rows) {
+                    for (size_t i = rows_old; i < rows; ++i) {
+                        for (size_t j = 0; j < columns; ++j) {
+                            this->operator() (i, j) = value;
+                        }
+                    }
+                }
+                if (columns_old < columns) {
+                    for (size_t i = columns_old; i < columns; ++i) {
+                        for (size_t j = 0; j < rows; ++j) {
+                            this->operator() (j, i) = value;
+                        }
+                    }
+                }
+
+            }
+        }
 };
 
-
-
-template<typename T>
-void solve (boost::numeric::ublas::matrix<T> & boost_matrix)
-{
-    auto matrix = convert_boost_matrix_to_munkres_matrix<T>(boost_matrix);
-    Munkres<T> munkres;
-    munkres.solve (matrix);
-    fill_boost_matrix_from_munkres_matrix<T>(boost_matrix, matrix);
-};
+}// namespace munkres
 
 #endif /* !defined(_MUNKRES_ADAPTERS_BOOST_MATRIX_H_) */

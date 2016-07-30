@@ -23,44 +23,60 @@
 #include <vector>
 
 
-
-// Set of functions for two-dimensional std::vector.
-template<typename T>
-Matrix<T> convert_std_2d_vector_to_munkres_matrix (const std::vector<std::vector<T>> & vector)
+namespace munkres
 {
-    const int dimention = vector.size ();
-    Matrix<T> matrix (dimention, dimention);
-    for (int i = 0; i < dimention; ++i) {
-        for (int j = 0; j < dimention; ++j) {
-            matrix (i, j) = vector [i][j];
+
+template<class T>
+class matrix_std_2d_vector : public matrix_base<T>
+{
+    public:
+        using elem_t = typename matrix_base<T>::elem_t;
+
+        matrix_std_2d_vector (std::vector<std::vector<T>> & data)
+            : data {data}
+        {
         }
-    }
 
-    return matrix;
-};
+        const elem_t & operator () (const size_t row, const size_t column) const noexcept override
+        {
+            return data [row][column];
+        };
 
-
-
-template<typename T>
-void fill_std_2d_vector_from_munkres_matrix (std::vector<std::vector<T>> & vector, const Matrix<T> & matrix)
-{
-    const int dimention = vector.size ();
-    for (int i = 0; i < dimention; ++i) {
-        for (int j = 0; j < dimention; ++j) {
-            vector [i][j] = matrix (i, j);
+        elem_t & operator () (const size_t row, const size_t column) noexcept override
+        {
+            return data [row][column];
         }
-    }
+
+        size_t columns () const noexcept override
+        {
+            size_t columns = data.size () ? data [0].size () : 0;
+            for (size_t i = 0; i < data.size(); ++i) {
+                columns = std::min (columns, data [i].size () );
+            }
+            return columns;
+        }
+
+        size_t rows () const noexcept override
+        {
+            return data.size ();
+        }
+
+        void resize (const size_t rows, const size_t columns, const elem_t value = matrix_base<T>::zero) override
+        {
+            if (rows != this->rows () ) {
+                data.resize (rows);
+                if (columns != this->columns () ) {
+                    for (size_t i = 0; i < rows; ++i) {
+                        data [i].resize (columns, value);
+                    }
+                }
+            }
+        }
+
+    private:
+        std::vector<std::vector<T>> & data;
 };
 
-
-
-template<typename T>
-void solve (std::vector<std::vector<T>> & m)
-{
-    auto matrix = convert_std_2d_vector_to_munkres_matrix<T>(m);
-    Munkres<T> munkres;
-    munkres.solve (matrix);
-    fill_std_2d_vector_from_munkres_matrix<T>(m, matrix);
-};
+}// namespace munkres
 
 #endif /* !defined(_MUNKRES_ADAPTERS_STD_2D_VECTOR_H_) */
