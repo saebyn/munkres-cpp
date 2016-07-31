@@ -37,7 +37,7 @@ class Matrix : public munkres::matrix_base<T>
         Matrix (const Matrix<T> & other);
         Matrix<T> & operator= (const Matrix<T> & other);
         ~Matrix () override;
-        // all operations modify the matrix in-place.
+        // All operations modify the matrix in-place.
         void resize (const size_t rows, const size_t columns, const T default_value = 0);
         void clear ();
         const T & operator () (const size_t x, const size_t y) const noexcept override;
@@ -67,18 +67,18 @@ class Matrix : public munkres::matrix_base<T>
 
 template<class T>
 Matrix<T>::Matrix ()
+    : m_matrix {nullptr}
+    , m_rows {0}
+    , m_columns {0}
 {
-    m_rows = 0;
-    m_columns = 0;
-    m_matrix = nullptr;
 }
 
 
 
 template<class T>
 Matrix<T>::Matrix (const std::initializer_list<std::initializer_list<T>> init)
+    : m_matrix {nullptr}
 {
-    m_matrix = nullptr;
     m_rows = init.size ();
     if (m_rows == 0) {
         m_columns = 0;
@@ -105,7 +105,7 @@ template<class T>
 Matrix<T>::Matrix (const Matrix<T> & other)
 {
     if (other.m_matrix != nullptr) {
-        // copy arrays
+        // Copy arrays.
         m_matrix = nullptr;
         resize (other.m_rows, other.m_columns);
         for (size_t i = 0; i < m_rows; i++) {
@@ -124,8 +124,8 @@ Matrix<T>::Matrix (const Matrix<T> & other)
 
 template<class T>
 Matrix<T>::Matrix (const size_t rows, const size_t columns)
+    : m_matrix {nullptr}
 {
-    m_matrix = nullptr;
     resize (rows, columns);
 }
 
@@ -135,7 +135,7 @@ template<class T>
 Matrix<T> & Matrix<T>::operator= (const Matrix<T> & other)
 {
     if (other.m_matrix != nullptr) {
-        // copy arrays
+        // Copy arrays.
         resize (other.m_rows, other.m_columns);
         for (size_t i = 0; i < m_rows; i++) {
             for (size_t j = 0; j < m_columns; j++) {
@@ -143,7 +143,7 @@ Matrix<T> & Matrix<T>::operator= (const Matrix<T> & other)
             }
         }
     } else {
-        // free arrays
+        // Free arrays.
         for (size_t i = 0; i < m_columns; i++) {
             delete [] m_matrix[i];
         }
@@ -164,7 +164,7 @@ template<class T>
 Matrix<T>::~Matrix ()
 {
     if (m_matrix != nullptr) {
-        // free arrays
+        // Free arrays.
         for (size_t i = 0; i < m_rows; i++) {
             delete [] m_matrix[i];
         }
@@ -182,28 +182,28 @@ void Matrix<T>::resize (const size_t rows, const size_t columns, const T default
     assert ( rows > 0 && columns > 0 && "Columns and rows must exist." );
 
     if (m_matrix == nullptr) {
-        // alloc arrays
-        m_matrix = new T *[rows]; // rows
+        // Alloc arrays.
+        m_matrix = new T *[rows];           // Rows.
         for (size_t i = 0; i < rows; i++) {
-            m_matrix[i] = new T[columns]; // columns
+            m_matrix[i] = new T[columns];   // Columns.
         }
 
         m_rows = rows;
         m_columns = columns;
         clear ();
     } else {
-        // save array pointer
+        // Save array pointer.
         T ** new_matrix;
-        // alloc new arrays
-        new_matrix = new T *[rows]; // rows
+        // Alloc new arrays.
+        new_matrix = new T *[rows];         // Rows.
         for (size_t i = 0; i < rows; i++) {
-            new_matrix[i] = new T[columns]; // columns
+            new_matrix[i] = new T[columns]; // Columns.
             for (size_t j = 0; j < columns; j++) {
                 new_matrix[i][j] = default_value;
             }
         }
 
-        // copy data from saved pointer to new arrays
+        // Copy data from saved pointer to new arrays.
         size_t minrows = std::min (rows, m_rows);
         size_t mincols = std::min (columns, m_columns);
         for (size_t x = 0; x < minrows; x++) {
@@ -212,7 +212,7 @@ void Matrix<T>::resize (const size_t rows, const size_t columns, const T default
             }
         }
 
-        // delete old arrays
+        // Delete old arrays.
         if (m_matrix != nullptr) {
             for (size_t i = 0; i < m_rows; i++) {
                 delete [] m_matrix[i];
