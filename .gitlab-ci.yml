@@ -4,6 +4,7 @@ image: gluttton/munkres-cpp:latest
 stages:
     - build
     - test
+    - full
 
 
 build_job:
@@ -17,8 +18,6 @@ build_job:
     script:
         - cd ${BUILD_DIR}
         - make
-    #after_script:
-    #    - rm -rf ${BUILD_DIR}
 
 
 test_job:
@@ -32,7 +31,6 @@ test_job:
     script:
         - make tests
         - cd ${BUILD_DIR}/tests && ./munkrestest > /dev/null
-    #after_script:
         - cd ${BUILD_DIR}
         - mkdir coverage
         - cp -v ../src/*.h coverage
@@ -41,6 +39,16 @@ test_job:
         - cd coverage
         - find . -type f -name '*.gcda' -exec gcov {} +
         - bash <(curl -s https://codecov.io/bash) -t 5a25c8bf-2d43-48cb-a813-9eef7f694194
-    #when: on_success
-    #dependencies:
-    #    - build_job
+
+
+full_job:
+    stage: test
+    before_script:
+        - git checkout devel
+        - BUILD_DIR=`pwd`/build
+        - mkdir -p ${BUILD_DIR}
+        - cd ${BUILD_DIR}
+        - cmake -DCMAKE_BUILD_TYPE=Debug -DMUNKRESCPP_DEVEL_MODE=ON ${BUILD_DIR}/..
+    script:
+        - make example
+        - make banchmarks
