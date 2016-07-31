@@ -42,7 +42,7 @@ test_job:
 
 
 full_job:
-    stage: test
+    stage: full
     before_script:
         - git checkout devel
         - BUILD_DIR=`pwd`/build
