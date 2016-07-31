@@ -6,7 +6,7 @@
 
 
 // Main function.
-int main (int argc, char * argv [])
+int main (int /*argc*/, char * /*argv*/ [])
 {
     std::vector<Matrix<double> *> matrices;
     read<double>(matrices);

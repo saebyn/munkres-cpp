@@ -34,13 +34,13 @@ BENCHMARK_F (MunkresFixture, Solve, 5000, 1)
 
 
 // Main function.
-int main (int argc, char * argv [])
+int main (int /*argc*/, char * /*argv*/ [])
 {
     read<double>(matrices);
 
     hayai::ConsoleOutputter consoleOutputter;
     hayai::Benchmarker::AddOutputter (consoleOutputter);
-    for (const auto x : matrices) {
+    while (i < matrices.size () ) {
         hayai::Benchmarker::RunAllTests ();
         ++i;
     }

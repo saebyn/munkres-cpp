@@ -45,7 +45,7 @@ int main (int argc, char * argv [])
 {
     read<double>(matrices);
 
-    for (const auto x : matrices) {
+    while (i < matrices.size () ) {
         celero::Run (argc, argv);
         ++i;
     }
