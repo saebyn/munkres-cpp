@@ -39,7 +39,7 @@ class Munkres
         static constexpr char NORMAL = 0;
         static constexpr char STAR = 1;
         static constexpr char PRIME = 2;
-        inline bool find_uncovered_in_matrix (munkres::matrix_base<T> &, const double, size_t &, size_t &) const;
+        inline bool find_uncovered_in_matrix (munkres::matrix_base<T> &, const T, size_t &, size_t &) const;
         int step1 (munkres::matrix_base<T> &);
         int step2 (munkres::matrix_base<T> &);
         int step3 (munkres::matrix_base<T> &);
@@ -61,8 +61,8 @@ void replace_infinites (munkres::matrix_base<T> & matrix)
     const size_t rows = matrix.rows (),
                  columns = matrix.columns ();
     assert ( rows > 0 && columns > 0 );
-    double max = matrix (0, 0);
-    constexpr auto infinity = std::numeric_limits<double>::infinity ();
+    T max = matrix (0, 0);
+    constexpr auto infinity = std::numeric_limits<T>::infinity ();
 
     // Find the greatest value in the matrix that isn't infinity.
     for (size_t row = 0; row < rows; row++) {
@@ -71,13 +71,13 @@ void replace_infinites (munkres::matrix_base<T> & matrix)
                 if (max == infinity) {
                     max = matrix (row, col);
                 } else {
-                    max = std::max<double>( max, matrix (row, col) );
+                    max = std::max<T>( max, matrix (row, col) );
                 }
             }
         }
     }
 
-    // a value higher than the maximum value present in the matrix.
+    // A value higher than the maximum value present in the matrix.
     if (max == infinity) {
         // This case only occurs when all values are infinite.
         max = 0;
@@ -92,7 +92,6 @@ void replace_infinites (munkres::matrix_base<T> & matrix)
             }
         }
     }
-
 }
 
 
@@ -103,16 +102,15 @@ void minimize_along_direction (munkres::matrix_base<T> & matrix, const bool over
     const size_t outer_size = over_columns ? matrix.columns () : matrix.rows (),
                  inner_size = over_columns ? matrix.rows () : matrix.columns ();
 
-    // Look for a minimum value to subtract from all values along
-    // the "outer" direction.
+    // Look for a minimum value to subtract from all values along the "outer" direction.
     for (size_t i = 0; i < outer_size; i++) {
-        double min = over_columns ? matrix (0, i) : matrix (i, 0);
+        T min = over_columns ? matrix (0, i) : matrix (i, 0);
 
         // As long as the current minimum is greater than zero,
         // keep looking for the minimum.
         // Start at one because we already have the 0th value in min.
         for (size_t j = 1; j < inner_size && min > 0; j++) {
-            min = std::min<double>(
+            min = std::min<T>(
                 min,
                 over_columns ? matrix (j, i) : matrix (i, j) );
         }
@@ -132,7 +130,7 @@ void minimize_along_direction (munkres::matrix_base<T> & matrix, const bool over
 
 
 template<typename T>
-bool Munkres<T>::find_uncovered_in_matrix (munkres::matrix_base<T> & matrix, const double item, size_t & row, size_t & col) const
+bool Munkres<T>::find_uncovered_in_matrix (munkres::matrix_base<T> & matrix, const T item, size_t & row, size_t & col) const
 {
     const size_t rows = matrix.rows (),
                  columns = matrix.columns ();
@@ -222,28 +220,25 @@ int Munkres<T>::step2 (munkres::matrix_base<T> & matrix)
 template<typename T>
 int Munkres<T>::step3 (munkres::matrix_base<T> & matrix)
 {
-    /*
-       Main Zero Search
-
-       1. Find an uncovered Z in the distance matrix and prime it. If no such zero exists, go to Step 5
-       2. If No Z* exists in the row of the Z', go to Step 4.
-       3. If a Z* exists, cover this row and uncover the column of the Z*. Return to Step 3.1 to find a new Z
-     */
+    // Main Zero Search
+    // 1. Find an uncovered Z in the distance matrix and prime it. If no such zero exists, go to Step 5
+    // 2. If No Z* exists in the row of the Z', go to Step 4.
+    // 3. If a Z* exists, cover this row and uncover the column of the Z*. Return to Step 3.1 to find a new Z
     if (find_uncovered_in_matrix (matrix, 0, saverow, savecol) ) {
-        mask_matrix (saverow,savecol) = PRIME; // prime it.
+        mask_matrix (saverow,savecol) = PRIME;  // Prime it.
     } else {
         return 5;
     }
 
     for (size_t ncol = 0; ncol < matrix.columns (); ncol++) {
         if (mask_matrix (saverow,ncol) == STAR) {
-            row_mask[saverow] = true; //cover this row and
-            col_mask[ncol] = false; // uncover the column containing the starred zero
-            return 3; // repeat
+            row_mask[saverow] = true;   // Cover this row and
+            col_mask[ncol] = false;     // uncover the column containing the starred zero
+            return 3;                   // repeat.
         }
     }
 
-    return 4; // no starred zero in the row containing this primed zero
+    return 4;   // No starred zero in the row containing this primed zero.
 }
 
 
@@ -254,10 +249,10 @@ int Munkres<T>::step4 (munkres::matrix_base<T> & matrix)
     const size_t rows = matrix.rows (),
                  columns = matrix.columns ();
 
-    // seq contains pairs of row/column values where we have found
+    // Seq contains pairs of row/column values where we have found
     // either a star or a prime that is part of the ``alternating sequence``.
     std::list<std::pair<size_t,size_t>> seq;
-    // use saverow, savecol from step 3.
+    // Use saverow, savecol from step 3.
     std::pair<size_t,size_t> z0 (saverow, savecol);
     seq.insert (seq.end (), z0);
 
@@ -266,18 +261,14 @@ int Munkres<T>::step4 (munkres::matrix_base<T> & matrix)
     std::pair<size_t,size_t> z2n (-1, -1);
 
     size_t row, col = savecol;
-    /*
-       Increment Set of Starred Zeros
 
-       1. Construct the ``alternating sequence'' of primed and starred zeros:
-
-           Z0 : Unpaired Z' from Step 4.2
-           Z1 : The Z* in the column of Z0
-           Z[2N] : The Z' in the row of Z[2N-1], if such a zero exists
-           Z[2N+1] : The Z* in the column of Z[2N]
-
-        The sequence eventually terminates with an unpaired Z' = Z[2N] for some N.
-     */
+    // Increment Set of Starred Zeros
+    // 1. Construct the ``alternating sequence'' of primed and starred zeros:
+    //   Z0     : Unpaired Z' from Step 4.2
+    //   Z1     : The Z* in the column of Z0
+    //   Z[2N]  : The Z' in the row of Z[2N-1], if such a zero exists
+    //   Z[2N+1]: The Z* in the column of Z[2N]
+    // The sequence eventually terminates with an unpaired Z' = Z[2N] for some N.
     bool madepair;
     do {
         madepair = false;
@@ -345,15 +336,13 @@ int Munkres<T>::step5 (munkres::matrix_base<T> & matrix)
 {
     const size_t rows = matrix.rows (),
                  columns = matrix.columns ();
-    /*
-       New Zero Manufactures
 
-       1. Let h be the smallest uncovered entry in the (modified) distance matrix.
-       2. Add h to all covered rows.
-       3. Subtract h from all uncovered columns
-       4. Return to Step 3, without altering stars, primes, or covers.
-     */
-    double h = std::numeric_limits<double>::max ();
+    // New Zero Manufactures
+    // 1. Let h be the smallest uncovered entry in the (modified) distance matrix.
+    // 2. Add h to all covered rows.
+    // 3. Subtract h from all uncovered columns
+    // 4. Return to Step 3, without altering stars, primes, or covers.
+    T h = std::numeric_limits<T>::max ();
     for (size_t row = 0; row < rows; row++) {
         if (!row_mask[row]) {
             for (size_t col = 0; col < columns; col++) {
@@ -387,16 +376,12 @@ int Munkres<T>::step5 (munkres::matrix_base<T> & matrix)
 
 
 
-/*
- *
- * Linear assignment problem solution
- * [modifies matrix in-place.]
- * matrix(row,col): row major format assumed.
- *
- * Assignments are remaining 0 values
- * (extra 0 values are replaced with -1)
- *
- */
+// Linear assignment problem solution
+// [modifies matrix in-place.]
+// matrix(row,col): row major format assumed.
+//
+// Assignments are remaining 0 values
+// (extra 0 values are replaced with -1)
 template<typename T>
 void Munkres<T>::solve (munkres::matrix_base<T> & matrix)
 {
@@ -424,7 +409,7 @@ void Munkres<T>::solve (munkres::matrix_base<T> & matrix)
     }
 
 
-    // STAR == 1 == starred, PRIME == 2 == primed
+    // STAR == 1 == starred, PRIME == 2 == primed.
     mask_matrix.resize (size, size);
 
     row_mask = new bool[size];
@@ -473,14 +458,10 @@ void Munkres<T>::solve (munkres::matrix_base<T> & matrix)
         }
     }
 
-    // Store results
+    // Store results.
     for (size_t row = 0; row < size; row++) {
         for (size_t col = 0; col < size; col++) {
-            if (mask_matrix (row, col) == STAR) {
-                matrix (row, col) = 0;
-            } else {
-                matrix (row, col) = -1;
-            }
+            matrix (row, col) = mask_matrix (row, col) == STAR ? 0 : -1;
         }
     }
 
