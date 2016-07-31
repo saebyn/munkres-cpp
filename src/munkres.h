@@ -36,9 +36,9 @@ class Munkres
         void solve (munkres::matrix_base<T> & m);
 
     private:
-        static constexpr int NORMAL = 0;
-        static constexpr int STAR = 1;
-        static constexpr int PRIME = 2;
+        static constexpr char NORMAL = 0;
+        static constexpr char STAR = 1;
+        static constexpr char PRIME = 2;
         inline bool find_uncovered_in_matrix (munkres::matrix_base<T> &, const double, size_t &, size_t &) const;
         int step1 (munkres::matrix_base<T> &);
         int step2 (munkres::matrix_base<T> &);
@@ -47,7 +47,7 @@ class Munkres
         int step5 (munkres::matrix_base<T> &);
         int step6 (munkres::matrix_base<T> &);
 
-        Matrix<int> mask_matrix;
+        Matrix<char> mask_matrix;
         bool * row_mask;
         bool * col_mask;
         size_t saverow, savecol;
