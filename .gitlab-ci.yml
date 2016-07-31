@@ -1,6 +1,3 @@
-image: gluttton/munkres-cpp:latest
-
-
 stages:
     - build
     - test
@@ -9,6 +6,7 @@ stages:
 
 build_job:
     stage: build
+    image: gluttton/munkres-cpp:base
     before_script:
         - git checkout devel
         - BUILD_DIR=`pwd`/build
@@ -22,6 +20,7 @@ build_job:
 
 test_job:
     stage: test
+    image: gluttton/munkres-cpp:complete
     before_script:
         - git checkout devel
         - BUILD_DIR=`pwd`/build
@@ -43,6 +42,7 @@ test_job:
 
 full_job:
     stage: full
+    image: gluttton/munkres-cpp:base
     before_script:
         - git checkout devel
         - BUILD_DIR=`pwd`/build
