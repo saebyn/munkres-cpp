@@ -51,4 +51,4 @@ full_job:
         - cmake -DCMAKE_BUILD_TYPE=Debug -DMUNKRESCPP_DEVEL_MODE=ON ${BUILD_DIR}/..
     script:
         - make example
-        - make banchmarks
+        - make benchmarks
