@@ -66,6 +66,10 @@ Development
 For development purpose in the project implemented a variety of build targets.
 All of them help to continuously check correctness of algorithm implementation, performance, memory management, etc.
 To configure project in development mode ```-DMUNKRESCPP_DEVEL_MODE=ON``` option must be passed to CMake.
+Also for debug purpose defined macro which in primitive way provides basic concepts
+of [Design By Contract](https://en.wikipedia.org/wiki/Design_by_contract). By default the macro is disabled and
+assertions are not checked. The macro can be enabled in one of modes: if assertion is failed only printing debug message (1),
+or throwing exception (2). To configure the mode ```-DDBC_MODE=X``` option must be passed to CMake.
 
 Launch of unit tests.
 The project contains unit tests to build and launch it performs the following steps:
