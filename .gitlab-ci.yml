@@ -32,7 +32,7 @@ test_job:
         - cd ${BUILD_DIR}/tests && ./munkrestest > /dev/null
         - cd ${BUILD_DIR}
         - mkdir coverage
-        - cp -v ../src/*.h coverage
+        - cp -v ../src/munkres-cpp/*.h coverage
         - mv tests/CMakeFiles/munkrestest.dir/*.gcda coverage
         - mv tests/CMakeFiles/munkrestest.dir/*.gcno coverage
         - cd coverage
