@@ -16,45 +16,45 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
  */
 
-#if !defined(_MUNKRES_ADAPTERS_ARMADILLO_MATRIX_H_)
-#define _MUNKRES_ADAPTERS_ARMADILLO_MATRIX_H_
+#if !defined(_MUNKRES_ADAPTERS_OPENCV_MATRIX_H_)
+#define _MUNKRES_ADAPTERS_OPENCV_MATRIX_H_
 
-#include "matrix_base.h"
-#include <armadillo>
+#include "munkres-cpp/matrix_base.h"
+#include <cv.hpp>
 
 namespace munkres
 {
 
 template<class T>
-class matrix_armadillo : public matrix_base<T>, arma::Mat<T>
+class matrix_opencv : public matrix_base<T>, cv::Mat_<T>
 {
     public:
-        matrix_armadillo (const size_t rows, const size_t columns)
-            : arma::Mat<T>::Mat (rows, columns)
+        matrix_opencv (const size_t rows, const size_t columns)
+            : cv::Mat_<T>::Mat_ (rows, columns)
         {
         }
 
         const T & operator () (const size_t row, const size_t column) const noexcept override
         {
-            return arma::Mat<T>::operator () (row, column) ;
+            return cv::Mat_<T>::operator () (row, column) ;
         };
 
         T & operator () (const size_t row, const size_t column) noexcept override
         {
-            return arma::Mat<T>::operator () (row, column) ;
+            return cv::Mat_<T>::operator () (row, column) ;
         }
 
         size_t columns () const noexcept override
         {
-            return arma::Mat<T>::n_cols;
+            return cv::Mat_<T>::cols;
         }
 
         size_t rows () const noexcept override
         {
-            return arma::Mat<T>::n_rows;
+            return cv::Mat_<T>::rows;
         }
 };
 
 }// namespace munkres
 
-#endif /* !defined(_MUNKRES_ADAPTERS_ARMADILLO_MATRIX_H_) */
+#endif /* !defined(_MUNKRES_ADAPTERS_OPENCV_MATRIX_H_) */

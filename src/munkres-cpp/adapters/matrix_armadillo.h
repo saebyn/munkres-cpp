@@ -16,45 +16,45 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
  */
 
-#if !defined(_MUNKRES_ADAPTERS_EIGEN_MATRIX_H_)
-#define _MUNKRES_ADAPTERS_EIGEN_MATRIX_H_
+#if !defined(_MUNKRES_ADAPTERS_ARMADILLO_MATRIX_H_)
+#define _MUNKRES_ADAPTERS_ARMADILLO_MATRIX_H_
 
-#include "matrix_base.h"
-#include <Eigen/Dense>
+#include "munkres-cpp/matrix_base.h"
+#include <armadillo>
 
 namespace munkres
 {
 
 template<class T>
-class matrix_eigen : public matrix_base<T>, Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>
+class matrix_armadillo : public matrix_base<T>, arma::Mat<T>
 {
     public:
-        matrix_eigen (const size_t rows, const size_t columns)
-            : Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>::Matrix (rows, columns)
+        matrix_armadillo (const size_t rows, const size_t columns)
+            : arma::Mat<T>::Mat (rows, columns)
         {
         }
 
         const T & operator () (const size_t row, const size_t column) const noexcept override
         {
-            return Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>::operator () (row, column) ;
+            return arma::Mat<T>::operator () (row, column) ;
         };
 
         T & operator () (const size_t row, const size_t column) noexcept override
         {
-            return Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>::operator () (row, column) ;
+            return arma::Mat<T>::operator () (row, column) ;
         }
 
         size_t columns () const noexcept override
         {
-            return Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>::cols ();
+            return arma::Mat<T>::n_cols;
         }
 
         size_t rows () const noexcept override
         {
-            return Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>::rows ();
+            return arma::Mat<T>::n_rows;
         }
 };
 
 }// namespace munkres
 
-#endif /* !defined(_MUNKRES_ADAPTERS_EIGEN_MATRIX_H_) */
+#endif /* !defined(_MUNKRES_ADAPTERS_ARMADILLO_MATRIX_H_) */

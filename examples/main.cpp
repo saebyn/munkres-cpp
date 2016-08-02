@@ -25,7 +25,7 @@
 #include <cstdlib>
 #include <ctime>
 
-#include "munkres.h"
+#include "munkres-cpp/munkres.h"
 
 int main (int argc, char * argv[])
 {

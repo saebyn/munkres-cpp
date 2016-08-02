@@ -16,40 +16,45 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
  */
 
-#if !defined(_MUNKRES_ADAPTERS_QT_MATRIX_H_)
-#define _MUNKRES_ADAPTERS_QT_MATRIX_H_
+#if !defined(_MUNKRES_ADAPTERS_EIGEN_MATRIX_H_)
+#define _MUNKRES_ADAPTERS_EIGEN_MATRIX_H_
 
-#include "matrix_base.h"
-#include <QGenericMatrix>
+#include "munkres-cpp/matrix_base.h"
+#include <Eigen/Dense>
 
 namespace munkres
 {
 
-template<class T, const int N, const int M>
-class matrix_qt : public matrix_base<T>, QGenericMatrix<N, M, T>
+template<class T>
+class matrix_eigen : public matrix_base<T>, Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>
 {
     public:
+        matrix_eigen (const size_t rows, const size_t columns)
+            : Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>::Matrix (rows, columns)
+        {
+        }
+
         const T & operator () (const size_t row, const size_t column) const noexcept override
         {
-            return QGenericMatrix<N, M, T>::operator () (row, column) ;
+            return Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>::operator () (row, column) ;
         };
 
         T & operator () (const size_t row, const size_t column) noexcept override
         {
-            return QGenericMatrix<N, M, T>::operator () (row, column) ;
+            return Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>::operator () (row, column) ;
         }
 
         size_t columns () const noexcept override
         {
-            return M;
+            return Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>::cols ();
         }
 
         size_t rows () const noexcept override
         {
-            return N;
+            return Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>::rows ();
         }
 };
 
 }// namespace munkres
 
-#endif /* !defined(_MUNKRES_ADAPTERS_QT_MATRIX_H_) */
+#endif /* !defined(_MUNKRES_ADAPTERS_EIGEN_MATRIX_H_) */

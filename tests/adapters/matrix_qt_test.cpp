@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
-#include "munkres.h"
-#include "adapters/matrix_qt.h"
+#include "munkres-cpp/munkres.h"
+#include "munkres-cpp/adapters/matrix_qt.h"
 
 
 

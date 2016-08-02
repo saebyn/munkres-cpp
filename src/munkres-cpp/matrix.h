@@ -19,8 +19,8 @@
 #if !defined(_MATRIX_H_)
 #define _MATRIX_H_
 
-#include "matrix_base.h"
-#include "utils.h"
+#include "munkres-cpp/matrix_base.h"
+#include "munkres-cpp/utils.h"
 #include <initializer_list>
 #include <cstdlib>
 #include <algorithm>

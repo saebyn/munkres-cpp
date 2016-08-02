@@ -19,7 +19,7 @@
 #if !defined(_MUNKRES_ADAPTERS_BOOST_MATRIX_H_)
 #define _MUNKRES_ADAPTERS_BOOST_MATRIX_H_
 
-#include "matrix_base.h"
+#include "munkres-cpp/matrix_base.h"
 #include <boost/numeric/ublas/matrix.hpp>
 
 namespace munkres

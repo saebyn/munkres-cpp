@@ -1,7 +1,7 @@
 #if !defined(_MATRIX_UTILS_H_)
 #define _MATRIX_UTILS_H_
 
-#include "matrix.h"
+#include "munkres-cpp/matrix.h"
 #include <fstream>
 #include <random>
 #include <limits>

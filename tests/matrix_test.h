@@ -19,7 +19,7 @@
 #if !defined(_MATRIX_TEST_H_)
 #define _MATRIX_TEST_H_
 
-#include "matrix.h"
+#include "munkres-cpp/matrix.h"
 #include <iostream>
 
 template<class T>

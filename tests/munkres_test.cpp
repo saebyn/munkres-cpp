@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "munkres.h"
+#include "munkres-cpp/munkres.h"
 #include "matrix_test.h"
 #include <iostream>
 #include <iomanip>

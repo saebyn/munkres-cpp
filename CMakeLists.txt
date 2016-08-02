@@ -24,8 +24,16 @@ set (
 # Headers.
 set (
     MunkresCpp_HEADERS
-    ${PROJECT_SOURCE_DIR}/src/matrix.h
-    ${PROJECT_SOURCE_DIR}/src/munkres.h
+    ${PROJECT_SOURCE_DIR}/src/munkres-cpp/matrix.h
+    ${PROJECT_SOURCE_DIR}/src/munkres-cpp/matrix_base.h
+    ${PROJECT_SOURCE_DIR}/src/munkres-cpp/utils.h
+    ${PROJECT_SOURCE_DIR}/src/munkres-cpp/munkres.h
+    ${PROJECT_SOURCE_DIR}/src/munkres-cpp/adapters/matrix_armadillo.h
+    ${PROJECT_SOURCE_DIR}/src/munkres-cpp/adapters/matrix_boost.h
+    ${PROJECT_SOURCE_DIR}/src/munkres-cpp/adapters/matrix_eigen.h
+    ${PROJECT_SOURCE_DIR}/src/munkres-cpp/adapters/matrix_opencv.h
+    ${PROJECT_SOURCE_DIR}/src/munkres-cpp/adapters/matrix_qt.h
+    ${PROJECT_SOURCE_DIR}/src/munkres-cpp/adapters/matrix_std_2d_vector.h
 )
 
 # Library.
@@ -33,7 +41,7 @@ add_library (
     munkres INTERFACE
 )
 
-install (FILES ${MunkresCpp_HEADERS} DESTINATION include PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ)
+install (FILES ${MunkresCpp_HEADERS} DESTINATION include/munkres-cpp PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ)
 
 
 # Binary example
