@@ -35,17 +35,17 @@ class matrix_std_2d_vector : public matrix_base<T>
         {
         }
 
-        const T & operator () (const size_t row, const size_t column) const noexcept override
+        const T & operator () (const size_t row, const size_t column) const override
         {
             return data [row][column];
         };
 
-        T & operator () (const size_t row, const size_t column) noexcept override
+        T & operator () (const size_t row, const size_t column) override
         {
             return data [row][column];
         }
 
-        size_t columns () const noexcept override
+        size_t columns () const override
         {
             size_t columns = data.size () ? data [0].size () : 0;
             for (size_t i = 0; i < data.size(); ++i) {
@@ -54,7 +54,7 @@ class matrix_std_2d_vector : public matrix_base<T>
             return columns;
         }
 
-        size_t rows () const noexcept override
+        size_t rows () const override
         {
             return data.size ();
         }

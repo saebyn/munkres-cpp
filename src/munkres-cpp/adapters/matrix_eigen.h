@@ -34,22 +34,22 @@ class matrix_eigen : public matrix_base<T>, Eigen::Matrix<T, Eigen::Dynamic, Eig
         {
         }
 
-        const T & operator () (const size_t row, const size_t column) const noexcept override
+        const T & operator () (const size_t row, const size_t column) const override
         {
             return Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>::operator () (row, column) ;
         };
 
-        T & operator () (const size_t row, const size_t column) noexcept override
+        T & operator () (const size_t row, const size_t column) override
         {
             return Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>::operator () (row, column) ;
         }
 
-        size_t columns () const noexcept override
+        size_t columns () const override
         {
             return Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>::cols ();
         }
 
-        size_t rows () const noexcept override
+        size_t rows () const override
         {
             return Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>::rows ();
         }

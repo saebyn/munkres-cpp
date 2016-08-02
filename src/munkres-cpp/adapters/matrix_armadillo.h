@@ -34,22 +34,22 @@ class matrix_armadillo : public matrix_base<T>, arma::Mat<T>
         {
         }
 
-        const T & operator () (const size_t row, const size_t column) const noexcept override
+        const T & operator () (const size_t row, const size_t column) const override
         {
             return arma::Mat<T>::operator () (row, column) ;
         };
 
-        T & operator () (const size_t row, const size_t column) noexcept override
+        T & operator () (const size_t row, const size_t column) override
         {
             return arma::Mat<T>::operator () (row, column) ;
         }
 
-        size_t columns () const noexcept override
+        size_t columns () const override
         {
             return arma::Mat<T>::n_cols;
         }
 
-        size_t rows () const noexcept override
+        size_t rows () const override
         {
             return arma::Mat<T>::n_rows;
         }
