@@ -40,19 +40,19 @@ class Matrix : public munkres::matrix_base<T>
         // All operations modify the matrix in-place.
         void resize (const size_t rows, const size_t columns, const T default_value = 0);
         void clear ();
-        const T & operator () (const size_t x, const size_t y) const noexcept override;
-        T & operator () (const size_t x, const size_t y) noexcept override;
+        const T & operator () (const size_t x, const size_t y) const override;
+        T & operator () (const size_t x, const size_t y) override;
         T min () const;
         T max () const;
         inline size_t minsize ()
         {
             return ( (m_rows < m_columns) ? m_rows : m_columns);
         }
-        size_t columns () const noexcept override
+        size_t columns () const override
         {
             return m_columns;
         }
-        size_t rows () const noexcept override
+        size_t rows () const override
         {
             return m_rows;
         }
@@ -248,7 +248,7 @@ void Matrix<T>::clear ()
 
 
 template<class T>
-inline T & Matrix<T>::operator () (const size_t x, const size_t y) noexcept
+inline T & Matrix<T>::operator () (const size_t x, const size_t y)
 {
     REQUIRE (x < m_rows,          "Row number out of bounds.");
     REQUIRE (y < m_columns,       "Column number out of bounds.");
@@ -260,7 +260,7 @@ inline T & Matrix<T>::operator () (const size_t x, const size_t y) noexcept
 
 
 template<class T>
-inline const T & Matrix<T>::operator () (const size_t x, const size_t y) const noexcept
+inline const T & Matrix<T>::operator () (const size_t x, const size_t y) const
 {
     REQUIRE (x < m_rows,          "Row number out of bounds.");
     REQUIRE (y < m_columns,       "Column number out of bounds.");

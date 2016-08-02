@@ -19,8 +19,6 @@
 #if !defined(__MUNKRES_CPP_MATRIX_BASE_H__)
 #define __MUNKRES_CPP_MATRIX_BASE_H__
 
-
-
 #include <cstdlib>
 #include <limits>
 #include <cmath>
@@ -44,10 +42,10 @@ class matrix_base
 
         // Interface.
         virtual ~matrix_base () = default;
-        virtual const value_type & operator () (const size_t, const size_t) const noexcept = 0;
-        virtual value_type & operator () (const size_t, const size_t) noexcept = 0;
-        virtual size_t columns () const noexcept = 0;
-        virtual size_t rows () const noexcept = 0;
+        virtual const value_type & operator () (const size_t, const size_t) const = 0;
+        virtual value_type & operator () (const size_t, const size_t) = 0;
+        virtual size_t columns () const = 0;
+        virtual size_t rows () const = 0;
 
         // Default implementation.
         virtual void resize (const size_t rows, const size_t columns, const value_type = zero)
