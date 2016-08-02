@@ -20,9 +20,9 @@
 #define _MATRIX_H_
 
 #include "matrix_base.h"
+#include "utils.h"
 #include <initializer_list>
 #include <cstdlib>
-#include <cassert>
 #include <algorithm>
 
 
@@ -33,7 +33,7 @@ class Matrix : public munkres::matrix_base<T>
     public:
         Matrix ();
         Matrix (const size_t rows, const size_t columns);
-        Matrix (const std::initializer_list<std::initializer_list<T>> init);
+        Matrix (const std::initializer_list<std::initializer_list<T>> & init);
         Matrix (const Matrix<T> & other);
         Matrix<T> & operator= (const Matrix<T> & other);
         ~Matrix () override;
@@ -71,13 +71,14 @@ Matrix<T>::Matrix ()
     , m_rows {0}
     , m_columns {0}
 {
+    ENSURE (!(m_matrix && m_rows && m_columns), "Inconsistent value after initialization.");
 }
 
 
 
 template<class T>
-Matrix<T>::Matrix (const std::initializer_list<std::initializer_list<T>> init)
-    : m_matrix {nullptr}
+Matrix<T>::Matrix (const std::initializer_list<std::initializer_list<T>> & init)
+    : Matrix<T> ()
 {
     m_rows = init.size ();
     if (m_rows == 0) {
@@ -91,7 +92,7 @@ Matrix<T>::Matrix (const std::initializer_list<std::initializer_list<T>> init)
 
     size_t i = 0, j;
     for (auto row = init.begin (); row != init.end (); ++row, ++i) {
-        assert ( row->size () == m_columns && "All rows must have the same number of columns." );
+        REQUIRE (row->size () == m_columns, "All rows must have the same number of columns.");
         j = 0;
         for (auto value = row->begin (); value != row->end (); ++value, ++j) {
             m_matrix[i][j] = *value;
@@ -172,6 +173,8 @@ Matrix<T>::~Matrix ()
         delete [] m_matrix;
     }
     m_matrix = nullptr;
+
+    ENSURE (m_matrix == nullptr, "Dangling pointer.");
 }
 
 
@@ -179,7 +182,8 @@ Matrix<T>::~Matrix ()
 template<class T>
 void Matrix<T>::resize (const size_t rows, const size_t columns, const T default_value)
 {
-    assert ( rows > 0 && columns > 0 && "Columns and rows must exist." );
+    REQUIRE (rows > 0,    "Rows must exist.");
+    REQUIRE (columns > 0, "Columns must exist.");
 
     if (m_matrix == nullptr) {
         // Alloc arrays.
@@ -204,8 +208,8 @@ void Matrix<T>::resize (const size_t rows, const size_t columns, const T default
         }
 
         // Copy data from saved pointer to new arrays.
-        size_t minrows = std::min (rows, m_rows);
-        size_t mincols = std::min (columns, m_columns);
+        const size_t minrows = std::min (rows, m_rows);
+        const size_t mincols = std::min (columns, m_columns);
         for (size_t x = 0; x < minrows; x++) {
             for (size_t y = 0; y < mincols; y++) {
                 new_matrix[x][y] = m_matrix[x][y];
@@ -221,11 +225,10 @@ void Matrix<T>::resize (const size_t rows, const size_t columns, const T default
             delete [] m_matrix;
         }
 
+        m_rows = rows;
+        m_columns = columns;
         m_matrix = new_matrix;
     }
-
-    m_rows = rows;
-    m_columns = columns;
 }
 
 
@@ -233,11 +236,11 @@ void Matrix<T>::resize (const size_t rows, const size_t columns, const T default
 template<class T>
 void Matrix<T>::clear ()
 {
-    assert ( m_matrix != nullptr );
+    REQUIRE (m_matrix != nullptr, "Attempt to clear empty matrix.");
 
     for (size_t i = 0; i < m_rows; i++) {
         for (size_t j = 0; j < m_columns; j++) {
-            m_matrix[i][j] = 0;
+            m_matrix [i][j] = 0;
         }
     }
 }
@@ -247,9 +250,10 @@ void Matrix<T>::clear ()
 template<class T>
 inline T & Matrix<T>::operator () (const size_t x, const size_t y) noexcept
 {
-    assert ( x < m_rows );
-    assert ( y < m_columns );
-    assert ( m_matrix != nullptr );
+    REQUIRE (x < m_rows,          "Row number out of bounds.");
+    REQUIRE (y < m_columns,       "Column number out of bounds.");
+    REQUIRE (m_matrix != nullptr, "Request value from empty matrix.");
+
     return m_matrix[x][y];
 }
 
@@ -258,10 +262,11 @@ inline T & Matrix<T>::operator () (const size_t x, const size_t y) noexcept
 template<class T>
 inline const T & Matrix<T>::operator () (const size_t x, const size_t y) const noexcept
 {
-    assert ( x < m_rows );
-    assert ( y < m_columns );
-    assert ( m_matrix != nullptr );
-    return m_matrix[x][y];
+    REQUIRE (x < m_rows,          "Row number out of bounds.");
+    REQUIRE (y < m_columns,       "Column number out of bounds.");
+    REQUIRE (m_matrix != nullptr, "Request value from empty matrix.");
+
+    return m_matrix [x][y];
 }
 
 
@@ -269,14 +274,13 @@ inline const T & Matrix<T>::operator () (const size_t x, const size_t y) const n
 template<class T>
 T Matrix<T>::min () const
 {
-    assert ( m_matrix != nullptr );
-    assert ( m_rows > 0 );
-    assert ( m_columns > 0 );
-    T min = m_matrix[0][0];
+    REQUIRE (m_matrix && m_rows && m_columns, "Attempt to find max value in empty matrix.");
+
+    T min = m_matrix [0][0];
 
     for (size_t i = 0; i < m_rows; i++) {
         for (size_t j = 0; j < m_columns; j++) {
-            min = std::min<T>(min, m_matrix[i][j]);
+            min = std::min<T> (min, m_matrix [i][j]);
         }
     }
 
@@ -288,14 +292,13 @@ T Matrix<T>::min () const
 template<class T>
 T Matrix<T>::max () const
 {
-    assert ( m_matrix != nullptr );
-    assert ( m_rows > 0 );
-    assert ( m_columns > 0 );
-    T max = m_matrix[0][0];
+    REQUIRE (m_matrix && m_rows && m_columns, "Attempt to find max value in empty matrix.");
+
+    T max = m_matrix [0][0];
 
     for (size_t i = 0; i < m_rows; i++) {
         for (size_t j = 0; j < m_columns; j++) {
-            max = std::max<T>(max, m_matrix[i][j]);
+            max = std::max<T> (max, m_matrix [i][j]);
         }
     }
 
