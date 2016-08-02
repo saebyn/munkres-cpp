@@ -60,7 +60,11 @@ void replace_infinites (munkres::matrix_base<T> & matrix)
 {
     const size_t rows = matrix.rows (),
                  columns = matrix.columns ();
-    assert ( rows > 0 && columns > 0 );
+
+    if (!rows || !columns) {
+        return;
+    }
+
     T max = matrix (0, 0);
     constexpr auto infinity = std::numeric_limits<T>::infinity ();
 
