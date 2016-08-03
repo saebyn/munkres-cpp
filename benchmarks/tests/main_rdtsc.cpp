@@ -1,4 +1,3 @@
-//#include <gtest/gtest.h>
 #include <vector>
 #include <limits>
 #include <string>
@@ -11,7 +10,7 @@
 // Main function.
 int main (int argc, char * argv [])
 {
-    std::vector<Matrix<double> *> matrices;
+    std::vector<munkres_cpp::Matrix<double> *> matrices;
     read<double>(matrices);
 
 
@@ -29,7 +28,7 @@ int main (int argc, char * argv [])
         for (size_t j = 0; j < runs; ++j) {
             uint64_t rdtscMinRun = std::numeric_limits<uint64_t>::max ();
             for (size_t k = 0; k < iterations; ++k) {
-                Munkres<double> munkres;
+                munkres_cpp::Munkres<double> munkres;
                 auto matrix = *matrices [i];
                 uint64_t rdtsc = __rdtsc ();
                 munkres.solve (matrix);

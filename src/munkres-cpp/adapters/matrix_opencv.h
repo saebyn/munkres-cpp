@@ -22,7 +22,7 @@
 #include "munkres-cpp/matrix_base.h"
 #include <cv.hpp>
 
-namespace munkres
+namespace munkres_cpp
 {
 
 template<class T>
@@ -55,6 +55,6 @@ class matrix_opencv : public matrix_base<T>, cv::Mat_<T>
         }
 };
 
-}// namespace munkres
+}// namespace munkres_cpp
 
 #endif /* !defined(_MUNKRES_ADAPTERS_OPENCV_MATRIX_H_) */

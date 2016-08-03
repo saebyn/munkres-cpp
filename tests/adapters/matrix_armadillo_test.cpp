@@ -14,7 +14,7 @@ TEST_F (Adapters_armadillo_matrix_Test, solve_armadillo_matrix_Success)
 {
     // Arrange.
     static constexpr size_t dimension {3};
-    munkres::matrix_armadillo<double> etalon_armadillo_matrix (dimension, dimension);
+    munkres_cpp::matrix_armadillo<double> etalon_armadillo_matrix (dimension, dimension);
     //  {-1.0,  0.0, -1.0},
     //  { 0.0, -1.0, -1.0},
     //  {-1.0, -1.0,  0.0}
@@ -22,7 +22,7 @@ TEST_F (Adapters_armadillo_matrix_Test, solve_armadillo_matrix_Success)
     etalon_armadillo_matrix (1, 0) =  0.0; etalon_armadillo_matrix (1, 1) = -1.0; etalon_armadillo_matrix (1, 2) = -1.0;
     etalon_armadillo_matrix (2, 0) = -1.0; etalon_armadillo_matrix (2, 1) = -1.0; etalon_armadillo_matrix (2, 2) =  0.0;
 
-    munkres::matrix_armadillo<double> test_armadillo_matrix (dimension, dimension);
+    munkres_cpp::matrix_armadillo<double> test_armadillo_matrix (dimension, dimension);
     //  {1.0,  0.0,  1.0},
     //  {0.0,  1.0,  1.0},
     //  {1.0,  1.0,  0.0}
@@ -31,7 +31,7 @@ TEST_F (Adapters_armadillo_matrix_Test, solve_armadillo_matrix_Success)
     test_armadillo_matrix (2, 0) = 1.0; test_armadillo_matrix (2, 1) = 1.0; test_armadillo_matrix (2, 2) = 0.0;
 
     // Act.
-    Munkres<double> solver;
+    munkres_cpp::Munkres<double> solver;
     solver.solve (test_armadillo_matrix);
 
     // Assert.

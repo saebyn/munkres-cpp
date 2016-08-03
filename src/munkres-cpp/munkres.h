@@ -29,23 +29,26 @@
 
 
 
+namespace munkres_cpp
+{
+
 template<typename T>
 class Munkres
 {
     public:
-        void solve (munkres::matrix_base<T> & m);
+        void solve (matrix_base<T> & m);
 
     private:
         static constexpr char NORMAL = 0;
         static constexpr char STAR = 1;
         static constexpr char PRIME = 2;
-        inline bool find_uncovered_in_matrix (munkres::matrix_base<T> &, const T, size_t &, size_t &) const;
-        int step1 (munkres::matrix_base<T> &);
-        int step2 (munkres::matrix_base<T> &);
-        int step3 (munkres::matrix_base<T> &);
-        int step4 (munkres::matrix_base<T> &);
-        int step5 (munkres::matrix_base<T> &);
-        int step6 (munkres::matrix_base<T> &);
+        inline bool find_uncovered_in_matrix (matrix_base<T> &, const T, size_t &, size_t &) const;
+        int step1 (matrix_base<T> &);
+        int step2 (matrix_base<T> &);
+        int step3 (matrix_base<T> &);
+        int step4 (matrix_base<T> &);
+        int step5 (matrix_base<T> &);
+        int step6 (matrix_base<T> &);
 
         Matrix<char> mask_matrix;
         bool * row_mask;
@@ -56,7 +59,7 @@ class Munkres
 
 
 template<typename T>
-void replace_infinites (munkres::matrix_base<T> & matrix)
+void replace_infinites (matrix_base<T> & matrix)
 {
     const size_t rows = matrix.rows (),
                  columns = matrix.columns ();
@@ -101,7 +104,7 @@ void replace_infinites (munkres::matrix_base<T> & matrix)
 
 
 template<typename T>
-void minimize_along_direction (munkres::matrix_base<T> & matrix, const bool over_columns)
+void minimize_along_direction (matrix_base<T> & matrix, const bool over_columns)
 {
     const size_t outer_size = over_columns ? matrix.columns () : matrix.rows (),
                  inner_size = over_columns ? matrix.rows () : matrix.columns ();
@@ -134,7 +137,7 @@ void minimize_along_direction (munkres::matrix_base<T> & matrix, const bool over
 
 
 template<typename T>
-bool Munkres<T>::find_uncovered_in_matrix (munkres::matrix_base<T> & matrix, const T item, size_t & row, size_t & col) const
+bool Munkres<T>::find_uncovered_in_matrix (matrix_base<T> & matrix, const T item, size_t & row, size_t & col) const
 {
     const size_t rows = matrix.rows (),
                  columns = matrix.columns ();
@@ -157,7 +160,7 @@ bool Munkres<T>::find_uncovered_in_matrix (munkres::matrix_base<T> & matrix, con
 
 
 template<typename T>
-int Munkres<T>::step1 (munkres::matrix_base<T> & matrix)
+int Munkres<T>::step1 (matrix_base<T> & matrix)
 {
     const size_t rows = matrix.rows (),
                  columns = matrix.columns ();
@@ -183,7 +186,7 @@ int Munkres<T>::step1 (munkres::matrix_base<T> & matrix)
 
 
 template<typename T>
-int Munkres<T>::step2 (munkres::matrix_base<T> & matrix)
+int Munkres<T>::step2 (matrix_base<T> & matrix)
 {
     const size_t rows = matrix.rows (),
                  columns = matrix.columns ();
@@ -222,7 +225,7 @@ int Munkres<T>::step2 (munkres::matrix_base<T> & matrix)
 
 
 template<typename T>
-int Munkres<T>::step3 (munkres::matrix_base<T> & matrix)
+int Munkres<T>::step3 (matrix_base<T> & matrix)
 {
     // Main Zero Search
     // 1. Find an uncovered Z in the distance matrix and prime it. If no such zero exists, go to Step 5
@@ -248,7 +251,7 @@ int Munkres<T>::step3 (munkres::matrix_base<T> & matrix)
 
 
 template<typename T>
-int Munkres<T>::step4 (munkres::matrix_base<T> & matrix)
+int Munkres<T>::step4 (matrix_base<T> & matrix)
 {
     const size_t rows = matrix.rows (),
                  columns = matrix.columns ();
@@ -336,7 +339,7 @@ int Munkres<T>::step4 (munkres::matrix_base<T> & matrix)
 
 
 template<typename T>
-int Munkres<T>::step5 (munkres::matrix_base<T> & matrix)
+int Munkres<T>::step5 (matrix_base<T> & matrix)
 {
     const size_t rows = matrix.rows (),
                  columns = matrix.columns ();
@@ -387,7 +390,7 @@ int Munkres<T>::step5 (munkres::matrix_base<T> & matrix)
 // Assignments are remaining 0 values
 // (extra 0 values are replaced with -1)
 template<typename T>
-void Munkres<T>::solve (munkres::matrix_base<T> & matrix)
+void Munkres<T>::solve (matrix_base<T> & matrix)
 {
     const size_t rows = matrix.rows (),
                  columns = matrix.columns (),
@@ -489,5 +492,7 @@ void Munkres<T>::solve (munkres::matrix_base<T> & matrix)
     delete [] row_mask;
     delete [] col_mask;
 }
+
+}// namespace munkres_cpp
 
 #endif /* !defined(_MUNKRES_H_) */

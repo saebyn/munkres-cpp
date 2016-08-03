@@ -27,8 +27,11 @@
 
 
 
+namespace munkres_cpp
+{
+
 template<class T>
-class Matrix : public munkres::matrix_base<T>
+class Matrix : public matrix_base<T>
 {
     public:
         Matrix ();
@@ -304,6 +307,8 @@ T Matrix<T>::max () const
 
     return max;
 }
+
+}// namespace munkres_cpp
 
 #endif /* !defined(_MATRIX_H_) */
 

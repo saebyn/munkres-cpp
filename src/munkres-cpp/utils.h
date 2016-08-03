@@ -1,6 +1,9 @@
 #if !defined(__MUNKRES_CPP_UTILS_H__)
 #define __MUNKRES_CPP_UTILS_H__
 
+namespace munkres_cpp
+{
+
 // Macro for trivial support of Design By Contract.
 #define DBC_MODE_NONE       0
 #define DBC_MODE_MESSAGE    1
@@ -96,5 +99,7 @@
 #endif//DEBUG_WITH_DBC || DEBUG_WITH_DBC_ASSERT
 
 #endif//DEBUG_WITH_DBC
+
+}// namespace munkres_cpp
 
 #endif /* !defined(__MUNKRES_CPP_UTILS_H__) */

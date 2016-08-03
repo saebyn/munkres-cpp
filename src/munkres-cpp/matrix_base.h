@@ -26,7 +26,7 @@
 
 
 
-namespace munkres
+namespace munkres_cpp
 {
 
 template<class T>
@@ -78,6 +78,6 @@ class matrix_base
         }
 };
 
-}// namespace munkres
+}// namespace munkres_cpp
 
 #endif /* !defined(__MUNKRES_CPP_MATRIX_BASE_H__) */

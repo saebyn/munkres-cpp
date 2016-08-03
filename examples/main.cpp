@@ -37,7 +37,7 @@ int main (int argc, char * argv[])
         ncols = atoi (argv[2]);
     }
 
-    Matrix<double> matrix (nrows, ncols);
+    munkres_cpp::Matrix<double> matrix (nrows, ncols);
 
     srandom ( time (nullptr) ); // Seed random number generator.
 
@@ -59,7 +59,7 @@ int main (int argc, char * argv[])
     std::cout << std::endl;
 
     // Apply Munkres algorithm to matrix.
-    Munkres<double> m;
+    munkres_cpp::Munkres<double> m;
     m.solve (matrix);
 
     // Display solved matrix.

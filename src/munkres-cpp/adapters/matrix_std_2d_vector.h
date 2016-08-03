@@ -22,8 +22,7 @@
 #include "munkres-cpp/munkres.h"
 #include <vector>
 
-
-namespace munkres
+namespace munkres_cpp
 {
 
 template<class T>
@@ -75,6 +74,6 @@ class matrix_std_2d_vector : public matrix_base<T>
         std::vector<std::vector<T>> & data;
 };
 
-}// namespace munkres
+}// namespace munkres_cpp
 
 #endif /* !defined(_MUNKRES_ADAPTERS_STD_2D_VECTOR_H_) */

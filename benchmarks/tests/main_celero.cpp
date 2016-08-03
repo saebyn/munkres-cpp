@@ -6,7 +6,7 @@
 
 
 
-std::vector<Matrix<double> *> matrices;
+std::vector<munkres_cpp::Matrix<double> *> matrices;
 
 size_t i {0};
 
@@ -20,8 +20,8 @@ class MunkresFixture : public celero::TestFixture
             matrix = *matrices [i];
         }
 
-        Munkres<double> munkres;
-        Matrix<double> matrix;
+        munkres_cpp::Munkres<double> munkres;
+        munkres_cpp::Matrix<double> matrix;
 };
 
 

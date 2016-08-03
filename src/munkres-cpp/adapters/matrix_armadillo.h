@@ -22,7 +22,7 @@
 #include "munkres-cpp/matrix_base.h"
 #include <armadillo>
 
-namespace munkres
+namespace munkres_cpp
 {
 
 template<class T>
@@ -55,6 +55,6 @@ class matrix_armadillo : public matrix_base<T>, arma::Mat<T>
         }
 };
 
-}// namespace munkres
+}// namespace munkres_cpp
 
 #endif /* !defined(_MUNKRES_ADAPTERS_ARMADILLO_MATRIX_H_) */

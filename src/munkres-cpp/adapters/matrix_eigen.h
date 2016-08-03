@@ -22,7 +22,7 @@
 #include "munkres-cpp/matrix_base.h"
 #include <Eigen/Dense>
 
-namespace munkres
+namespace munkres_cpp
 {
 
 template<class T>
@@ -55,6 +55,6 @@ class matrix_eigen : public matrix_base<T>, Eigen::Matrix<T, Eigen::Dynamic, Eig
         }
 };
 
-}// namespace munkres
+}// namespace munkres_cpp
 
 #endif /* !defined(_MUNKRES_ADAPTERS_EIGEN_MATRIX_H_) */

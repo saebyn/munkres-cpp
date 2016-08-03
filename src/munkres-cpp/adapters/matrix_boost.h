@@ -22,7 +22,7 @@
 #include "munkres-cpp/matrix_base.h"
 #include <boost/numeric/ublas/matrix.hpp>
 
-namespace munkres
+namespace munkres_cpp
 {
 
 template<class T>
@@ -79,6 +79,6 @@ class matrix_boost : public matrix_base<T>, boost::numeric::ublas::matrix<T>
         }
 };
 
-}// namespace munkres
+}// namespace munkres_cpp
 
 #endif /* !defined(_MUNKRES_ADAPTERS_BOOST_MATRIX_H_) */

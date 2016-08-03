@@ -15,7 +15,7 @@ const std::string fileName = "matrices.txt";
 
 
 template<class T>
-std::ostream & operator << (std::ostream & os, const Matrix<T> & m)
+std::ostream & operator << (std::ostream & os, const munkres_cpp::Matrix<T> & m)
 {
     const std::string indent ("           ");
     os << "Matrix (" << &m << ") of " << m.rows () << "x" << m.columns () << std::endl;
@@ -33,7 +33,7 @@ std::ostream & operator << (std::ostream & os, const Matrix<T> & m)
 
 
 template<class T>
-std::istream & operator >> (std::istream & is, Matrix<T> & m)
+std::istream & operator >> (std::istream & is, munkres_cpp::Matrix<T> & m)
 {
     std::string marker;
     is >> marker;
@@ -64,7 +64,7 @@ std::istream & operator >> (std::istream & is, Matrix<T> & m)
 
 
 template<typename T>
-bool write (const std::vector<Matrix<T> *> & matrices)
+bool write (const std::vector<munkres_cpp::Matrix<T> *> & matrices)
 {
     std::fstream os;
     os.open (fileName, std::fstream::out /* | std::fstream::binary*/);
@@ -80,15 +80,15 @@ bool write (const std::vector<Matrix<T> *> & matrices)
 
 
 template<typename T>
-bool read (std::vector<Matrix<T> *> & matrices)
+bool read (std::vector<munkres_cpp::Matrix<T> *> & matrices)
 {
     std::fstream is;
     is.open (fileName, std::fstream::in /* | std::fstream::binary*/);
 
-    Matrix<T> * matrix = new Matrix<T>;
+    munkres_cpp::Matrix<T> * matrix = new munkres_cpp::Matrix<T>;
     while (is >> *matrix) {
         matrices.push_back (matrix);
-        matrix = new Matrix<T>;
+        matrix = new munkres_cpp::Matrix<T>;
     }
     delete matrix;
     is.close ();
@@ -99,9 +99,9 @@ bool read (std::vector<Matrix<T> *> & matrices)
 
 
 template<typename T>
-Matrix<double> generate_random_matrix (const size_t nrows, const size_t ncols)
+munkres_cpp::Matrix<double> generate_random_matrix (const size_t nrows, const size_t ncols)
 {
-    Matrix<T> matrix (nrows, ncols);
+    munkres_cpp::Matrix<T> matrix (nrows, ncols);
 
     // Prepare random generator.
     std::default_random_engine generator;

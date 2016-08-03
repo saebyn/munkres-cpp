@@ -22,7 +22,7 @@
 #include "munkres-cpp/matrix_base.h"
 #include <QGenericMatrix>
 
-namespace munkres
+namespace munkres_cpp
 {
 
 template<class T, const int N, const int M>
@@ -50,6 +50,6 @@ class matrix_qt : public matrix_base<T>, QGenericMatrix<N, M, T>
         }
 };
 
-}// namespace munkres
+}// namespace munkres_cpp
 
 #endif /* !defined(_MUNKRES_ADAPTERS_QT_MATRIX_H_) */

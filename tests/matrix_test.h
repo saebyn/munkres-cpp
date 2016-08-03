@@ -22,6 +22,9 @@
 #include "munkres-cpp/matrix.h"
 #include <iostream>
 
+namespace munkres_cpp
+{
+
 template<class T>
 bool operator == (const Matrix<T> & a, const Matrix<T> & b)
 {
@@ -48,10 +51,12 @@ bool operator != (const Matrix<T> & a, const Matrix<T> & b)
     return !(a == b);
 }
 
+}// namespace munkres_cpp
+
 
 
 template<class T>
-std::ostream & operator << (std::ostream & os, const Matrix<T> & m)
+std::ostream & operator << (std::ostream & os, const munkres_cpp::Matrix<T> & m)
 {
     const std::string indent ("           ");
     os << "Matrix (" << &m << ") of " << m.rows () << "x" << m.columns () << std::endl;
