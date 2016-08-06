@@ -34,20 +34,6 @@ include_directories (${EIGEN3_INCLUDE_DIR})
 set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage")
 set (CMAKE_SHARED_LINKER_FLAGS "-fprofile-arcs -ftest-coverage")
 
-# Special warning options for more attentive checking.
-set (SPECIAL_CXX_WARNING_FLAGS "${SPECIAL_CXX_WARNING_FLAGS} -Wmissing-include-dirs -Wundef -Wfloat-equal -Wunsafe-loop-optimizations")
-set (SPECIAL_CXX_WARNING_FLAGS "${SPECIAL_CXX_WARNING_FLAGS} -Wdouble-promotion -Winit-self -Wvector-operation-performance -Wnoexcept -Weffc++ -Wstrict-null-sentinel")
-set (SPECIAL_CXX_WARNING_FLAGS "${SPECIAL_CXX_WARNING_FLAGS} -Woverloaded-virtual -Wsign-promo")
-set (SPECIAL_CXX_WARNING_FLAGS "${SPECIAL_CXX_WARNING_FLAGS} -Wvla -Winvalid-pch -Winline -Wredundant-decls")
-set (SPECIAL_CXX_WARNING_FLAGS "${SPECIAL_CXX_WARNING_FLAGS} -Wlogical-op -Wcast-align")
-set (SPECIAL_CXX_WARNING_FLAGS "${SPECIAL_CXX_WARNING_FLAGS} -Wcast-qual -Wpointer-arith -Wtrampolines")
-set (SPECIAL_CXX_WARNING_FLAGS "${SPECIAL_CXX_WARNING_FLAGS} -Wold-style-cast")
-
-set_source_files_properties (
-    ${MunkresCpp_HEADERS}
-    PROPERTIES COMPILE_FLAGS ${SPECIAL_CXX_WARNING_FLAGS}
-)
-
 
 # Test suites.
 set (

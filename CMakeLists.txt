@@ -75,6 +75,7 @@ if (MUNKRESCPP_DEVEL_MODE)
         example
         tests
         benchmarks
+        warnings
     )
 
 
@@ -86,6 +87,23 @@ if (MUNKRESCPP_DEVEL_MODE)
     )
     add_custom_target  (cppcheck DEPENDS ${CppCheck_REPORT})
     set_directory_properties (PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES ${CppCheck_REPORT})
+
+    # Dummy target with special warning options for more attentive checking.
+    set (SPECIAL_CXX_WARNING_FLAGS "${SPECIAL_CXX_WARNING_FLAGS} -Wmissing-include-dirs -Wundef -Wfloat-equal -Wunsafe-loop-optimizations")
+    set (SPECIAL_CXX_WARNING_FLAGS "${SPECIAL_CXX_WARNING_FLAGS} -Wdouble-promotion -Winit-self -Wvector-operation-performance -Wnoexcept -Weffc++ -Wstrict-null-sentinel")
+    set (SPECIAL_CXX_WARNING_FLAGS "${SPECIAL_CXX_WARNING_FLAGS} -Woverloaded-virtual -Wsign-promo")
+    set (SPECIAL_CXX_WARNING_FLAGS "${SPECIAL_CXX_WARNING_FLAGS} -Wvla -Winvalid-pch -Winline -Wredundant-decls")
+    set (SPECIAL_CXX_WARNING_FLAGS "${SPECIAL_CXX_WARNING_FLAGS} -Wlogical-op -Wcast-align")
+    set (SPECIAL_CXX_WARNING_FLAGS "${SPECIAL_CXX_WARNING_FLAGS} -Wcast-qual -Wpointer-arith -Wtrampolines")
+    set (SPECIAL_CXX_WARNING_FLAGS "${SPECIAL_CXX_WARNING_FLAGS} -Wold-style-cast")
+    set_source_files_properties (
+        ${PROJECT_SOURCE_DIR}/tests/warnings_test.cpp
+        ${warning_source}
+        PROPERTIES COMPILE_FLAGS ${SPECIAL_CXX_WARNING_FLAGS}
+    )
+    add_executable (munkres_dummy.bin EXCLUDE_FROM_ALL ${PROJECT_SOURCE_DIR}/tests/warnings_test.cpp)
+    add_custom_target (warnings)
+    add_dependencies  (warnings munkres_dummy.bin)
 
     # Code format.
     set (UNCRUSTIFY_LST ${PROJECT_BINARY_DIR}/uncrustify.lst)
