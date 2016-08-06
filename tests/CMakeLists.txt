@@ -54,6 +54,7 @@ set (
     MunkresCppTest_SOURCES
     ${PROJECT_SOURCE_DIR}/tests/munkres_test.cpp
     ${PROJECT_SOURCE_DIR}/tests/matrix_test.cpp
+    ${PROJECT_SOURCE_DIR}/tests/utils_test.cpp
     ${PROJECT_SOURCE_DIR}/tests/adapters/matrix_std_2d_vector_test.cpp
 )
 if (ARMADILLO_FOUND)

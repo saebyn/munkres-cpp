@@ -59,55 +59,6 @@ class Munkres
 
 
 template<typename T>
-void replace_infinites (matrix_base<T> & matrix)
-{
-    if (!std::numeric_limits<T>::has_infinity) {
-        return;
-    }
-
-    const size_t rows = matrix.rows (),
-                 columns = matrix.columns ();
-
-    if (!rows || !columns) {
-        return;
-    }
-
-    T max = matrix (0, 0);
-    constexpr auto infinity = std::numeric_limits<T>::infinity ();
-
-    // Find the greatest value in the matrix that isn't infinity.
-    for (size_t row = 0; row < rows; row++) {
-        for (size_t col = 0; col < columns; col++) {
-            if (matrix (row, col) != infinity) {
-                if (max == infinity) {
-                    max = matrix (row, col);
-                } else {
-                    max = std::max<T>( max, matrix (row, col) );
-                }
-            }
-        }
-    }
-
-    // A value higher than the maximum value present in the matrix.
-    if (max == infinity) {
-        // This case only occurs when all values are infinite.
-        max = 0;
-    } else {
-        max++;
-    }
-
-    for (size_t row = 0; row < rows; row++) {
-        for (size_t col = 0; col < columns; col++) {
-            if (matrix (row, col) == infinity) {
-                matrix (row, col) = max;
-            }
-        }
-    }
-}
-
-
-
-template<typename T>
 void minimize_along_direction (matrix_base<T> & matrix, const bool over_columns)
 {
     const size_t outer_size = over_columns ? matrix.columns () : matrix.rows (),
@@ -423,11 +374,6 @@ void Munkres<T>::solve (matrix_base<T> & matrix)
     }
 
     // Prepare the matrix values...
-
-    // If there were any infinities, replace them with a value greater
-    // than the maximum value in the matrix.
-    replace_infinites (matrix);
-
     minimize_along_direction (matrix, rows >= columns);
     minimize_along_direction (matrix, rows <  columns);
 
