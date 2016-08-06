@@ -396,17 +396,6 @@ void Munkres<T>::solve (matrix_base<T> & matrix)
                  columns = matrix.columns (),
                  size = std::max (rows, columns);
 
-    #ifdef DEBUG
-    std::cout << "Munkres input matrix:" << std::endl;
-    for (size_t row = 0; row < rows; row++) {
-        for (size_t col = 0; col < columns; col++) {
-            std::cout.width (8);
-            std::cout << matrix (row, col) << ",";
-        }
-        std::cout << std::endl;
-    }
-    std::cout << std::endl;
-    #endif
 
     if (rows != columns) {
         // If the input matrix isn't square, make it square
@@ -471,18 +460,6 @@ void Munkres<T>::solve (matrix_base<T> & matrix)
             matrix (row, col) = mask_matrix (row, col) == STAR ? 0 : -1;
         }
     }
-
-    #ifdef DEBUG
-    std::cout << "Munkres output matrix:" << std::endl;
-    for (size_t row = 0; row < rows; row++) {
-        for (size_t col = 0; col < columns; col++) {
-            std::cout.width (1);
-            std::cout << matrix (row, col) << ",";
-        }
-        std::cout << std::endl;
-    }
-    std::cout << std::endl;
-    #endif
 
 
     // Remove the excess rows or columns that we added to fit the
