@@ -79,20 +79,20 @@ TEST_F (Adapters_boost_matrix_Test, solve_boost_matrix_Success)
     // Arrange.
     constexpr unsigned int dimension {3};
     munkres_cpp::matrix_boost<double> etalon_boost_matrix (dimension, dimension);
-    //  {-1.0,  0.0, -1.0},
-    //  { 0.0, -1.0, -1.0},
-    //  {-1.0, -1.0,  0.0}
-    etalon_boost_matrix (0, 0) = -1.0; etalon_boost_matrix (0, 1) =  0.0; etalon_boost_matrix (0, 2) = -1.0;
-    etalon_boost_matrix (1, 0) =  0.0; etalon_boost_matrix (1, 1) = -1.0; etalon_boost_matrix (1, 2) = -1.0;
-    etalon_boost_matrix (2, 0) = -1.0; etalon_boost_matrix (2, 1) = -1.0; etalon_boost_matrix (2, 2) =  0.0;
-
-    munkres_cpp::matrix_boost<double> test_boost_matrix (dimension, dimension);
     //  {1.0,  0.0,  1.0},
     //  {0.0,  1.0,  1.0},
     //  {1.0,  1.0,  0.0}
-    test_boost_matrix (0, 0) = 1.0; test_boost_matrix (0, 1) = 0.0; test_boost_matrix (0, 2) = 1.0;
-    test_boost_matrix (1, 0) = 0.0; test_boost_matrix (1, 1) = 1.0; test_boost_matrix (1, 2) = 1.0;
-    test_boost_matrix (2, 0) = 1.0; test_boost_matrix (2, 1) = 1.0; test_boost_matrix (2, 2) = 0.0;
+    etalon_boost_matrix (0, 0) = 1.0; etalon_boost_matrix (0, 1) = 0.0; etalon_boost_matrix (0, 2) = 1.0;
+    etalon_boost_matrix (1, 0) = 0.0; etalon_boost_matrix (1, 1) = 1.0; etalon_boost_matrix (1, 2) = 1.0;
+    etalon_boost_matrix (2, 0) = 1.0; etalon_boost_matrix (2, 1) = 1.0; etalon_boost_matrix (2, 2) = 0.0;
+
+    munkres_cpp::matrix_boost<double> test_boost_matrix (dimension, dimension);
+    //  {9.0,  0.0,  9.0},
+    //  {0.0,  9.0,  9.0},
+    //  {9.0,  9.0,  0.0}
+    test_boost_matrix (0, 0) = 9.0; test_boost_matrix (0, 1) = 0.0; test_boost_matrix (0, 2) = 9.0;
+    test_boost_matrix (1, 0) = 0.0; test_boost_matrix (1, 1) = 9.0; test_boost_matrix (1, 2) = 9.0;
+    test_boost_matrix (2, 0) = 9.0; test_boost_matrix (2, 1) = 9.0; test_boost_matrix (2, 2) = 0.0;
 
     // Act.
     munkres_cpp::Munkres<double> solver;

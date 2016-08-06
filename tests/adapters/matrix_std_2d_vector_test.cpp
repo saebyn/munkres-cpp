@@ -78,15 +78,15 @@ TEST_F (Adapters_std_2d_vector_Test, solve_std_2d_vector_Success)
     // Arrange.
     std::vector<std::vector<double>> etalon_vector
     {
-        {-1.0,  0.0, -1.0},
-        { 0.0, -1.0, -1.0},
-        {-1.0, -1.0,  0.0}
-    };
-    std::vector<std::vector<double>> test_vector
-    {
         {1.0,  0.0,  1.0},
         {0.0,  1.0,  1.0},
         {1.0,  1.0,  0.0}
+    };
+    std::vector<std::vector<double>> test_vector
+    {
+        {9.0,  0.0,  9.0},
+        {0.0,  9.0,  9.0},
+        {9.0,  9.0,  0.0}
     };
     munkres_cpp::matrix_std_2d_vector<double> test_matrix (test_vector);
 

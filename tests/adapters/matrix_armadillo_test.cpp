@@ -18,17 +18,17 @@ TEST_F (Adapters_armadillo_matrix_Test, solve_armadillo_matrix_Success)
     //  {-1.0,  0.0, -1.0},
     //  { 0.0, -1.0, -1.0},
     //  {-1.0, -1.0,  0.0}
-    etalon_armadillo_matrix (0, 0) = -1.0; etalon_armadillo_matrix (0, 1) =  0.0; etalon_armadillo_matrix (0, 2) = -1.0;
-    etalon_armadillo_matrix (1, 0) =  0.0; etalon_armadillo_matrix (1, 1) = -1.0; etalon_armadillo_matrix (1, 2) = -1.0;
-    etalon_armadillo_matrix (2, 0) = -1.0; etalon_armadillo_matrix (2, 1) = -1.0; etalon_armadillo_matrix (2, 2) =  0.0;
+    etalon_armadillo_matrix (0, 0) = 1.0; etalon_armadillo_matrix (0, 1) = 0.0; etalon_armadillo_matrix (0, 2) = 1.0;
+    etalon_armadillo_matrix (1, 0) = 0.0; etalon_armadillo_matrix (1, 1) = 1.0; etalon_armadillo_matrix (1, 2) = 1.0;
+    etalon_armadillo_matrix (2, 0) = 1.0; etalon_armadillo_matrix (2, 1) = 1.0; etalon_armadillo_matrix (2, 2) = 0.0;
 
     munkres_cpp::matrix_armadillo<double> test_armadillo_matrix (dimension, dimension);
     //  {1.0,  0.0,  1.0},
     //  {0.0,  1.0,  1.0},
     //  {1.0,  1.0,  0.0}
-    test_armadillo_matrix (0, 0) = 1.0; test_armadillo_matrix (0, 1) = 0.0; test_armadillo_matrix (0, 2) = 1.0;
-    test_armadillo_matrix (1, 0) = 0.0; test_armadillo_matrix (1, 1) = 1.0; test_armadillo_matrix (1, 2) = 1.0;
-    test_armadillo_matrix (2, 0) = 1.0; test_armadillo_matrix (2, 1) = 1.0; test_armadillo_matrix (2, 2) = 0.0;
+    test_armadillo_matrix (0, 0) = 9.0; test_armadillo_matrix (0, 1) = 0.0; test_armadillo_matrix (0, 2) = 9.0;
+    test_armadillo_matrix (1, 0) = 0.0; test_armadillo_matrix (1, 1) = 9.0; test_armadillo_matrix (1, 2) = 9.0;
+    test_armadillo_matrix (2, 0) = 9.0; test_armadillo_matrix (2, 1) = 9.0; test_armadillo_matrix (2, 2) = 0.0;
 
     // Act.
     munkres_cpp::Munkres<double> solver;

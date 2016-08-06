@@ -45,7 +45,7 @@ class MunkresTestAll : public ::testing::Test
         {
             for (unsigned int row = 0; row < matrix.rows (); row++)
                 for (unsigned int col = 0; col < matrix.columns (); col++)
-                    EXPECT_TRUE ( matrix (row,col) == 0 || matrix (row,col) == -1 );
+                    EXPECT_TRUE ( matrix (row,col) == 0 || matrix (row,col) == 1 );
         }
 };
 
@@ -422,8 +422,8 @@ TYPED_TEST (MunkresTestAll, solve_2x2_ObviousSolution_Success)
 {
     // Arrange.
     Matrix<TypeParam> etalon_matrix {
-        {-1.0,  0.0},
-        { 0.0, -1.0}
+        {1.0,  0.0},
+        {0.0,  1.0}
     };
     Matrix<TypeParam> test_matrix {
         {1.0,  0.0},
@@ -445,9 +445,9 @@ TYPED_TEST (MunkresTestAll, solve_3x3_ObviousSolution_Success)
 {
     // Arrange.
     Matrix<TypeParam> etalon_matrix {
-        {-1.0,  0.0, -1.0},
-        { 0.0, -1.0, -1.0},
-        {-1.0, -1.0,  0.0}
+        {1.0,  0.0,  1.0},
+        {0.0,  1.0,  1.0},
+        {1.0,  1.0,  0.0}
     };
     Matrix<TypeParam> test_matrix {
         {1.0,  0.0,  1.0},
@@ -470,9 +470,9 @@ TYPED_TEST (MunkresTestAll, solve_3x2_NonObviousSolutionCase001_Success)
 {
     // Arrange.
     Matrix<TypeParam> etalon_matrix {
-        {-1.0,  0.0},
-        { 0.0, -1.0},
-        {-1.0, -1.0}
+        {1.0,  0.0},
+        {0.0,  1.0},
+        {1.0,  1.0}
     };
     Matrix<TypeParam> test_matrix {
         {1.0,  2.0},
@@ -496,9 +496,9 @@ TYPED_TEST (MunkresTestFloating, solve_3x2_NonObviousSolutionCase002_Success)
 {
     // Arrange.
     Matrix<TypeParam> etalon_matrix {
-        {-1.0, -1.0},
-        { 0.0, -1.0},
-        {-1.0,  0.0}
+        {1.0,  1.0},
+        {0.0,  1.0},
+        {1.0,  0.0}
     };
     Matrix<TypeParam> test_matrix {
         {1.0e+17, 3},
@@ -522,8 +522,8 @@ TYPED_TEST (MunkresTestFloating, solve_2x3_NonObviousSolutionCase003_Success)
 {
     // Arrange.
     Matrix<TypeParam> etalon_matrix {
-        {-1.0,  0.0, -1.0},
-        {-1.0, -1.0,  0.0}
+        {1.0,  0.0,  1.0},
+        {1.0,  1.0,  0.0}
     };
     Matrix<TypeParam> test_matrix {
         {1.0e+17, 2,       4},
@@ -546,10 +546,10 @@ TYPED_TEST (MunkresTestFloating, solve_4x3_NonObviousSolutionCase004_Success)
 {
     // Arrange.
     Matrix<TypeParam> etalon_matrix {
-        {-1.0, -1.0, -1.0},
-        { 0.0, -1.0, -1.0},
-        {-1.0, -1.0,  0.0},
-        {-1.0,  0.0, -1.0}
+        {1.0,  1.0,  1.0},
+        {0.0,  1.0,  1.0},
+        {1.0,  1.0,  0.0},
+        {1.0,  0.0,  1.0}
     };
     Matrix<TypeParam> test_matrix {
         {1.0e+17, 3,       1.0e+17},
@@ -575,9 +575,9 @@ TYPED_TEST (MunkresTestFloating, solve_3x4_NonObviousSolutionCase005_Success)
 {
     // Arrange.
     Matrix<TypeParam> etalon_matrix {
-        {-1.0,  0.0, -1.0, -1.0},
-        {-1.0, -1.0, -1.0,  0.0},
-        {-1.0, -1.0,  0.0, -1.0}
+        {1.0,  0.0,  1.0,  1.0},
+        {1.0,  1.0,  1.0,  0.0},
+        {1.0,  1.0,  0.0,  1.0}
     };
     Matrix<TypeParam> test_matrix {
         {1.0e+17, 2,       1.0e17, 4},
@@ -601,9 +601,9 @@ TYPED_TEST (MunkresTestAll, solve_3x3_NonObviousSolutionCase006_Success)
 {
     // Arrange.
     Matrix<TypeParam> etalon_matrix {
-        {-1.0,  0.0, -1.0},
-        { 0.0, -1.0, -1.0},
-        {-1.0, -1.0,  0.0}
+        {1.0,  0.0,  1.0},
+        {0.0,  1.0,  1.0},
+        {1.0,  1.0,  0.0}
     };
     Matrix<TypeParam> test_matrix {
         {1.0,  2.0,  1.0},
@@ -626,9 +626,9 @@ TYPED_TEST (MunkresTestAll, solve_3x3_NonObviousSolutionCase007_Success)
 {
     // Arrange.
     Matrix<TypeParam> etalon_matrix {
-        {-1.0, -1.0,  0.0},
-        {-1.0,  0.0, -1.0},
-        { 0.0, -1.0, -1.0}
+        {1.0,  1.0,  0.0},
+        {1.0,  0.0,  1.0},
+        {0.0,  1.0,  1.0}
     };
     Matrix<TypeParam> test_matrix {
         {0.0,  0.0,  4.0},
@@ -652,12 +652,12 @@ TYPED_TEST (MunkresTestFloatingLong, solve_6x4_NonObviousSolutionCase008_Success
 {
     // Arrange.
     Matrix<TypeParam> etalon_matrix {
-        {-1.0, -1.0, -1.0, -1.0},
-        { 0.0, -1.0, -1.0, -1.0},
-        {-1.0,  0.0, -1.0, -1.0},
-        {-1.0, -1.0, -1.0, -1.0},
-        {-1.0, -1.0, -1.0,  0.0},
-        {-1.0, -1.0,  0.0, -1.0}
+        {1.0,  1.0,  1.0,  1.0},
+        {0.0,  1.0,  1.0,  1.0},
+        {1.0,  0.0,  1.0,  1.0},
+        {1.0,  1.0,  1.0,  1.0},
+        {1.0,  1.0,  1.0,  0.0},
+        {1.0,  1.0,  0.0,  1.0}
     };
     Matrix<TypeParam> test_matrix {
         {1.79769e+308, 7.33184e+08,  9.41561e+08,  2.79247e+08},
@@ -683,10 +683,10 @@ TYPED_TEST (MunkresTestFloatingLong, solve_4x6_NonObviousSolutionCase009_Success
 {
     // Arrange.
     Matrix<TypeParam> etalon_matrix {
-        {-1.0,  0.0, -1.0, -1.0, -1.0, -1.0},
-        {-1.0, -1.0,  0.0, -1.0, -1.0, -1.0},
-        {-1.0, -1.0, -1.0, -1.0, -1.0,  0.0},
-        {-1.0, -1.0, -1.0, -1.0,  0.0, -1.0}
+        {1.0,  0.0,  1.0,  1.0,  1.0,  1.0},
+        {1.0,  1.0,  0.0,  1.0,  1.0,  1.0},
+        {1.0,  1.0,  1.0,  1.0,  1.0,  0.0},
+        {1.0,  1.0,  1.0,  1.0,  0.0,  1.0}
     };
     Matrix<TypeParam> test_matrix {
         {1.79769e+308, 3.06449e+08,  9.93296e+08,  3.51623e+08,  7.02639e+08,  7.58851e+08},
@@ -710,12 +710,12 @@ TYPED_TEST (MunkresTestAll, solve_3x3_IsValide_Fail)
 {
     // Arrange.
     Matrix<TypeParam> etalon_matrix {
-        { 0.0, -1.0, -1.0},
+        { 0.0,  1.0,  1.0},
         //  ^     ^
         //  |     |
         // Wrong Wrong
-        { 0.0, -1.0, -1.0},
-        {-1.0, -1.0,  0.0}
+        { 0.0,  1.0,  1.0},
+        { 1.0,  1.0,  0.0}
     };
     Matrix<TypeParam> test_matrix {
         {1.0,  0.0,  1.0},

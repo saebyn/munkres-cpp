@@ -457,7 +457,7 @@ void Munkres<T>::solve (matrix_base<T> & matrix)
     // Store results.
     for (size_t row = 0; row < size; row++) {
         for (size_t col = 0; col < size; col++) {
-            matrix (row, col) = mask_matrix (row, col) == STAR ? 0 : -1;
+            matrix (row, col) = mask_matrix (row, col) == STAR ? 0 : 1;
         }
     }
 
