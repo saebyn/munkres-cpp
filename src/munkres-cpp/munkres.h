@@ -388,7 +388,7 @@ int Munkres<T>::step5 (matrix_base<T> & matrix)
 // matrix(row,col): row major format assumed.
 //
 // Assignments are remaining 0 values
-// (extra 0 values are replaced with -1)
+// (extra 0 values are replaced with 1)
 template<typename T>
 void Munkres<T>::solve (matrix_base<T> & matrix)
 {
