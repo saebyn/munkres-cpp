@@ -61,6 +61,10 @@ class Munkres
 template<typename T>
 void replace_infinites (matrix_base<T> & matrix)
 {
+    if (!std::numeric_limits<T>::has_infinity) {
+        return;
+    }
+
     const size_t rows = matrix.rows (),
                  columns = matrix.columns ();
 
