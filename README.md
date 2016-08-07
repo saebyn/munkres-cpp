@@ -31,7 +31,8 @@ For development:
  - the test suite requires the [Google C++ Test Framework](http://code.google.com/p/googletest/);  
  - microbenchmaring requires [Benchmark](https://github.com/google/benchmark), [Celero](https://github.com/DigitalInBlue/Celero), [Hayai](https://github.com/nickbruun/hayai) and [gprof](http://www.gnu.org/software/binutils/);  
  - code coverage requires [gcov](https://gcc.gnu.org/onlinedocs/gcc/Gcov.html) and lcov;  
- - static code analyzis required [cppcheck](https://github.com/danmar/cppcheck).  
+ - static code analyzis required [cppcheck](https://github.com/danmar/cppcheck);  
+ - source code formatting requires [uncrustify](http://uncrustify.sourceforge.net).  
 
 
 
@@ -48,15 +49,31 @@ Usage
 
 To use the project the following steps are required:  
   - download: ```$ git clone https://github.com/saebyn/munkres-cpp.git && cd munkres-cpp```  
-  - build: ```$ mkdir build && cd build $$ cmake .. && make```  
-  - install: ``` $ make install```  
+  - install: ``` $ make install``` or only copy ```src/munkres-cpp``` subfolder into your project tree  
 
 
 
 Example
 -------
 
-TBD
+Briefly, to solve the problem you need:  
+ - set up costs into matrix class provided by the library;  
+ - create solver;  
+ - pass the matrix to the solver.  
+Thats all! Solution of the problem is stored by into input matrix.
+
+```
+    #include <munkres-cpp/munkres.h>
+    ...
+    munkres_cpp::Matrix<int> data {
+        {1, 3}
+       ,{5, 9} };
+
+    munkres_cpp::Munkres<int> solver;
+    solver.solve (data);
+```
+
+Examples subfolder contains set of examples which step-by-step show usage of the library.
 
 
 
