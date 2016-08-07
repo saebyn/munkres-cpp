@@ -71,11 +71,6 @@ class matrix_base
         {
             return rows () < columns () ? rows () : columns ();
         }
-
-        static constexpr bool is_infinity (const value_type & elem) noexcept
-        {
-            return std::isinf (elem);
-        }
 };
 
 }// namespace munkres_cpp
