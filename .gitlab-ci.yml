@@ -7,7 +7,7 @@ test_job:
     stage: test
     image: gluttton/munkres-cpp:complete
     before_script:
-        - git checkout devel
+        #- git checkout devel
         - BUILD_DIR=`pwd`/build
         - mkdir -p ${BUILD_DIR}
         - cd ${BUILD_DIR}
@@ -29,7 +29,7 @@ full_job:
     stage: full
     image: gluttton/munkres-cpp:complete
     before_script:
-        - git checkout devel
+        #- git checkout devel
         - BUILD_DIR=`pwd`/build
         - mkdir -p ${BUILD_DIR}
         - cd ${BUILD_DIR}
