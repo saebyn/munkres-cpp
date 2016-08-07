@@ -27,7 +27,7 @@ test_job:
 
 full_job:
     stage: full
-    image: gluttton/munkres-cpp:base
+    image: gluttton/munkres-cpp:complete
     before_script:
         - git checkout devel
         - BUILD_DIR=`pwd`/build
