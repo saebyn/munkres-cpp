@@ -81,7 +81,7 @@ Matrix<T>::Matrix ()
 
 template<class T>
 Matrix<T>::Matrix (const std::initializer_list<std::initializer_list<T>> & init)
-    : Matrix<T> ()
+    : Matrix<T>()
 {
     m_rows = init.size ();
     if (m_rows == 0) {
@@ -283,7 +283,7 @@ T Matrix<T>::min () const
 
     for (size_t i = 0; i < m_rows; i++) {
         for (size_t j = 0; j < m_columns; j++) {
-            min = std::min<T> (min, m_matrix [i][j]);
+            min = std::min<T>(min, m_matrix [i][j]);
         }
     }
 
@@ -301,7 +301,7 @@ T Matrix<T>::max () const
 
     for (size_t i = 0; i < m_rows; i++) {
         for (size_t j = 0; j < m_columns; j++) {
-            max = std::max<T> (max, m_matrix [i][j]);
+            max = std::max<T>(max, m_matrix [i][j]);
         }
     }
 

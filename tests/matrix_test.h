@@ -79,7 +79,7 @@ class Matrix : public munkres_cpp::Matrix<T>
 {
     public:
         Matrix (const std::initializer_list<std::initializer_list<U>> & init)
-            : munkres_cpp::Matrix<T> ()
+            : munkres_cpp::Matrix<T>()
         {
             if (init.size () != 0) {
                 this->resize (init.size (), init.begin ()->size () );
@@ -87,7 +87,7 @@ class Matrix : public munkres_cpp::Matrix<T>
                 for (auto row = init.begin (); row != init.end (); ++row, ++i) {
                     j = 0;
                     for (auto value = row->begin (); value != row->end (); ++value, ++j) {
-                        this->operator ()(i, j) = static_cast <T> (*value);
+                        this->operator () (i, j) = static_cast<T>(*value);
                     }
                 }
             }

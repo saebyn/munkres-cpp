@@ -36,12 +36,12 @@ class matrix_armadillo : public matrix_base<T>, arma::Mat<T>
 
         const T & operator () (const size_t row, const size_t column) const override
         {
-            return arma::Mat<T>::operator () (row, column) ;
+            return arma::Mat<T>::operator () (row, column);
         };
 
         T & operator () (const size_t row, const size_t column) override
         {
-            return arma::Mat<T>::operator () (row, column) ;
+            return arma::Mat<T>::operator () (row, column);
         }
 
         size_t columns () const override

@@ -47,7 +47,7 @@ class matrix_std_2d_vector : public matrix_base<T>
         size_t columns () const override
         {
             size_t columns = data.size () ? data [0].size () : 0;
-            for (size_t i = 0; i < data.size(); ++i) {
+            for (size_t i = 0; i < data.size (); ++i) {
                 columns = std::min (columns, data [i].size () );
             }
             return columns;

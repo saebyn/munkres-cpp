@@ -23,9 +23,9 @@ TEST_F (Adapters_boost_matrix_Test, resize_boost_matrix_reduce_Success)
     //  {1.0, 2.0, 3.0},
     //  {4.0, 5.0, 6.0},
     //  {7.0, 8.0, 9.0}
-    test_boost_matrix (0, 0) =  1.0; test_boost_matrix (0, 1) =  2.0; test_boost_matrix (0, 2) =  3.0;
-    test_boost_matrix (1, 0) =  4.0; test_boost_matrix (1, 1) =  5.0; test_boost_matrix (1, 2) =  6.0;
-    test_boost_matrix (2, 0) =  7.0; test_boost_matrix (2, 1) =  8.0; test_boost_matrix (2, 2) =  9.0;
+    test_boost_matrix (0, 0) = 1.0; test_boost_matrix (0, 1) = 2.0; test_boost_matrix (0, 2) = 3.0;
+    test_boost_matrix (1, 0) = 4.0; test_boost_matrix (1, 1) = 5.0; test_boost_matrix (1, 2) = 6.0;
+    test_boost_matrix (2, 0) = 7.0; test_boost_matrix (2, 1) = 8.0; test_boost_matrix (2, 2) = 9.0;
 
     // Act.
     test_boost_matrix.resize (2, 1);
@@ -49,15 +49,15 @@ TEST_F (Adapters_boost_matrix_Test, resize_boost_matrix_increase_Success)
     //  {1.0, 2.0, 0.0},
     //  {3.0, 4.0, 0.0},
     //  {0.0, 0.0, 0.0}
-    etalon_boost_matrix (0, 0) =  1.0; etalon_boost_matrix (0, 1) =  2.0; etalon_boost_matrix (0, 2) =  0.0;
-    etalon_boost_matrix (1, 0) =  3.0; etalon_boost_matrix (1, 1) =  4.0; etalon_boost_matrix (1, 2) =  0.0;
-    etalon_boost_matrix (2, 0) =  0.0; etalon_boost_matrix (2, 1) =  0.0; etalon_boost_matrix (2, 2) =  0.0;
+    etalon_boost_matrix (0, 0) = 1.0; etalon_boost_matrix (0, 1) = 2.0; etalon_boost_matrix (0, 2) = 0.0;
+    etalon_boost_matrix (1, 0) = 3.0; etalon_boost_matrix (1, 1) = 4.0; etalon_boost_matrix (1, 2) = 0.0;
+    etalon_boost_matrix (2, 0) = 0.0; etalon_boost_matrix (2, 1) = 0.0; etalon_boost_matrix (2, 2) = 0.0;
 
     munkres_cpp::matrix_boost<double> test_boost_matrix (2, 2);
     //  {1.0, 2.0},
     //  {3.0, 4.0},
-    test_boost_matrix (0, 0) =  1.0; test_boost_matrix (0, 1) =  2.0;
-    test_boost_matrix (1, 0) =  3.0; test_boost_matrix (1, 1) =  4.0;
+    test_boost_matrix (0, 0) = 1.0; test_boost_matrix (0, 1) = 2.0;
+    test_boost_matrix (1, 0) = 3.0; test_boost_matrix (1, 1) = 4.0;
 
     // Act.
     test_boost_matrix.resize (3, 3);

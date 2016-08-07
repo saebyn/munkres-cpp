@@ -31,12 +31,12 @@ class matrix_qt : public matrix_base<T>, QGenericMatrix<N, M, T>
     public:
         const T & operator () (const size_t row, const size_t column) const override
         {
-            return QGenericMatrix<N, M, T>::operator () (row, column) ;
+            return QGenericMatrix<N, M, T>::operator () (row, column);
         };
 
         T & operator () (const size_t row, const size_t column) override
         {
-            return QGenericMatrix<N, M, T>::operator () (row, column) ;
+            return QGenericMatrix<N, M, T>::operator () (row, column);
         }
 
         size_t columns () const override

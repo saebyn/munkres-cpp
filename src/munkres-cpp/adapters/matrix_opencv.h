@@ -36,12 +36,12 @@ class matrix_opencv : public matrix_base<T>, cv::Mat_<T>
 
         const T & operator () (const size_t row, const size_t column) const override
         {
-            return cv::Mat_<T>::operator () (row, column) ;
+            return cv::Mat_<T>::operator () (row, column);
         };
 
         T & operator () (const size_t row, const size_t column) override
         {
-            return cv::Mat_<T>::operator () (row, column) ;
+            return cv::Mat_<T>::operator () (row, column);
         }
 
         size_t columns () const override

@@ -106,76 +106,76 @@ bool is_data_valid (matrix_base<T> & matrix)
 #define STRINGIFICATION(x) #x
 
 #if DEBUG_WITH_DBC == DBC_MODE_ASSERT
-    #define REQUIRE(CONDITION, MESSAGE)\
-        do {\
-            if (!(CONDITION) ) {\
-                throw std::runtime_error (\
-                    "Precondition error: "\
-                   + std::string (STRINGIFICATION (CONDITION) ) + " at "\
-                   + std::string (__FILE__) + ":" + std::to_string (__LINE__) + ". "\
-                   + std::string (MESSAGE) );\
-            }\
-        } while (0);
+    #define REQUIRE(CONDITION, MESSAGE) \
+    do { \
+        if (!(CONDITION) ) { \
+            throw std::runtime_error ( \
+                      "Precondition error: " \
+                      + std::string (STRINGIFICATION (CONDITION) ) + " at " \
+                      + std::string (__FILE__) + ":" + std::to_string (__LINE__) + ". " \
+                      + std::string (MESSAGE) ); \
+        } \
+    } while (0);
 
-    #define ENSURE(CONDITION, MESSAGE)\
-        do {\
-            if (!(CONDITION) ) {\
-                throw std::runtime_error (\
-                    "Postcondition error: "\
-                   + std::string (STRINGIFICATION (CONDITION) ) + " at "\
-                   + std::string (__FILE__) + ":" + std::to_string (__LINE__) + ". "\
-                   + std::string (MESSAGE) );\
-            }\
-        } while (0);
+    #define ENSURE(CONDITION, MESSAGE) \
+    do { \
+        if (!(CONDITION) ) { \
+            throw std::runtime_error ( \
+                      "Postcondition error: " \
+                      + std::string (STRINGIFICATION (CONDITION) ) + " at " \
+                      + std::string (__FILE__) + ":" + std::to_string (__LINE__) + ". " \
+                      + std::string (MESSAGE) ); \
+        } \
+    } while (0);
 
-    #define INVARIANT(CONDITION, MESSAGE)\
-        do {\
-            if (!(CONDITION) ) {\
-                throw std::runtime_error (\
-                    "Invariant error: "\
-                   + std::string (STRINGIFICATION (CONDITION) ) + " at "\
-                   + std::string (__FILE__) + ":" + std::to_string (__LINE__) + ". "\
-                   + std::string (MESSAGE) );\
-            }\
-        } while (0);
+    #define INVARIANT(CONDITION, MESSAGE) \
+    do { \
+        if (!(CONDITION) ) { \
+            throw std::runtime_error ( \
+                      "Invariant error: " \
+                      + std::string (STRINGIFICATION (CONDITION) ) + " at " \
+                      + std::string (__FILE__) + ":" + std::to_string (__LINE__) + ". " \
+                      + std::string (MESSAGE) ); \
+        } \
+    } while (0);
 
 #elif DEBUG_WITH_DBC == DBC_MODE_MESSAGE
     #define STRINGIFICATION(x) #x
-    #define REQUIRE(CONDITION, MESSAGE)\
-        do {\
-            if (!(CONDITION) ) {\
-                std::cout\
-                << "Precondition error: "\
-                << std::string (STRINGIFICATION (CONDITION) ) + " at "\
-                << std::string (__FILE__) << ":" << std::to_string (__LINE__) << ". "\
-                << std::string (MESSAGE)\
-                << std::endl;\
-            }\
-        } while (0);
+    #define REQUIRE(CONDITION, MESSAGE) \
+    do { \
+        if (!(CONDITION) ) { \
+            std::cout \
+                << "Precondition error: " \
+                << std::string (STRINGIFICATION (CONDITION) ) + " at " \
+                << std::string (__FILE__) << ":" << std::to_string (__LINE__) << ". " \
+                << std::string (MESSAGE) \
+                << std::endl; \
+        } \
+    } while (0);
 
-    #define ENSURE(CONDITION, MESSAGE)\
-        do {\
-            if (!(CONDITION) ) {\
-                std::cout\
-                << "Postcondition error: "\
-                << std::string (STRINGIFICATION (CONDITION) ) + " at "\
-                << std::string (__FILE__) << ":" << std::to_string (__LINE__) << ". "\
-                << std::string (MESSAGE)\
-                << std::endl;\
-            }\
-        } while (0);
+    #define ENSURE(CONDITION, MESSAGE) \
+    do { \
+        if (!(CONDITION) ) { \
+            std::cout \
+                << "Postcondition error: " \
+                << std::string (STRINGIFICATION (CONDITION) ) + " at " \
+                << std::string (__FILE__) << ":" << std::to_string (__LINE__) << ". " \
+                << std::string (MESSAGE) \
+                << std::endl; \
+        } \
+    } while (0);
 
-    #define INVARIANT(CONDITION, MESSAGE)\
-        do {\
-            if (!(CONDITION) ) {\
-                std::cout\
-                << "Invariant error: "\
-                << std::string (STRINGIFICATION (CONDITION) ) + " at "\
-                << std::string (__FILE__) << ":" << std::to_string (__LINE__) << ". "\
-                << std::string (MESSAGE)\
-                << std::endl;\
-            }\
-        } while (0);
+    #define INVARIANT(CONDITION, MESSAGE) \
+    do { \
+        if (!(CONDITION) ) { \
+            std::cout \
+                << "Invariant error: " \
+                << std::string (STRINGIFICATION (CONDITION) ) + " at " \
+                << std::string (__FILE__) << ":" << std::to_string (__LINE__) << ". " \
+                << std::string (MESSAGE) \
+                << std::endl; \
+        } \
+    } while (0);
 
 #else //DEBUG_WITH_DBC || DEBUG_WITH_DBC_ASSERT
     #define REQUIRE(CONDITION, MESSAGE);
