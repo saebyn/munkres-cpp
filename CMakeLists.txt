@@ -44,12 +44,23 @@ add_library (
 install (DIRECTORY ${PROJECT_SOURCE_DIR}/src/ DESTINATION include FILE_PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ)
 
 
-# Binary example
-set (MunkresCppBin_SOURCES ${PROJECT_SOURCE_DIR}/examples/main.cpp)
-add_executable (munkres.bin EXCLUDE_FROM_ALL ${MunkresCppBin_SOURCES})
-target_link_libraries (munkres.bin munkres)
-add_custom_target (example)
-add_dependencies  (example munkres.bin)
+# Binary examples
+add_executable (example_01 EXCLUDE_FROM_ALL ${PROJECT_SOURCE_DIR}/examples/example_01.cpp)
+add_executable (example_02 EXCLUDE_FROM_ALL ${PROJECT_SOURCE_DIR}/examples/example_02.cpp)
+add_executable (example_03 EXCLUDE_FROM_ALL ${PROJECT_SOURCE_DIR}/examples/example_03.cpp)
+add_executable (example_04 EXCLUDE_FROM_ALL ${PROJECT_SOURCE_DIR}/examples/example_04.cpp)
+add_executable (example_05 EXCLUDE_FROM_ALL ${PROJECT_SOURCE_DIR}/examples/example_05.cpp)
+add_executable (example_06 EXCLUDE_FROM_ALL ${PROJECT_SOURCE_DIR}/examples/example_06.cpp)
+add_custom_target (examples)
+add_dependencies  (
+    examples
+    example_01
+    example_02
+    example_03
+    example_04
+    example_05
+    example_06
+)
 
 
 option (MUNKRESCPP_DEVEL_MODE "Configure project in development mode." OFF)
@@ -72,7 +83,7 @@ if (MUNKRESCPP_DEVEL_MODE)
     add_dependencies (
         full
         munkres
-        example
+        examples
         tests
         benchmarks
         warnings
