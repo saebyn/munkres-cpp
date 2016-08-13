@@ -72,13 +72,17 @@ set (
     MunkresCppTest_SOURCES ${MunkresCppTest_SOURCES}
     ${PROJECT_SOURCE_DIR}/tests/adapters/matrix_qt_test.cpp
 )
+set (
+    Qt_LIBRARIES
+    Qt5::Gui
+)
 endif ()
 add_executable (munkrestest EXCLUDE_FROM_ALL ${MunkresCppTest_SOURCES})
 target_link_libraries (
     munkrestest
     ${GTEST_BOTH_LIBRARIES}
     ${OpenCV_LIBS}
-    Qt5::Gui
+    ${Qt_LIBRARIES}
     gcov
     pthread
 )
