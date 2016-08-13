@@ -16,6 +16,7 @@ test_job:
         - make tests
         - cd ${BUILD_DIR}/tests && ./munkrestest > /dev/null
         - cd ${BUILD_DIR}
+        - gcovr -r ..
         - mkdir coverage
         - cp -v ../src/munkres-cpp/*.h coverage
         - mv tests/CMakeFiles/munkrestest.dir/*.gcda coverage
