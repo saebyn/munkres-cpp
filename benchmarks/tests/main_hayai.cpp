@@ -2,11 +2,11 @@
 #include <vector>
 
 #include "matrixutils.h"
-#include "munkres.h"
+#include "munkres-cpp/munkres.h"
 
 
 
-std::vector <Matrix <double> *> matrices;
+std::vector<munkres_cpp::Matrix<double> *> matrices;
 
 size_t i {0};
 
@@ -17,11 +17,11 @@ class MunkresFixture : public ::hayai::Fixture
     public:
         void SetUp () override
         {
-            matrix = * matrices [i];
+            matrix = *matrices [i];
         }
 
-        Munkres munkres;
-        Matrix <double> matrix;
+        munkres_cpp::Munkres<double> munkres;
+        munkres_cpp::Matrix<double> matrix;
 };
 
 
@@ -34,13 +34,13 @@ BENCHMARK_F (MunkresFixture, Solve, 5000, 1)
 
 
 // Main function.
-int main (int argc, char * argv [])
+int main (int /*argc*/, char * /*argv*/ [])
 {
-    read <double> (matrices);
+    read<double>(matrices);
 
     hayai::ConsoleOutputter consoleOutputter;
     hayai::Benchmarker::AddOutputter (consoleOutputter);
-    for (const auto x : matrices) {
+    while (i < matrices.size () ) {
         hayai::Benchmarker::RunAllTests ();
         ++i;
     }

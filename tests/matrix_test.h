@@ -19,11 +19,14 @@
 #if !defined(_MATRIX_TEST_H_)
 #define _MATRIX_TEST_H_
 
-#include "matrix.h"
+#include "munkres-cpp/matrix.h"
 #include <iostream>
 
-template <class T>
-bool operator == (const Matrix <T> & a, const Matrix <T> & b)
+namespace munkres_cpp
+{
+
+template<class T>
+bool operator == (const Matrix<T> & a, const Matrix<T> & b)
 {
     if (a.rows () != b.rows () || a.columns () != b.columns () ) {
         return false;
@@ -42,29 +45,54 @@ bool operator == (const Matrix <T> & a, const Matrix <T> & b)
 
 
 
-template <class T>
-bool operator != (const Matrix <T> & a, const Matrix <T> & b)
+template<class T>
+bool operator != (const Matrix<T> & a, const Matrix<T> & b)
 {
-    return ! (a == b);
+    return !(a == b);
 }
 
+}// namespace munkres_cpp
 
 
-template <class T>
-std::ostream & operator << (std::ostream & os, const Matrix <T> & m)
+
+template<class T>
+std::ostream & operator << (std::ostream & os, const munkres_cpp::Matrix<T> & m)
 {
     const std::string indent ("           ");
-    os << "Matrix (" << & m << ") of " << m.rows () << "x" << m.columns () << std::endl;
+    os << "Matrix (" << &m << ") of " << m.rows () << "x" << m.columns () << std::endl;
     for (unsigned int row = 0; row < m.rows (); ++row) {
         os << indent;
         for (unsigned int col = 0; col < m.columns (); ++col) {
-            os << std::setw (4) << std::setfill (' ') <<  m (row, col) << " ";
+            os << std::setw (4) << std::setfill (' ') << m (row, col) << " ";
         }
         os << std::endl;
     }
 
     return os;
 }
+
+
+
+// Helper class to provide initializer list initialization with "automatic" cast.
+template<typename T, typename U = long double>
+class Matrix : public munkres_cpp::Matrix<T>
+{
+    public:
+        Matrix (const std::initializer_list<std::initializer_list<U>> & init)
+            : munkres_cpp::Matrix<T>()
+        {
+            if (init.size () != 0) {
+                this->resize (init.size (), init.begin ()->size () );
+                size_t i = 0, j;
+                for (auto row = init.begin (); row != init.end (); ++row, ++i) {
+                    j = 0;
+                    for (auto value = row->begin (); value != row->end (); ++value, ++j) {
+                        this->operator () (i, j) = static_cast<T>(*value);
+                    }
+                }
+            }
+        }
+};
 
 #endif /* !defined(_MATRIX_TEST_H_) */
 

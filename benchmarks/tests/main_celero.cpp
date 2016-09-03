@@ -2,11 +2,11 @@
 #include <vector>
 
 #include "matrixutils.h"
-#include "munkres.h"
+#include "munkres-cpp/munkres.h"
 
 
 
-std::vector <Matrix <double> *> matrices;
+std::vector<munkres_cpp::Matrix<double> *> matrices;
 
 size_t i {0};
 
@@ -17,11 +17,11 @@ class MunkresFixture : public celero::TestFixture
     public:
         void setUp (int64_t) override
         {
-            matrix = * matrices [i];
+            matrix = *matrices [i];
         }
 
-        Munkres munkres;
-        Matrix <double> matrix;
+        munkres_cpp::Munkres<double> munkres;
+        munkres_cpp::Matrix<double> matrix;
 };
 
 
@@ -43,9 +43,9 @@ BENCHMARK_F (Munkres, Solve, MunkresFixture, 5000, 1)
 // Main function.
 int main (int argc, char * argv [])
 {
-    read <double> (matrices);
+    read<double>(matrices);
 
-    for (const auto x : matrices) {
+    while (i < matrices.size () ) {
         celero::Run (argc, argv);
         ++i;
     }
