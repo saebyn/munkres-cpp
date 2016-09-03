@@ -1,0 +1,33 @@
+stages:
+    - test
+    - full
+
+
+test_job:
+    stage: test
+    image: gluttton/munkres-cpp:complete
+    before_script:
+        #- git checkout devel
+        - BUILD_DIR=`pwd`/build
+        - mkdir -p ${BUILD_DIR}
+        - cd ${BUILD_DIR}
+        - cmake -DCMAKE_BUILD_TYPE=Debug -DMUNKRESCPP_DEVEL_MODE=ON ${BUILD_DIR}/..
+    script:
+        - make tests
+        - cd ${BUILD_DIR}/tests && ./munkrestest > /dev/null
+        - cd ${BUILD_DIR}
+        - gcovr --exclude 'tests' --exclude 'build' -r ..
+
+
+full_job:
+    stage: full
+    image: gluttton/munkres-cpp:complete
+    before_script:
+        #- git checkout devel
+        - BUILD_DIR=`pwd`/build
+        - mkdir -p ${BUILD_DIR}
+        - cd ${BUILD_DIR}
+        - cmake -DCMAKE_BUILD_TYPE=Debug -DMUNKRESCPP_DEVEL_MODE=ON ${BUILD_DIR}/..
+    script:
+        - make examples
+        - make benchmarks
