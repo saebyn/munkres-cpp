@@ -1,8 +1,8 @@
 munkres-cpp
 ===========
 
-[![build status](https://gitlab.com/Gluttton/munkres-cpp/badges/devel/build.svg)](https://gitlab.com/Gluttton/munkres-cpp/commits/devel)
-[![codecov](https://codecov.io/gl/Gluttton/munkres-cpp/branch/devel/graph/badge.svg)](https://codecov.io/gl/Gluttton/munkres-cpp)
+[![build status](https://gitlab.com/Gluttton/munkres-cpp/badges/master/build.svg)](https://gitlab.com/Gluttton/munkres-cpp/commits/master)
+[![coverage report](https://gitlab.com/Gluttton/munkres-cpp/badges/master/coverage.svg)](https://gitlab.com/Gluttton/munkres-cpp/commits/master)
 
 
 An implementation of the Kuhn–Munkres algorithm.
