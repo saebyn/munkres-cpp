@@ -6,6 +6,7 @@ include_directories (${PROJECT_SOURCE_DIR}/benchmarks/tools/generator)
 ExternalProject_Add (
     benchmark
     GIT_REPOSITORY "https://github.com/google/benchmark.git"
+    GIT_TAG "v1.0.0"
     CMAKE_ARGS "-DBENCHMARK_ENABLE_TESTING=OFF;-DCMAKE_BUILD_TYPE=Release"
     SOURCE_DIR "${PROJECT_BINARY_DIR}/benchmark"
     BINARY_DIR "${PROJECT_BINARY_DIR}/benchmark"
