@@ -53,6 +53,25 @@ class matrix_eigen : public matrix_base<T>, Eigen::Matrix<T, Eigen::Dynamic, Eig
         {
             return Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>::rows ();
         }
+
+        void resize (const size_t rows, const size_t columns, const T value = matrix_base<T>::zero) override
+        {
+            if (rows != this->rows () || columns != this->columns () ) {
+                const auto rows_old = this->rows ();
+                const auto columns_old = this->columns ();
+                Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>::conservativeResize (rows, columns);
+                for (size_t i = rows_old; i < rows; ++i) {
+                    for (size_t j = 0; j < columns; ++j) {
+                        this->operator() (i, j) = value;
+                    }
+                }
+                for (size_t i = columns_old; i < columns; ++i) {
+                    for (size_t j = 0; j < rows; ++j) {
+                        this->operator() (j, i) = value;
+                    }
+                }
+            }
+        }
 };
 
 }// namespace munkres_cpp
