@@ -1,3 +1,4 @@
+image: registry.gitlab.com/gluttton/munkres-cpp
 stages:
     - test
     - full
@@ -5,7 +6,6 @@ stages:
 
 test_job:
     stage: test
-    image: gluttton/munkres-cpp:complete
     before_script:
         #- git checkout devel
         - BUILD_DIR=`pwd`/build
@@ -21,7 +21,6 @@ test_job:
 
 full_job:
     stage: full
-    image: gluttton/munkres-cpp:complete
     before_script:
         #- git checkout devel
         - BUILD_DIR=`pwd`/build
