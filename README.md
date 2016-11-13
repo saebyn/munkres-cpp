@@ -63,14 +63,14 @@ Briefly, to solve the problem you need:
 Thats all! Solution of the problem is stored by into input matrix.
 
 ```
-    #include <munkres-cpp/munkres.h>
-    ...
-    munkres_cpp::Matrix<int> data {
-        {1, 3}
-       ,{5, 9} };
+#include <munkres-cpp/munkres.h>
+...
+munkres_cpp::Matrix<int> data {
+    {1, 3}
+   ,{5, 9} };
 
-    munkres_cpp::Munkres<int> solver;
-    solver.solve (data);
+munkres_cpp::Munkres<int> solver;
+solver.solve (data);
 ```
 
 Examples subfolder contains set of examples which step-by-step show usage of the library.
@@ -83,10 +83,6 @@ Development
 For development purpose in the project implemented a variety of build targets.
 All of them help to continuously check correctness of algorithm implementation, performance, memory management, etc.
 To configure project in development mode ```-DMUNKRESCPP_DEVEL_MODE=ON``` option must be passed to CMake.
-Also for debug purpose defined macro which in primitive way provides basic concepts
-of [Design By Contract](https://en.wikipedia.org/wiki/Design_by_contract). By default the macro is disabled and
-assertions are not checked. The macro can be enabled in one of modes: if assertion is failed only printing debug message (1),
-or throwing exception (2). To configure the mode ```-DDBC_MODE=X``` option must be passed to CMake.
 
 Launch of unit tests.
 The project contains unit tests to build and launch it performs the following steps:

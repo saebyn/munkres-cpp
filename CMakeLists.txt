@@ -9,11 +9,6 @@ set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra")
 set (CMAKE_CXX_FLAGS_DEBUG   "${CMAKE_CXX_FLAGS} -O0 -ggdb3 -DDEBUG")
 set (CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -O3")
 
-# Set custom macro for provide Design By Contract (by default is disabled).
-if (DEFINED DBC_MODE)
-    add_definitions (-DDEBUG_WITH_DBC=${DBC_MODE})
-endif ()
-
 include_directories (${PROJECT_SOURCE_DIR}/src)
 
 # Sources (nothing).
