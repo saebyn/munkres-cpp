@@ -74,7 +74,6 @@ class matrix_boost : public matrix_base<T>, boost::numeric::ublas::matrix<T>
                         }
                     }
                 }
-
             }
         }
 };
