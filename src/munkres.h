@@ -227,16 +227,6 @@ private:
     return false;
   }
 
-  bool pair_in_list(const std::pair<size_t,size_t> &needle, const std::list<std::pair<size_t,size_t> > &haystack) {
-    for ( std::list<std::pair<size_t,size_t> >::const_iterator i = haystack.begin() ; i != haystack.end() ; i++ ) {
-      if ( needle == *i ) {
-        return true;
-      }
-    }
-
-    return false;
-  }
-
   int step1() {
     const size_t rows = matrix.rows(),
               columns = matrix.columns();
@@ -347,13 +337,11 @@ private:
         if ( mask_matrix(row,col) == STAR ) {
           z1.first = row;
           z1.second = col;
-          if ( pair_in_list(z1, seq) ) {
-            continue;
+          if ( std::find (seq.cbegin(), seq.cend(), z1) == seq.cend() ) {
+            madepair = true;
+            seq.insert(seq.end(), z1);
+            break;
           }
-
-          madepair = true;
-          seq.insert(seq.end(), z1);
-          break;
         }
       }
 
@@ -366,12 +354,11 @@ private:
         if ( mask_matrix(row, col) == PRIME ) {
           z2n.first = row;
           z2n.second = col;
-          if ( pair_in_list(z2n, seq) ) {
-            continue;
+          if (std::find (seq.cbegin(), seq.cend(), z2n) == seq.cend() ) {
+            madepair = true;
+            seq.insert(seq.end(), z2n);
+            break;
           }
-          madepair = true;
-          seq.insert(seq.end(), z2n);
-          break;
         }
       }
     } while ( madepair );
