@@ -48,7 +48,7 @@ Usage
 
 These steps are the easiest way to get started:
   - download: ```$ git clone https://github.com/saebyn/munkres-cpp.git && cd munkres-cpp```  
-  - build: ```$ mkdir build && cd build $$ cmake .. && make```  
+  - build: ```$ mkdir build && cd build && cmake .. && make```  
   - install: ``` $ make install```  
 
 
