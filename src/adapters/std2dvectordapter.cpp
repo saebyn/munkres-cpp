@@ -18,6 +18,7 @@
 
 #include "std2dvectordapter.h"
 
+using namespace MunkresCpp;
 template class Std2dVectorAdapter<double>;
 template class Std2dVectorAdapter<float>;
 template class Std2dVectorAdapter<int>;

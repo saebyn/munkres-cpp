@@ -21,6 +21,7 @@
 
 #include "matrix.h"
 #include <iostream>
+using namespace MunkresCpp;
 
 template <class T>
 bool operator == (const Matrix <T> & a, const Matrix <T> & b)

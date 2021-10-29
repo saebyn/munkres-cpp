@@ -21,6 +21,7 @@
 
 #include "adapter.h"
 #include <boost/numeric/ublas/matrix.hpp>
+namespace MunkresCpp {
 
 template<typename Data> class BoostMatrixAdapter : public Adapter<Data,boost::numeric::ublas::matrix<Data> >
 {
@@ -49,5 +50,5 @@ public:
           }
     }
 };
-
+}
 #endif /* _BOOSTMATRIXADAPTER_H_ */
