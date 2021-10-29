@@ -3,6 +3,7 @@
 #include <iostream>
 #include <iomanip>
 
+using namespace MunkresCpp;
 
 
 class Adapters_boost_matrix_Test : public ::testing::Test

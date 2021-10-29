@@ -28,6 +28,8 @@
 #include <cmath>
 #include <limits>
 
+namespace MunkresCpp {
+
 template<typename Data> class Munkres
 {
     static constexpr int NORMAL = 0;
@@ -460,5 +462,5 @@ private:
   size_t saverow = 0, savecol = 0;
 };
 
-
+}
 #endif /* !defined(_MUNKRES_H_) */

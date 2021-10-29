@@ -28,6 +28,7 @@
 #include "munkres.h"
 #include "adapters/boostmatrixadapter.h"
 
+using namespace MunkresCpp;
 int
 main(int argc, char *argv[]) {
 	int nrows = 101;

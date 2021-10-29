@@ -20,6 +20,7 @@
 #define RAW2DARRAY_H
 
 #include "adapter.h"
+namespace MunkresCpp {
 
 template<typename Data> class Std2dVectorAdapter : public Adapter<Data,std::vector<std::vector <Data>>>
 {
@@ -57,5 +58,6 @@ public:
         }
     }
 };
+}
 
 #endif // RAW2DARRAY_H

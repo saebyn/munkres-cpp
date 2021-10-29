@@ -22,6 +22,8 @@
 #include "matrix.h"
 #include "munkres.h"
 
+namespace MunkresCpp {
+
 template<typename Data, class Container > class Adapter
 {
 public:
@@ -36,5 +38,6 @@ public:
 protected:
     Munkres<Data> m_munkres;
 };
+}
 
 #endif /* _ADAPTER_H_ */

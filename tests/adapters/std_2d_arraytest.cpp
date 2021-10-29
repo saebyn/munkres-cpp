@@ -4,6 +4,7 @@
 #include <iomanip>
 
 
+using namespace MunkresCpp;
 
 class Adapters_std_2d_array_Test : public ::testing::Test
 {

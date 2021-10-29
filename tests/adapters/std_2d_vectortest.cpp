@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 #include "adapters/std2dvectordapter.h"
 
+using namespace MunkresCpp;
 
 
 class Adapters_std_2d_vector_Test : public ::testing::Test

@@ -21,6 +21,7 @@
 #include <cassert>
 #include <cstdlib>
 #include <algorithm>
+using namespace MunkresCpp;
 
 /*export*/ template <class T>
 Matrix<T>::Matrix() {

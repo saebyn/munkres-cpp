@@ -23,6 +23,7 @@
 #include <cstdlib>
 #include <ostream>
 
+namespace MunkresCpp {
 template <class T>
 class Matrix {
 public:
@@ -63,7 +64,7 @@ private:
   size_t m_rows;
   size_t m_columns;
 };
-
+}
 #ifndef USE_EXPORT_KEYWORD
 #include "matrix.cpp"
 //#define export /*export*/

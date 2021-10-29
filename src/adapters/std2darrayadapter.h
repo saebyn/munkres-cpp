@@ -20,6 +20,7 @@
 #define STD2DARRAYADAPTER_H
 
 #include "adapter.h"
+namespace MunkresCpp {
 
 template<typename Data, size_t rows, size_t columns> class Std2dArrayAdapter : public Adapter<Data, std::array <std::array <Data, columns>, rows>>
 {
@@ -48,5 +49,5 @@ public:
         }
     }
 };
-
+}
 #endif // STD2DARRAYADAPTER_H
