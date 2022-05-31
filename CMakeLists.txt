@@ -1,11 +1,14 @@
 # Common variables.
-cmake_minimum_required  (VERSION 2.8)
+cmake_minimum_required  (VERSION 3.12)
 project                 (munkres-cpp)
 set (munkres-cpp_VERSION_MAJOR 2)
 set (munkres-cpp_VERSION_MINOR 0)
 
 set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
-set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra")
+# https://stackoverflow.com/questions/2274006/cmake-invalid-numeric-argument-wextra
+if(CMAKE_COMPILER_IS_GNUCXX)
+    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra")
+endif(CMAKE_COMPILER_IS_GNUCXX)
 set (CMAKE_CXX_FLAGS_DEBUG   "${CMAKE_CXX_FLAGS} -O0 -ggdb3 -DDEBUG")
 set (CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -O3")
 
@@ -38,6 +41,7 @@ add_library (
 install (TARGETS munkres                DESTINATION lib     PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ)
 install (FILES ${MunkresCppLib_HEADERS} DESTINATION include/munkres PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ)
 
+target_include_directories(munkres INTERFACE ${PROJECT_SOURCE_DIR}/src)
 
 # Binary example
 set (MunkresCppBin_SOURCES ${PROJECT_SOURCE_DIR}/examples/main.cpp)
